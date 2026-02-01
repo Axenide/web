@@ -10,25 +10,24 @@
 {% endif %}
 
 {% set final_images = manual_images | concat(with=range_images) %}
+{% set speed = speed | default(value=5) %}
 
-<div class="carousel-wrapper {{ class | default(value='') }}" style="{{ style | default(value='') }}">
-    <div class="carousel" data-autoplay="{{ interval | default(value=0) }}">
-        {# Clon final para wrap infinito #}
-        <div class="carousel-cell carousel-cell-clone">
-            <img src="{{ final_images | last }}#transparent" class="no-hover" alt="Slide clone" loading="lazy" />
-        </div>
-        
-        {# Imágenes reales #}
-        {% for image in final_images %}
-            <div class="carousel-cell" data-index="{{ loop.index0 }}">
-                <img src="{{ image }}#transparent" class="no-hover" alt="Slide {{ loop.index }}" loading="lazy" />
-            </div>
-        {% endfor %}
-        
-        {# Clon inicial para wrap infinito #}
-        <div class="carousel-cell carousel-cell-clone">
-            <img src="{{ final_images | first }}#transparent" class="no-hover" alt="Slide clone" loading="lazy" />
-        </div>
+<div class="carousel-marquee-wrapper {{ class | default(value='') }}" style="{{ style | default(value='') }}">
+    <div class="carousel-marquee">
+        <ul style="--duration: {{ final_images | length * speed }}s">
+            {% for image in final_images %}
+                <li>
+                    <img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }}" loading="lazy" />
+                </li>
+            {% endfor %}
+        </ul>
+        <ul style="--duration: {{ final_images | length * speed }}s" aria-hidden="true">
+            {% for image in final_images %}
+                <li>
+                    <img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }} (clone)" loading="lazy" />
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
@@ -51,391 +50,57 @@
     const script = document.currentScript;
     const lightbox = script.previousElementSibling;
     const wrapper = lightbox.previousElementSibling;
-    const carousel = wrapper.querySelector('.carousel');
-    const allCells = Array.from(carousel.querySelectorAll('.carousel-cell'));
-    const cells = allCells.filter(cell => !cell.classList.contains('carousel-cell-clone'));
+    const triggers = Array.from(wrapper.querySelectorAll('.lightbox-trigger'));
     
     // Lightbox elements
     const lightboxImg = lightbox.querySelector('.lightbox-img');
     const prevBtn = lightbox.querySelector('.lightbox-prev');
     const nextBtn = lightbox.querySelector('.lightbox-next');
     
-    if (cells.length === 0) return;
+    let currentSrcs = triggers.map(t => t.src);
+    let currentIndex = 0;
     
-    const autoplayInterval = parseInt(carousel.dataset.autoplay) || 0;
-    const totalCells = allCells.length; // Incluye clones
-    const realCount = cells.length; // Solo las reales
-    
-    let currentIndex = 1; // Empezamos en 1 porque hay un clon al inicio
-    let currentLightboxIndex = 0; // Index 0-based relativo a 'cells'
-    let autoplayTimer = null;
-    
-    // Drag vars for Carousel
-    let isDragging = false;
-    let hasDragged = false;
-    let dragStartX = 0;
-    let dragStartTranslateX = 0;
-    let currentTranslateX = 0;
-
-    // Drag vars for Lightbox
-    let lbIsDragging = false;
-    let lbDragStartX = 0;
-    
-    // Inicialización
     function init() {
-        updateCarousel(false);
-        startAutoplay();
-        
-        // Click en celda (todas, incluyendo clones)
-        allCells.forEach((cell, index) => {
-            cell.addEventListener('click', (e) => {
-                // Solo procesar click si NO hubo drag
-                if (!hasDragged) {
-                    handleCellClick(index);
-                }
-            });
-        });
-        
-        // Arrastre con mouse/touch - aplicado al wrapper completo
-        wrapper.addEventListener('mousedown', touchStart);
-        wrapper.addEventListener('touchstart', touchStart, { passive: false });
-        
-        window.addEventListener('mousemove', touchMove);
-        window.addEventListener('touchmove', touchMove, { passive: false });
-        
-        window.addEventListener('mouseup', touchEnd);
-        window.addEventListener('touchend', touchEnd);
-        
-        // Lightbox Drag
-        lightbox.addEventListener('mousedown', lbTouchStart);
-        lightbox.addEventListener('touchstart', lbTouchStart, { passive: false });
-        
-        window.addEventListener('mousemove', lbTouchMove);
-        window.addEventListener('touchmove', lbTouchMove, { passive: false });
-        
-        window.addEventListener('mouseup', lbTouchEnd);
-        window.addEventListener('touchend', lbTouchEnd);
-
-        // Lightbox Navigation Buttons
-        prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            prevLightboxSlide();
-        });
-        nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            nextLightboxSlide();
+        triggers.forEach((img, index) => {
+            img.addEventListener('click', () => openLightbox(index));
         });
 
-        // Navegación con teclado
-        document.addEventListener('keydown', handleKeyNav);
-        
-        // Pausar cuando tab pierde foco
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                stopAutoplay();
-            } else if (autoplayInterval > 0 && !lightbox.classList.contains('visible')) {
-                startAutoplay();
-            }
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevLightboxSlide(); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextLightboxSlide(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('visible')) return;
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); prevLightboxSlide(); }
+            else if (e.key === 'ArrowRight') { e.preventDefault(); nextLightboxSlide(); }
         });
         
-        // Pausar en hover
-        wrapper.addEventListener('mouseenter', stopAutoplay);
-        wrapper.addEventListener('mouseleave', () => {
-            if (autoplayInterval > 0 && !lightbox.classList.contains('visible')) {
-                startAutoplay();
-            }
-        });
-        
-        // Responsive
-        window.addEventListener('resize', () => updateCarousel(false));
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
     }
     
-    function handleCellClick(cellIndex) {
-        // Ajustar por el clon inicial para obtener índice real
-        // Si clickeamos clon inicio (index 0), equivale a realCount-1
-        // Si clickeamos clon final (index total-1), equivale a 0
-        let realIndex;
-        if (cellIndex === 0) realIndex = realCount - 1;
-        else if (cellIndex === totalCells - 1) realIndex = 0;
-        else realIndex = cellIndex - 1;
-        
-        if (cellIndex === currentIndex) {
-            // Abrir lightbox en la imagen actual
-            openLightbox(realIndex);
-        } else {
-            // Ir a esa celda
-            goToSlide(cellIndex);
-        }
-    }
-    
-    function goToSlide(index, animate = true) {
-        currentIndex = index;
-        updateCarousel(animate);
-        
-        // Después de la animación, verificar si necesitamos teleportar
-        if (animate) {
-            setTimeout(() => checkWrap(), 400);
-        }
-        
-        stopAutoplay();
-        if (autoplayInterval > 0) {
-            startAutoplay();
-        }
-    }
-    
-    function nextSlide() {
-        goToSlide(currentIndex + 1);
-    }
-    
-    function prevSlide() {
-        goToSlide(currentIndex - 1);
-    }
-    
-    function checkWrap() {
-        // Si estamos en el clon del final, saltar al primero real
-        if (currentIndex === totalCells - 1) {
-            currentIndex = 1;
-            updateCarousel(false);
-        }
-        // Si estamos en el clon del inicio, saltar al último real
-        else if (currentIndex === 0) {
-            currentIndex = totalCells - 2;
-            updateCarousel(false);
-        }
-    }
-    
-    function getTranslateXForIndex(index) {
-        const wrapperWidth = wrapper.offsetWidth;
-        const cellWidth = allCells[0].offsetWidth;
-        const cellMargin = parseFloat(getComputedStyle(allCells[0]).marginRight) || 0;
-        const totalCellWidth = cellWidth + cellMargin;
-        
-        // Centrar la celda actual
-        const offset = (wrapperWidth / 2) - (cellWidth / 2) - (index * totalCellWidth);
-        return offset;
-    }
-    
-    function updateCarousel(animate = true) {
-        currentTranslateX = getTranslateXForIndex(currentIndex);
-        
-        if (animate) {
-            carousel.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        } else {
-            carousel.style.transition = 'none';
-        }
-        
-        carousel.style.transform = `translateX(${currentTranslateX}px)`;
-        
-        // Actualizar clases activas (solo en las celdas reales)
-        allCells.forEach((cell, index) => {
-            const isClone = cell.classList.contains('carousel-cell-clone');
-            
-            if (!isClone) {
-                cell.classList.toggle('is-selected', index === currentIndex);
-            } else {
-                // Los clones se activan según su posición equivalente
-                if (index === 0) { // Clon del final al inicio
-                    cell.classList.toggle('is-selected', currentIndex === totalCells - 1);
-                } else if (index === totalCells - 1) { // Clon del inicio al final
-                    cell.classList.toggle('is-selected', currentIndex === 0);
-                }
-            }
-        });
-    }
-    
-    // Autoplay
-    function startAutoplay() {
-        stopAutoplay();
-        if (autoplayInterval > 0) {
-            autoplayTimer = setInterval(nextSlide, autoplayInterval);
-        }
-    }
-    
-    function stopAutoplay() {
-        if (autoplayTimer) {
-            clearInterval(autoplayTimer);
-            autoplayTimer = null;
-        }
-    }
-    
-    // Drag functionality for Carousel
-    function touchStart(event) {
-        if (lightbox.classList.contains('visible')) return; // Ignore if lightbox is open
-        
-        isDragging = true;
-        hasDragged = false;
-        dragStartX = event.type === 'touchstart' ? event.touches[0].clientX : event.clientX;
-        dragStartTranslateX = currentTranslateX;
-        
-        carousel.style.transition = 'none';
-        carousel.style.cursor = 'grabbing';
-        stopAutoplay();
-        
-        // Don't prevent default on touchstart to allow scrolling page vertically if desired,
-        // unless we determine it's a horizontal swipe. For now, we prevent default to be safe.
-        // But for better UX, usually we let vertical scroll happen.
-        // However, this code had event.preventDefault() originally.
-        // event.preventDefault(); 
-    }
-    
-    function touchMove(event) {
-        if (!isDragging) return;
-        
-        const currentX = event.type === 'touchmove' ? event.touches[0].clientX : event.clientX;
-        const diff = currentX - dragStartX;
-        
-        // Si se movió más de 5px, considerar que es un drag
-        if (Math.abs(diff) > 5) {
-            hasDragged = true;
-            event.preventDefault(); // Prevent scroll only if we are dragging horizontally
-        }
-        
-        currentTranslateX = dragStartTranslateX + diff;
-        carousel.style.transform = `translateX(${currentTranslateX}px)`;
-    }
-    
-    function touchEnd(event) {
-        if (!isDragging) return;
-        
-        isDragging = false;
-        carousel.style.cursor = 'grab';
-        
-        const movedBy = currentTranslateX - dragStartTranslateX;
-        const cellWidth = allCells[0].offsetWidth;
-        const threshold = cellWidth * 0.25; // 25% del ancho de la celda
-        
-        // Determinar cuántas celdas se movió
-        const cellsMoved = Math.round(movedBy / (cellWidth + parseFloat(getComputedStyle(allCells[0]).marginRight)));
-        
-        if (Math.abs(movedBy) > threshold) {
-            if (movedBy < 0) {
-                // Arrastró a la izquierda -> siguiente
-                const slidesToMove = Math.max(1, Math.abs(cellsMoved));
-                goToSlide(currentIndex + slidesToMove);
-            } else {
-                // Arrastró a la derecha -> anterior
-                const slidesToMove = Math.max(1, Math.abs(cellsMoved));
-                goToSlide(currentIndex - slidesToMove);
-            }
-        } else {
-            updateCarousel(true);
-        }
-        
-        if (autoplayInterval > 0) {
-            startAutoplay();
-        }
-    }
-
-    // Lightbox Drag functionality
-    function lbTouchStart(event) {
-        if (!lightbox.classList.contains('visible')) return;
-        if (event.target.closest('.lightbox-nav')) return; // Ignore nav buttons
-
-        lbIsDragging = true;
-        lbDragStartX = event.type === 'touchstart' ? event.touches[0].clientX : event.clientX;
-        
-        // Stop bubbling to prevent interactions with carousel behind
-        event.stopPropagation();
-    }
-
-    function lbTouchMove(event) {
-        if (!lbIsDragging) return;
-        event.preventDefault(); // Prevent page scroll
-    }
-
-    function lbTouchEnd(event) {
-        if (!lbIsDragging) return;
-        lbIsDragging = false;
-        
-        const currentX = event.type === 'touchend' ? event.changedTouches[0].clientX : event.clientX;
-        const diff = currentX - lbDragStartX;
-        const threshold = 50; // pixels to swipe
-        
-        if (Math.abs(diff) > threshold) {
-            if (diff < 0) {
-                // Swipe Left -> Next
-                nextLightboxSlide();
-            } else {
-                // Swipe Right -> Prev
-                prevLightboxSlide();
-            }
-        }
-    }
-    
-    function handleKeyNav(e) {
-        if (lightbox.classList.contains('visible')) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                prevLightboxSlide();
-            } else if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                nextLightboxSlide();
-            }
-            return;
-        }
-        
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            prevSlide();
-        } else if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            nextSlide();
-        }
-    }
-    
-    // Lightbox Logic
     function openLightbox(index) {
-        currentLightboxIndex = index;
+        currentIndex = index;
         updateLightboxImage();
-        
         lightbox.classList.add('visible');
         document.body.style.overflow = 'hidden';
-        stopAutoplay();
     }
     
     function closeLightbox() {
         lightbox.classList.remove('visible');
         document.body.style.overflow = '';
-        if (autoplayInterval > 0) {
-            startAutoplay();
-        }
     }
     
     function updateLightboxImage() {
-        // Safe check
-        if (currentLightboxIndex < 0) currentLightboxIndex = realCount - 1;
-        if (currentLightboxIndex >= realCount) currentLightboxIndex = 0;
-        
-        const src = cells[currentLightboxIndex].querySelector('img').src;
-        lightboxImg.src = src;
-        
-        // Sync Background Carousel
-        // La imagen real en index 0 corresponde a la celda 1 (por el clon)
-        goToSlide(currentLightboxIndex + 1, false);
+        if (currentIndex < 0) currentIndex = currentSrcs.length - 1;
+        if (currentIndex >= currentSrcs.length) currentIndex = 0;
+        lightboxImg.src = currentSrcs[currentIndex];
     }
     
-    function nextLightboxSlide() {
-        currentLightboxIndex++;
-        if (currentLightboxIndex >= realCount) currentLightboxIndex = 0;
-        updateLightboxImage();
-    }
+    function nextLightboxSlide() { currentIndex++; updateLightboxImage(); }
+    function prevLightboxSlide() { currentIndex--; updateLightboxImage(); }
     
-    function prevLightboxSlide() {
-        currentLightboxIndex--;
-        if (currentLightboxIndex < 0) currentLightboxIndex = realCount - 1;
-        updateLightboxImage();
-    }
-    
-    lightbox.addEventListener('click', (e) => {
-        // Cierra si click en overlay (fuera de imagen y botones)
-        if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-    
-    // Iniciar
     init();
 })();
 </script>
+
+

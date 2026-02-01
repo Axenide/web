@@ -27,7 +27,7 @@ Una shell ***Ax**tremadamente* personalizable.
 
 {{ carousel(images=["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png"], interval=3000, style="margin: -2rem 0 -2rem 0") }}
 
-<div align="center" style="position: relative; margin-top: 2rem;">
+<div align="center" style="position: relative; margin-top: 4rem; margin-bottom: 4rem;">
   <div class="desktop-only" style="position: absolute; right: calc(50% + 90px); top: 10px; width: max-content;">
     {{ arrow_note(text="¡Apoya el proyecto!", target="kofi-btn", color="text", font_size="1.25rem", stroke_width="2", head_size="10", amplitude="50", ease_out="20", ease_in="-20", start_dir="bottom", end_dir="bottom") }}
   </div>
