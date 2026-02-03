@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="changelog-container">
+    <header class="changelog-header">
+        <h1>Changelog</h1>
+        <p class="subtitle">New updates, improvements, and fixes to {{ config.title }}</p>
+    </header>
+
+    <div class="changelog-timeline">
+        {# Sample Entry 1 #}
+        <article class="changelog-entry red">
+            <div class="entry-date">24 Apr 2024</div>
+            <div class="entry-dot"></div>
+            <div class="entry-content">
+                <h2>Toggler Update</h2>
+                <div class="entry-body">
+                    <strong>Code:</strong>
+                    <ul>
+                        <li>Add Toggle Component</li>
+                        <li>Add Input OTP Component</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        {# Sample Entry 2 #}
+        <article class="changelog-entry blue">
+            <div class="entry-date">22 Apr 2024</div>
+            <div class="entry-dot"></div>
+            <div class="entry-content">
+                <h2>Dropdowns</h2>
+                <div class="entry-body">
+                    <strong>Figma:</strong>
+                    <ul>
+                        <li>Add Combobox Component</li>
+                        <li>Add Command Component</li>
+                        <li>Add Context Menu Component</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        {# Sample Entry 3 #}
+        <article class="changelog-entry purple">
+            <div class="entry-date">18 Apr 2024</div>
+            <div class="entry-dot"></div>
+            <div class="entry-content">
+                <h2>More Components</h2>
+                <div class="entry-body">
+                    <strong>Code:</strong>
+                    <ul>
+                        <li>Add Separator Component</li>
+                        <li>Improved layout engine</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        {# Dynamic Content (Optional, if you want to use it with actual pages later) #}
+        {% for page in section.pages %}
+            <article class="changelog-entry {% if loop.index0 % 3 == 0 %}red{% elif loop.index0 % 3 == 1 %}blue{% else %}purple{% endif %}">
+                <div class="entry-date">{{ page.date | date(format="%d %b %Y") }}</div>
+                <div class="entry-dot"></div>
+                <div class="entry-content">
+                    <a href="{{ page.permalink }}"><h2>{{ page.title }}</h2></a>
+                    <div class="entry-body">
+                        {{ page.content | safe }}
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

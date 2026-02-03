@@ -108,7 +108,7 @@
 											{%- set link_url = link.url -%}
 											{%- set link_external = true -%}
 										{%- else -%}
-											{%- set link_url = get_url(path=link.url, lang=lang) -%}
+											{%- set link_url = get_url(path=link.url) -%}
 										{%- endif -%}
 
 										{# Active link #}
