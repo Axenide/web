@@ -32,7 +32,7 @@ theme = "github-dark"
 discord_user_id = "294856304969908224"
 styles = ["custom.css"]
 accent_color = "hsl(10, 25%, 65%)"
-date_format = "%d %B %Y"
+date_format = "%d %b %Y"
 audio_button = true
 
 [extra.meta]
@@ -67,8 +67,12 @@ socials = [
     { url = "https://instagram.com/Axenide", icon = "instagram" },
 ]
 
+[extra.footer.es]
+copyright = "© $YEAR Axenide"
+
 [extra.es]
 date_locale = "es_ES"
+date_format = "%d %b %Y"
 
 [slugify]
 paths = "on"
