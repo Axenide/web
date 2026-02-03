@@ -17,6 +17,20 @@ accent_color = "hsl(356, 100%, 67%)"
 
 [extra.meta]
 favicon = "favicon.svg"
+
+[extra.nav]
+links = [
+	{ name = "Acerca de", category = [
+    { url = "@/projects/_index.md", name = "Características", icon = "sparkle" },
+    { url = "@/blog/_index.md", name = "Changelog", icon = "clock-counter-clockwise" },
+	] },
+    { name = "Links", category = [
+    { url = "https://github.com/Axenide/Ambxst", name = "GitHub", icon = "github-logo" },
+    { url = "https://discord.com/invite/gHG9WHyNvH", name = "Discord", icon = "discord-logo" },
+    { url = "https://ko-fi.com/Axenide", name = "Donate ❤️", icon = "coffee" },
+    ] },
+]
+
 +++
 
 <img src="ambxst-logo.svg" alt="Ambxst Logo" class="transparent drop-shadow no-hover" style="max-width: 400px; width: 100%;" />

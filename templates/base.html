@@ -54,6 +54,23 @@ This variable will hold all the text strings for the language #}
 	<span id="left" hidden></span>
 	<span id="right" hidden></span>
 	<a id="skip-to-content" href="#main-content" tabindex="0">{{ macros_translate::translate(key="skip_to_content", default="Skip to Main Content", language_strings=language_strings) }}</a>
+	{%- if page.extra.nav -%}
+		{%- set_global nav_config = page.extra.nav -%}
+	{%- elif section.extra.nav -%}
+		{%- set_global nav_config = section.extra.nav -%}
+	{%- elif lang != config.default_language and config.extra.nav[lang] -%}
+		{%- set_global nav_config = config.extra.nav[lang] -%}
+	{%- else -%}
+		{%- set_global nav_config = config.extra.nav -%}
+	{%- endif -%}
+	{%- set_global nav_links = nav_config.links | default(value=[]) -%}
+	{%- if nav_links | length == 0 and nav_config != config.extra.nav -%}
+		{%- if lang != config.default_language and config.extra.nav[lang] -%}
+			{%- set_global nav_links = config.extra.nav[lang].links -%}
+		{%- else -%}
+			{%- set_global nav_links = config.extra.nav.links -%}
+		{%- endif -%}
+	{%- endif -%}
 	{% include "partials/header.html" %}
 	{% include "partials/sidebar.html" %}
 	{% block body_before %}{% endblock body_before %}
@@ -70,7 +87,7 @@ This variable will hold all the text strings for the language #}
 			</div>
 		</div>
 	{%- endif -%}
-	<main id="main-content"{% if config.extra.nav.links | length > 5 or config.extra.nav.force_sidebar %} class="has-nav"{% endif %}>
+	<main id="main-content"{% if nav_links | length > 5 or nav_config.force_sidebar | default(value=config.extra.nav.force_sidebar) %} class="has-nav"{% endif %}>
 		{% block content_before %}{% endblock content_before %}
 		{% block content %}{% endblock content %}
 		{% block content_after %}{% endblock content_after %}
