@@ -7,12 +7,14 @@ path = "/es/ambxst"
 
 [taxonomies]
 tags = ["dev", "wip"]
+
 [extra]
 no_header = true
 banner = "1.png"
 hide_banner = true
 hide_site_title = true
 accent_color = "hsl(356, 100%, 67%)"
+
 [extra.meta]
 favicon = "favicon.svg"
 +++
