@@ -67,8 +67,8 @@ socials = [
     { url = "https://instagram.com/Axenide", icon = "instagram" },
 ]
 
-[extra.footer.es]
-copyright = "© $YEAR Axenide"
+[extra.es]
+date_locale = "es_ES"
 
 [slugify]
 paths = "on"

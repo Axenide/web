@@ -6,7 +6,7 @@
 
 .changelog-header {
   margin-bottom: 4rem;
-  max-width: 800px;
+  width: 100%;
   
   h1 {
     font-size: var(--font-size-xxx-large, 3rem);
@@ -28,7 +28,7 @@
 
 .changelog-timeline {
   position: relative;
-  max-width: 800px;
+  width: 100%;
   
   // The vertical line
   &::before {
@@ -115,13 +115,25 @@
     .entry-date { color: var(--red-fg, #db4740); }
     .entry-dot { background-color: var(--red-fg, #db4740); }
   }
+  &.green {
+    .entry-date { color: var(--green-fg, #a3be8c); }
+    .entry-dot { background-color: var(--green-fg, #a3be8c); }
+  }
+  &.yellow {
+    .entry-date { color: var(--yellow-fg, #ebcb8b); }
+    .entry-dot { background-color: var(--yellow-fg, #ebcb8b); }
+  }
   &.blue {
     .entry-date { color: var(--blue-fg, #3b82f6); }
     .entry-dot { background-color: var(--blue-fg, #3b82f6); }
   }
-  &.purple {
+  &.magenta {
     .entry-date { color: var(--purple-fg, #8b5cf6); }
     .entry-dot { background-color: var(--purple-fg, #8b5cf6); }
+  }
+  &.cyan {
+    .entry-date { color: var(--blue-fg, #88c0d0); }
+    .entry-dot { background-color: var(--blue-fg, #88c0d0); }
   }
 }
 
