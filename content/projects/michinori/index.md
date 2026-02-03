@@ -24,7 +24,7 @@ The game where the path to your love is… Complicated.
 
 </div>
 
-{{ carousel(start=1, end=5, interval=3000, style="margin: -2rem 0 -2rem 0") }}
+{{ carousel(start=1, end=5, interval=3000, style="margin: -2rem 0 -4rem 0") }}
 
 <div align="center">
   {{ styled_button(image="/images/itchio-badge.svg", link="https://axenide.itch.io/michinori", width="200px", effect="zoom rotate", rotate="-3") }}

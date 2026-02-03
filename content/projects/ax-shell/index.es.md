@@ -24,7 +24,7 @@ Una shell modificable para [Hyprland](https://hyprland.org/), impulsada por [Fab
 
 </div>
 
-{{ carousel(start=1, end=15, interval=3000, style="margin: -2rem 0 -2rem 0") }}
+{{ carousel(start=1, end=15, interval=3000, style="margin: -2rem 0 0 0") }}
 
 <div align="center">
   {{ styled_button(image="/social-icons/16x/kofi_icon_bg.png", link="https://ko-fi.com/Axenide", width="32px", effect="zoom rotate", rotate="-15") }}

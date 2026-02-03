@@ -49,8 +49,19 @@ curl -L get.axeni.de/ambxst | sh
 ```
 {% end %}
 
-> [!WARNING]
-> Ambxst is currently in early development.
+Ambxst is currently supported on **Arch**, **Fedora**, and **NixOS**. This means both based and derivative distributions.
+
+> [!IMPORTANT]
+> The only pre-requisite is having Hyprland installed.
+
+> [!NOTE]
+> For NixOS users, the screen recording utility `gpu-screen-recorder` will only be able to use the `portal` backend until you add `programs.gpu-screen-recorder.enable = true;` to your `configuration.nix` or **home-manager**.
+
+## Will this change my config?
+
+Nope! Ambxst is designed to be non-intrusive. It won't modify any of your existing configurations.
+
+It applies its own settings only when it runs, via IPC communication. This means you can safely switch back to your previous setup by simply exiting Ambxst.
 
 ## Features
 - [x] Customizable components
@@ -89,12 +100,9 @@ curl -L get.axeni.de/ambxst | sh
 - [ ] Plugin and extension system
 - [ ] Compatibility with other Wayland compositors
 
-## What about the *docs*?
+## I need help!
 
-I want to release this before the end of the year, so you'll have to wait a bit for the full documentation. u_u
-However, the most important things you need to know are:
+If you are having trouble or have any questions:
+- You can ask anything on [Discord](https://discord.com/invite/gHG9WHyNvH) or in the [GitHub discussions](https://github.com/Axenide/Ambxst/discussions).
+- You can open an issue on the [GitHub repository](https://github.com/Axenide/Ambxst/issues).
 - The main configuration is located at `~/.config/Ambxst`.
-- You can ask anything on the [Axenide Discord server](https://discord.com/invite/gHG9WHyNvH) or in the [GitHub discussions](https://github.com/Axenide/Ambxst/discussions).
-
-> [!CAUTION]
-> Packages installed via Nix will take priority over system ones. Keep this in mind if you run into version conflicts.

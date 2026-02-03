@@ -49,8 +49,19 @@ curl -L get.axeni.de/ambxst | sh
 ```
 {% end %}
 
-> [!WARNING]
-> Ambxst está actualmente en desarrollo temprano.
+Ambxst actualmente es compatible con **Arch**, **Fedora** y **NixOS**. Esto incluye tanto las distribuciones base como las derivadas.
+
+> [!IMPORTANT]
+> El único requisito previo es tener Hyprland instalado.
+
+> [!NOTE]
+> Para usuarios de NixOS, la utilidad de grabación de pantalla `gpu-screen-recorder` solo podrá usar el backend `portal` hasta que se agregue `programs.gpu-screen-recorder.enable = true;` a `configuration.nix` o **home-manager**.
+
+## ¿Cambiará esto mi configuración?
+
+Nope! Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
+
+Aplica sus propias configuraciones solo cuando se ejecuta, via IPC. Esto significa que puedes volver a tu configuración anterior simplemente cerrando Ambxst.
 
 ## Características
 - [x] Componentes personalizables
@@ -89,12 +100,9 @@ curl -L get.axeni.de/ambxst | sh
 - [ ] Sistema de plugins y extensiones
 - [ ] Compatibilidad con otros compositores Wayland
 
-## ¿Y los *docs*?
+## ¡Necesito ayuda!
 
-Quiero liberar esto antes de fin de año, así que tendrás que esperar un poco para la documentación completa. u_u
-Sin embargo, lo más importante que debes saber es lo siguiente:
-- La configuración principal se encuentra en `~/.config/Ambxst`.
-- Puedes preguntar lo que sea en el [servidor de Discord de Axenide](https://discord.com/invite/gHG9WHyNvH) o en las [discusiones de GitHub](https://github.com/Axenide/Ambxst/discussions).
-
-> [!CAUTION]
-> Los paquetes instalados via Nix tomarán prioridad sobre los del sistema. Tenlo en cuenta si tienes conflictos de versiones.
+Si estás teniendo problemas o tienes preguntas:
+- Puedes preguntar lo que sea en [Discord](https://discord.com/invite/gHG9WHyNvH) o en las [discusiones de GitHub](https://github.com/Axenide/Ambxst/discussions).
+- Puedes abrir un issue en el [repositorio de GitHub](https://github.com/Axenide/Ambxst/issues).
+- La configuración principal se encuentra en `~/.config/Ambxst/`.
