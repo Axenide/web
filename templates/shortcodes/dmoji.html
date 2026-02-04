@@ -50,13 +50,11 @@
 
 {%- if emoji_id -%}
     <img 
-        class="dmoji" 
+        class="dmoji emoji no-hover transparent" 
         src="https://cdn.discordapp.com/emojis/{{ emoji_id }}.{{ ext }}" 
         alt=":{% if name %}{{ name }}{% else %}discord_emoji{% endif %}:"
         title=":{% if name %}{{ name }}{% else %}discord_emoji{% endif %}:"
-        width="24" 
-        height="24"
-        style="vertical-align: middle; display: inline-block;"
+        style="height: 1.2em; width: auto; vertical-align: -0.2em; display: inline-block; margin: 0; padding: 0 !important; border: none !important; box-shadow: none !important; background: transparent !important;"
     />
 {%- else -%}
     <span style="color: red; font-weight: bold;">[dmoji error: '{{ name }}' not found]</span>
