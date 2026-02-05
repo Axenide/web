@@ -21,8 +21,8 @@ favicon = "favicon.svg"
 [extra.nav]
 links = [
 	{ name = "Acerca de", category = [
-    { url = "@/projects/_index.md", name = "Características", icon = "sparkle" },
-    { url = "@/projects/ambxst/changelog/_index.md", name = "Changelog", icon = "clock-counter-clockwise" },
+    # { url = "@/projects/_index.md", name = "Características", icon = "sparkle" },
+    { url = "@/ambxst/changelog/_index.md", name = "Changelog", icon = "clock-counter-clockwise" },
 	] },
     { name = "Links", category = [
     { url = "https://github.com/Axenide/Ambxst", name = "GitHub", icon = "github-logo" },

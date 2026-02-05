@@ -1,9 +1,11 @@
 +++
 title = "Ambxst Changelog"
-description = "Latest updates, fixes and improvements."
+description = "Últimas actualizaciones, arreglos y mejoras."
 template = "changelog.html"
 sort_by = "date"
 insert_anchor_links = "right"
+render = true
+transparent = true
 [extra]
 no_header = true
 hide_site_title = true
