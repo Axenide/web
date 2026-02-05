@@ -14,11 +14,11 @@
             {% set colors_count = colors | length %}
             {% set color_index = loop.index0 % colors_count %}
             {% set color = page.extra.color | default(value=colors[color_index]) %}
-            <article class="changelog-entry {{ color }}">
+            <article id="{{ page.title }}" class="changelog-entry {{ color }}">
                 <div class="entry-date">{{ page.date | date(format=date_format, locale=date_locale) }}</div>
                 <div class="entry-dot"></div>
                 <div class="entry-content">
-                    <h2>{{ page.title }}</h2>
+                    <h2><a href="#{{ page.title }}">{{ page.title }}</a></h2>
                     <div class="entry-body">
                         {{ page.content | safe }}
                     </div>
