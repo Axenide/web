@@ -278,4 +278,22 @@
 	{%- if config.mode != "serve" and config.extra.analytics.service -%}
 		{%- include "partials/analytics.html" -%}
 	{%- endif -%}
+
+	<script>
+		(function() {
+			const lang = navigator.language || navigator.userLanguage;
+			if (!localStorage.getItem('user_lang_pref') && lang && lang.toLowerCase().startsWith('es')) {
+				const path = window.location.pathname;
+				if (!path.startsWith('/es/') && path !== '/es') {
+					window.location.replace('/es' + path);
+				}
+			}
+			document.addEventListener('click', function(e) {
+				const link = e.target.closest('a[lang]');
+				if (link) {
+					localStorage.setItem('user_lang_pref', link.getAttribute('lang'));
+				}
+			});
+		})();
+	</script>
 </head>
