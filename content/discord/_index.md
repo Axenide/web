@@ -5,7 +5,7 @@ description = "Join our community Discord server."
 no_header = true
 +++
 
-{{ discord_server() }}
+{{ discord_server(description="A cozy space for tech enthusiasts, creators, and friends to hang out and share their passions.") }}
 
 <section class="snap-section content-wrapper">
 <div style="width: 100%;">
@@ -48,33 +48,3 @@ Failure to follow these rules may result in warnings, timeouts, or bans dependin
 
 </div>
 </section>
-
-<script>
-// Discord Widget API integration
-const INVITE_CODE = 'gHG9WHyNvH';
-
-async function fetchDiscordData() {
-  try {
-    // Fetch invite data with counts
-    const response = await fetch(`https://discord.com/api/invites/${INVITE_CODE}?with_counts=true`);
-    if (response.ok) {
-      const data = await response.json();
-      
-      // Update stats
-      document.getElementById('online-count').textContent = `${data.approximate_presence_count || 0} Online`;
-      document.getElementById('member-count').textContent = `${data.approximate_member_count || 0} Members`;
-      
-      // Update invite link
-      if (data.guild) {
-        document.getElementById('guild-invite').href = `https://discord.com/invite/${INVITE_CODE}`;
-      }
-    }
-  } catch (e) {
-    // Silently fail - static values will remain
-    console.log('Could not fetch Discord data');
-  }
-}
-
-// Fetch on load
-document.addEventListener('DOMContentLoaded', fetchDiscordData);
-</script>

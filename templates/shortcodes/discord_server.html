@@ -1,34 +1,80 @@
 {% import "macros/icon.html" as macros_icon %}
+{% set invite_code = "gHG9WHyNvH" %}
+{# Fetch data at build time for instant loading/fallback #}
+{% set data = load_data(url="https://discord.com/api/invites/" ~ invite_code ~ "?with_counts=true", format="json") %}
+
+{# Define labels from parameters with language defaults #}
+{% if lang == "es" %}
+  {% set def_about = "Sobre ↓" %}
+  {% set def_rules = "Reglas →" %}
+  {% set def_join = "Unirse →" %}
+  {% set def_online = "En línea" %}
+  {% set def_members = "Miembros" %}
+{% else %}
+  {% set def_about = "About ↓" %}
+  {% set def_rules = "Rules →" %}
+  {% set def_join = "Join →" %}
+  {% set def_online = "Online" %}
+  {% set def_members = "Members" %}
+{% endif %}
+
+{% set label_about = about | default(value=def_about) %}
+{% set label_rules = rules | default(value=def_rules) %}
+{% set label_join = join | default(value=def_join) %}
+{% set label_online = online | default(value=def_online) %}
+{% set label_members = members | default(value=def_members) %}
+{% set server_desc = description | default(value="Cozy and welcoming space for cool people to hang out in.") %}
 
 <section class="snap-section hero-wrapper discord-hero-wrapper">
 	<div class="hero-container">
 		<div id="guild-widget">
-			<div id="guild-banner" style="--banner: url('/images/avatar.jpg');">
+			<div id="guild-banner" style="--banner: url('{% if data.guild.banner %}https://cdn.discordapp.com/banners/{{ data.guild.id }}/{{ data.guild.banner }}.webp?size=1024{% else %}https://cdn.discordapp.com/icons/{{ data.guild.id }}/{{ data.guild.icon }}.webp?size=128{% endif %}');">
 				<img
 					id="guild-icon"
 					class="transparent no-hover"
-					src="/images/avatar.jpg"
+					src="https://cdn.discordapp.com/icons/{{ data.guild.id }}/{{ data.guild.icon }}.webp?size=128"
 					alt="Server icon."
 					{% if config.markdown.lazy_async_image %}
 						decoding="async" loading="lazy"
 					{% endif %}
 				/>
 			</div>
-			<strong id="guild-name" class="title">Axenide's Server</strong>
+			<strong id="guild-name" class="title">{{ data.guild.name }}</strong>
 			<p id="guild-stats">
-				<span id="online-count">0 Online</span>
-				<span id="member-count">0 Members</span>
+				<span id="online-count">{{ data.approximate_presence_count }} {{ label_online }}</span>
+				<span id="member-count">{{ data.approximate_member_count }} {{ label_members }}</span>
 			</p>
-			<p id="guild-description">Cozy and welcoming space for cool people to hang out in.</p>
+			<p id="guild-description">{{ server_desc }}</p>
 			<ul id="guild-traits">
-				<li>💫 Silly</li>
-				<li>🗣️ Multi-topic</li>
-				<li>💜 Friendly</li>
+				{% if data.profile and data.profile.traits %}
+					{% for trait in data.profile.traits %}
+						<li>
+							{% if trait.emoji_name == "keyboard" %}⌨️
+							{% elif trait.emoji_name == "tada" %}🎉
+							{% elif trait.emoji_name == "sparkles" %}✨
+							{% elif trait.emoji_name == "flag_es" %}🇪🇸
+							{% elif trait.emoji_name == "flag_gb" %}🇬🇧
+							{% elif trait.emoji_name == "art" %}🎨
+							{% elif trait.emoji_name == "video_game" %}🎮
+							{% elif trait.emoji_name == "music" %}🎵
+							{% elif trait.emoji_name == "musical_note" %}🎵
+							{% elif trait.emoji_name == "watermelon" %}🍉
+							{% elif trait.emoji_name == "computer" %}💻
+							{% elif trait.emoji_name == "speech_balloon" %}💬
+							{% endif %}
+							{{ trait.label }}
+						</li>
+					{% endfor %}
+				{% else %}
+					<li>💫 Silly</li>
+					<li>🗣️ Multi-topic</li>
+					<li>💜 Friendly</li>
+				{% endif %}
 			</ul>
 			<div class="buttons start">
-				<a href="#about">About ↓</a>
-				<a href="#rules">Rules →</a>
-				<a id="guild-invite" class="suggested" href="https://discord.com/invite/gHG9WHyNvH">Join →</a>
+				<a href="#about">{{ label_about }}</a>
+				<a href="#rules">{{ label_rules }}</a>
+				<a id="guild-invite" class="suggested" href="https://discord.com/invite/{{ invite_code }}">{{ label_join }}</a>
 			</div>
 			<div id="hover-map">
 				<div class="top-left"></div>
@@ -44,3 +90,50 @@
 		</div>
 	</div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+	const INVITE_CODE = "{{ invite_code }}";
+  const labelOnline = "{{ label_online }}";
+  const labelMembers = "{{ label_members }}";
+  
+  const emojiMap = {
+    "keyboard": "⌨️", "tada": "🎉", "sparkles": "✨", "flag_es": "🇪🇸", "flag_gb": "🇬🇧",
+    "art": "🎨", "video_game": "🎮", "music": "🎵", "musical_note": "🎵", "watermelon": "🍉",
+    "computer": "💻", "speech_balloon": "💬"
+  };
+
+	async function updateDiscordInfo() {
+		try {
+			const response = await fetch(`https://discord.com/api/invites/${INVITE_CODE}?with_counts=true`);
+			const data = await response.json();
+			if (data.guild) {
+				document.getElementById("guild-name").textContent = data.guild.name;
+				
+				if (data.guild.icon) {
+					const iconUrl = `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.webp?size=128`;
+					document.getElementById("guild-icon").src = iconUrl;
+					const bannerElement = document.getElementById("guild-banner");
+					if (data.guild.banner) {
+						bannerElement.style.setProperty('--banner', `url('https://cdn.discordapp.com/banners/${data.guild.id}/${data.guild.banner}.webp?size=1024')`);
+					} else {
+						bannerElement.style.setProperty('--banner', `url('${iconUrl}')`);
+					}
+				}
+
+				document.getElementById("online-count").textContent = `${data.approximate_presence_count} ${labelOnline}`;
+				document.getElementById("member-count").textContent = `${data.approximate_member_count} ${labelMembers}`;
+
+				if (data.profile && data.profile.traits) {
+					const traits = data.profile.traits.map(trait => {
+            const emoji = emojiMap[trait.emoji_name] || trait.emoji_name || "";
+						return `<li>${emoji} ${trait.label}</li>`;
+					}).join("");
+					document.getElementById("guild-traits").innerHTML = traits;
+				}
+			}
+		} catch (e) {}
+	}
+	updateDiscordInfo();
+});
+</script>
