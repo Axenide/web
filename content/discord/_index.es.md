@@ -7,6 +7,9 @@ no_header = true
 
 {{ discord_server() }}
 
+<section class="snap-section content-wrapper">
+<div style="width: 100%;">
+
 ## Sobre
 
 Este es un espacio donde personas con intereses similares se reúnen para discutir tecnología, compartir proyectos creativos, jugar juntos y simplemente pasar un buen rato.
@@ -42,6 +45,9 @@ Para mantener esta comunidad agradable para todos, por favor sigue estas pautas:
 7. **Escucha a los moderadores** - Las decisiones del staff son finales. Si tienes inquietudes, mándales un DM privado.
 
 El incumplimiento de estas reglas puede resultar en advertencias, timeouts o baneos dependiendo de la gravedad.
+
+</div>
+</section>
 
 <script>
 // Discord Widget API integration

@@ -4,6 +4,16 @@
 
 // Discord Server Widget Styles (cloned from snugnook.org)
 
+// Centering and layout adjustments for the widget within hero-container
+.discord-hero-wrapper {
+  .hero-container {
+    padding: 0 !important; // Match index behavior
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
 #guild-widget {
   --rotation: 5deg;
   display: flex;
@@ -65,7 +75,7 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 0.875rem;
-      transition: all 0.3s ease; // Smoother transition
+      transition: all 0.3s ease;
       background-color: var(--bg-muted-1, #333);
       color: var(--fg-muted-1, #ccc);
       box-shadow: var(--edge-highlight);
@@ -79,19 +89,17 @@
 
     .suggested {
       margin-inline-start: auto;
-      // New colors: #DB4740 and #D10026
       background: linear-gradient(135deg, #DB4740 0%, #D10026 100%);
       color: white !important;
       box-shadow: var(--edge-highlight), 0 0 15px rgba(219, 71, 64, 0.3);
       border: none;
       
-      // Fix for the "purple flicker": use a pseudo-element for hover background
       &::before {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background: #DB4740; // Hover solid color
+        background: #DB4740;
         opacity: 0;
         transition: opacity 0.3s ease;
         z-index: -1;
@@ -234,11 +242,4 @@
   > div {
     z-index: 5;
   }
-}
-
-.container-fill {
-  padding: 4rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }

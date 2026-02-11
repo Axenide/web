@@ -7,6 +7,9 @@ no_header = true
 
 {{ discord_server() }}
 
+<section class="snap-section content-wrapper">
+<div style="width: 100%;">
+
 ## About
 
 This is a space where like-minded people gather to discuss technology, share creative projects, play games together, and simply have a good time.
@@ -42,6 +45,9 @@ To keep this community enjoyable for everyone, please follow these guidelines:
 7. **Listen to moderators** - Staff decisions are final. If you have concerns, DM them privately.
 
 Failure to follow these rules may result in warnings, timeouts, or bans depending on the severity.
+
+</div>
+</section>
 
 <script>
 // Discord Widget API integration
