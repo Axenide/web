@@ -1,0 +1,74 @@
++++
+title = "Discord Server"
+description = "Join our community Discord server."
+[extra]
+no_header = true
++++
+
+{{ discord_server() }}
+
+## About
+
+This is a space where like-minded people gather to discuss technology, share creative projects, play games together, and simply have a good time.
+
+**What you'll find here:**
+
+- Friendly community of tech enthusiasts and creators
+- Channels for programming, design, music, and gaming
+- A place to showcase your projects and get feedback
+- Occasional events and activities
+- A chill atmosphere where everyone is welcome
+
+<blockquote class="markdown-alert-note">
+This server is meant to be a cozy and welcoming place. Please be respectful to all members.
+</blockquote>
+
+## Rules
+
+To keep this community enjoyable for everyone, please follow these guidelines:
+
+1. **Be respectful** - Treat everyone with respect. No harassment, hate speech, or toxic behavior.
+
+2. **No spam** - Avoid excessive messaging, emoji spam, or repetitive content.
+
+3. **Keep it SFW** - This is a safe-for-work server. No NSFW content.
+
+4. **Use appropriate channels** - Post content in the relevant channels.
+
+5. **No self-promotion** - Avoid unsolicited advertising or excessive self-promotion.
+
+6. **Follow Discord TOS** - All Discord Terms of Service apply here.
+
+7. **Listen to moderators** - Staff decisions are final. If you have concerns, DM them privately.
+
+Failure to follow these rules may result in warnings, timeouts, or bans depending on the severity.
+
+<script>
+// Discord Widget API integration
+const INVITE_CODE = 'gHG9WHyNvH';
+
+async function fetchDiscordData() {
+  try {
+    // Fetch invite data with counts
+    const response = await fetch(`https://discord.com/api/invites/${INVITE_CODE}?with_counts=true`);
+    if (response.ok) {
+      const data = await response.json();
+      
+      // Update stats
+      document.getElementById('online-count').textContent = `${data.approximate_presence_count || 0} Online`;
+      document.getElementById('member-count').textContent = `${data.approximate_member_count || 0} Members`;
+      
+      // Update invite link
+      if (data.guild) {
+        document.getElementById('guild-invite').href = `https://discord.com/invite/${INVITE_CODE}`;
+      }
+    }
+  } catch (e) {
+    // Silently fail - static values will remain
+    console.log('Could not fetch Discord data');
+  }
+}
+
+// Fetch on load
+document.addEventListener('DOMContentLoaded', fetchDiscordData);
+</script>

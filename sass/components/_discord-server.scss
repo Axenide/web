@@ -1,0 +1,244 @@
+@use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
+@use "../../themes/ametrine/sass/abstracts/mixins" as theme;
+
+// Discord Server Widget Styles (cloned from snugnook.org)
+
+#guild-widget {
+  --rotation: 5deg;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  z-index: 1;
+  transition: var(--transition-longer, 0.3s ease);
+  margin-inline: auto;
+  border-radius: calc(var(--rounded-corner, 12px) + 1rem);
+  padding: 1.5rem;
+  width: min(400px, 100%);
+  overflow: hidden;
+  text-align: left;
+  @include fancy-card;
+  
+  // Stabilization for hover effects
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  // 3D Tilt effect on hover
+  &:has(#hover-map .top-left:hover) {
+    transform: perspective(1000px) rotate3d(-1, 1, 0, var(--rotation));
+  }
+  &:has(#hover-map .top-middle:hover) {
+    transform: perspective(1000px) rotate3d(-1, 0, 0, var(--rotation));
+  }
+  &:has(#hover-map .top-right:hover) {
+    transform: perspective(1000px) rotate3d(-1, -1, 0, var(--rotation));
+  }
+  &:has(#hover-map .middle-left:hover) {
+    transform: perspective(1000px) rotate3d(0, 1, 0, var(--rotation));
+  }
+  &:has(#hover-map .middle-right:hover) {
+    transform: perspective(1000px) rotate3d(0, -1, 0, var(--rotation));
+  }
+  &:has(#hover-map .bottom-left:hover) {
+    transform: perspective(1000px) rotate3d(1, 1, 0, var(--rotation));
+  }
+  &:has(#hover-map .bottom-middle:hover) {
+    transform: perspective(1000px) rotate3d(1, 0, 0, var(--rotation));
+  }
+  &:has(#hover-map .bottom-right:hover) {
+    transform: perspective(1000px) rotate3d(1, -1, 0, var(--rotation));
+  }
+
+  .buttons {
+    margin-block-start: 1.5rem;
+    border-block-start: 1px solid var(--bg-muted-1, rgba(255, 255, 255, 0.1));
+    padding-block-start: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    a {
+      z-index: 10;
+      padding: 0.5rem 1rem;
+      border-radius: var(--rounded-corner, 8px);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: all 0.3s ease; // Smoother transition
+      background-color: var(--bg-muted-1, #333);
+      color: var(--fg-muted-1, #ccc);
+      box-shadow: var(--edge-highlight);
+      position: relative;
+
+      &:hover {
+        background-color: var(--bg-muted-2, #444);
+        transform: translateY(-1px);
+      }
+    }
+
+    .suggested {
+      margin-inline-start: auto;
+      // New colors: #DB4740 and #D10026
+      background: linear-gradient(135deg, #DB4740 0%, #D10026 100%);
+      color: white !important;
+      box-shadow: var(--edge-highlight), 0 0 15px rgba(219, 71, 64, 0.3);
+      border: none;
+      
+      // Fix for the "purple flicker": use a pseudo-element for hover background
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: #DB4740; // Hover solid color
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--edge-highlight), 0 0 20px rgba(209, 0, 38, 0.5);
+        
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+#guild-banner {
+  position: relative;
+  margin-inline: -1.5rem;
+  margin-block: -1.5rem 3rem;
+  border-radius: calc(var(--rounded-corner, 12px) + 1rem)
+    calc(var(--rounded-corner, 12px) + 1rem) 0 0;
+  background-color: var(--bg-color, #1a1a1a);
+  height: 8.5rem;
+
+  &::before,
+  &::after {
+    position: absolute;
+    clip-path: inset(0 0 0 0 round calc(var(--rounded-corner, 12px) + 1rem) calc(var(--rounded-corner, 12px) + 1rem) 0 0);
+    inset: 0;
+    border-radius: inherit;
+    content: "";
+  }
+
+  &::before {
+    z-index: 1;
+    filter: blur(2.5rem) saturate(180%);
+    background-image: var(--banner);
+    background-size: cover;
+    background-position: center;
+  }
+
+  &::after {
+    z-index: 2;
+    --glow: radial-gradient(100% 150% ellipse at 50% 125%, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.1) 75%, rgb(255 255 255 / 0.4));
+    background-image: var(--glow);
+  }
+}
+
+#guild-icon {
+  position: absolute;
+  z-index: 3;
+  margin: 0 !important;
+  inset-block-end: -2rem;
+  inset-inline-start: 1.5rem;
+  outline: 0.25rem solid var(--bg-color);
+  border-radius: var(--rounded-corner, 12px);
+  width: 4.5rem !important;
+  height: 4.5rem !important;
+  object-fit: cover;
+  box-shadow: var(--shadow-glass);
+}
+
+#guild-name {
+  color: var(--fg-color, #fff);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-block-start: 0.5rem;
+}
+
+#guild-stats {
+  display: flex;
+  gap: 1rem;
+  margin-block: 0.5rem;
+  color: var(--fg-muted-2, #888);
+  font-size: 0.875rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &::before {
+      content: "";
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+  }
+
+  #online-count::before {
+    background-color: var(--green-fg, #3ba55d);
+  }
+  #member-count::before {
+    background-color: var(--fg-muted-1, #666);
+  }
+}
+
+#guild-description {
+  margin-block: 1rem;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+#guild-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem 0;
+  padding-inline-start: 0;
+  list-style: none !important;
+
+  li {
+    border: 1px solid var(--bg-muted-1, rgba(255, 255, 255, 0.1));
+    border-radius: 9999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.875rem;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+}
+
+#hover-map {
+  display: grid;
+  position: absolute;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  z-index: 5;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: auto;
+  overflow: hidden;
+
+  > div {
+    z-index: 5;
+  }
+}
+
+.container-fill {
+  padding: 4rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
