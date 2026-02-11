@@ -1,0 +1,6 @@
+{%- if config.extra.copy_button -%}
+	<span id="copy-code-text" hidden>{{ macros_translate::translate(key="copy_code", default="Copy Code", language_strings=language_strings) }}</span>
+{%- endif -%}
+
+{# Theme toggle script #}
+<script src="/js/theme-toggle.js"></script>

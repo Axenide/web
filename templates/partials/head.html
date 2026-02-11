@@ -296,4 +296,17 @@
 			});
 		})();
 	</script>
+
+	<!-- Theme toggle inline script to prevent flash -->
+	<script>
+		(function() {
+			const STORAGE_KEY = 'theme-preference';
+			const THEME_AUTO = 'auto';
+			const saved = localStorage.getItem(STORAGE_KEY) || THEME_AUTO;
+			const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			const theme = saved === THEME_AUTO ? (systemDark ? 'dark' : 'light') : saved;
+			document.documentElement.setAttribute('data-theme', theme);
+			document.documentElement.style.colorScheme = theme;
+		})();
+	</script>
 </head>
