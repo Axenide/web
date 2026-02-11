@@ -405,6 +405,13 @@ html {
     opacity 0.3s ease,
     visibility 0s linear 0.3s;
 }
+
+/* Reduce scroll margin for headings to show less space above */
+section h2:target,
+section h3:target {
+  scroll-margin-block-start: 4vh !important;
+}
+
 .bounce-inner {
   animation: bounce-y 2s infinite;
   display: flex;
