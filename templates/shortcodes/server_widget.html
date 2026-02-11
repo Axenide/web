@@ -1,0 +1,103 @@
+{% import "macros/icon.html" as macros_icon %}
+{% set invite_code = "gHG9WHyNvH" %}
+{% set data = load_data(url="https://discord.com/api/invites/" ~ invite_code ~ "?with_counts=true", format="json") %}
+{% if lang == "es" %}
+	{% set desc = "Hecho para crear." %}
+{% else %}
+	{% set desc = "Built for creation." %}
+{% endif %}
+
+<article id="server-widget-home" class="fancy-list snug-nook server-widget-card" 
+         style="--accent-color: #DB4740; 
+                --bg-muted-1: rgba(219, 71, 64, 0.1); 
+                --bg-muted-2: rgba(219, 71, 64, 0.2); 
+                --orange-fg: #DB4740;
+                --orange-bg-1: rgba(219, 71, 64, 0.1);
+                --orange-bg-2: rgba(219, 71, 64, 0.2);">
+	<strong class="title">
+    <span id="home-guild-name">{{ data.guild.name }}</span>
+    <span class="widget-stats">
+      <i class="dot online"></i>
+      <span id="home-guild-stats">{{ data.approximate_presence_count }}/{{ data.approximate_member_count }}</span>
+    </span>
+  </strong>
+	<div class="discord-icon-container">
+		{{ macros_icon::icon(name="discord-logo") }}
+	</div>
+	<p>{{ desc }}</p>
+	<img
+    id="home-guild-icon"
+		src="https://cdn.discordapp.com/icons/{{ data.guild.id }}/{{ data.guild.icon }}.webp?size=128"
+		alt="Server icon."
+    class="server-icon-rotate"
+		{% if config.markdown.lazy_async_image %}
+			decoding="async" loading="lazy"
+		{% endif %}
+	/>
+	<a href="{{ get_url(path="/discord") }}"></a>
+</article>
+
+<style>
+.server-widget-card {
+  transition: transform var(--transition-bezier), background-color var(--transition) !important;
+  background-color: var(--bg-muted-1) !important;
+}
+.server-widget-card:hover {
+  transform: scale(1.02) !important;
+  background-color: var(--bg-muted-2) !important;
+}
+.server-widget-card:active {
+  transform: scale(0.98) !important;
+}
+.server-widget-card .title {
+  color: var(--accent-color) !important;
+}
+.server-widget-card .discord-icon-container .icon {
+  color: var(--accent-color) !important;
+}
+.widget-stats {
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: var(--fg-color) !important;
+  margin-inline-start: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  vertical-align: middle;
+}
+.widget-stats .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.widget-stats .dot.online {
+  background-color: var(--green-fg, #3ba55d);
+}
+.server-icon-rotate {
+  border-radius: var(--rounded-corner, 12px);
+  outline: 1px solid var(--bg-muted-2, rgba(255,255,255,0.1));
+  transform: rotate(10deg);
+  transition: transform 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+.server-widget-card:hover .server-icon-rotate {
+  transform: rotate(-350deg) scale(1.2) !important;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+	const INVITE_CODE = "{{ invite_code }}";
+	try {
+		const response = await fetch(`https://discord.com/api/invites/${INVITE_CODE}?with_counts=true`);
+		const data = await response.json();
+		if (data.guild) {
+			document.getElementById("home-guild-name").textContent = data.guild.name;
+			document.getElementById("home-guild-stats").textContent = `${data.approximate_presence_count}/${data.approximate_member_count}`;
+			if (data.guild.icon) {
+				document.getElementById("home-guild-icon").src = `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.webp?size=128`;
+			}
+		}
+	} catch (e) {}
+});
+</script>

@@ -262,15 +262,21 @@ Dónde y cuándo encontrarme en línea.
 <!-- Card Start -->
 <li>
 <article class="online fancy-list">
-<strong id="contacts" class="title">Contactos</strong>
+<strong id="contacts" class="title">Contacto</strong>
 
-Para mí son actualmente las <time id="clock">00:00</time> <small>(UTC-3)</small> y estoy <span id="online-indicator"><i class="icon"></i><span id="online-indicator-text">Desconectado</span></span>.
+Para mí son las <time id="clock">00:00</time> <small>(UTC-3)</small> y estoy <span id="online-indicator"><i class="icon"></i><span id="online-indicator-text">Desconectado</span></span>.
 
-¡No dudes en contactarme en cualquiera de estos!
+¡Siéntete libre de contactarme por cualquiera de estos medios!
 
 {{ online(type="contacts") }}
 
 </article>
+</li>
+<!-- Card End -->
+
+<!-- Card Start -->
+<li>
+{{ server_widget() }}
 </li>
 <!-- Card End -->
 </ul>

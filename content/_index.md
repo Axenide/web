@@ -273,6 +273,12 @@ Feel free to reach me out on any of these!
 </article>
 </li>
 <!-- Card End -->
+
+<!-- Card Start -->
+<li>
+{{ server_widget() }}
+</li>
+<!-- Card End -->
 </ul>
 </section>
 
