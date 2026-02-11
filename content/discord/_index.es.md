@@ -5,7 +5,7 @@ description = "Únete a nuestro servidor de Discord."
 no_header = true
 +++
 
-{{ discord_server(description="Un espacio acogedor para entusiastas de la tecnología, creadores y amigos para pasar el rato y compartir sus pasiones.") }}
+{{ discord_server(description="Hecho para crear.") }}
 
 <section class="snap-section content-wrapper">
 <div style="width: 100%;">
