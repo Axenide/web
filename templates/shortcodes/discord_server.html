@@ -10,12 +10,16 @@
   {% set def_join = "Unirse →" %}
   {% set def_online = "En línea" %}
   {% set def_members = "Miembros" %}
+  {% set def_about_id = "#sobre" %}
+  {% set def_rules_id = "#reglas" %}
 {% else %}
   {% set def_about = "About ↓" %}
   {% set def_rules = "Rules →" %}
   {% set def_join = "Join →" %}
   {% set def_online = "Online" %}
   {% set def_members = "Members" %}
+  {% set def_about_id = "#about" %}
+  {% set def_rules_id = "#rules" %}
 {% endif %}
 
 {% set label_about = about | default(value=def_about) %}
@@ -23,6 +27,11 @@
 {% set label_join = join | default(value=def_join) %}
 {% set label_online = online | default(value=def_online) %}
 {% set label_members = members | default(value=def_members) %}
+
+{# New parameters for link IDs #}
+{% set about_id = about_link | default(value=def_about_id) %}
+{% set rules_id = rules_link | default(value=def_rules_id) %}
+
 {% set server_desc = description | default(value="Cozy and welcoming space for cool people to hang out in.") %}
 
 <section class="snap-section hero-wrapper discord-hero-wrapper">
@@ -72,8 +81,8 @@
 				{% endif %}
 			</ul>
 			<div class="buttons start">
-				<a href="#about">{{ label_about }}</a>
-				<a href="#rules">{{ label_rules }}</a>
+				<a href="{{ about_id }}">{{ label_about }}</a>
+				<a href="{{ rules_id }}">{{ label_rules }}</a>
 				<a id="guild-invite" class="suggested" href="https://discord.com/invite/{{ invite_code }}">{{ label_join }}</a>
 			</div>
 			<div id="hover-map">

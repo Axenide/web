@@ -5,7 +5,7 @@ description = "Únete a nuestro servidor de Discord."
 no_header = true
 +++
 
-{{ discord_server(description="Hecho para crear.") }}
+{{ discord_server(description="Hecho para crear.", about_link="#sobre", rules_link="#reglas") }}
 
 <section class="snap-section content-wrapper">
 <div style="width: 100%;">
