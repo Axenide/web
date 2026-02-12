@@ -22,9 +22,8 @@ This is a space where like-minded people gather to discuss technology, share cre
 - Occasional events and activities
 - A chill atmosphere where everyone is welcome
 
-<blockquote class="markdown-alert-note">
-This server is meant to be a cozy and welcoming place. Please be respectful to all members.
-</blockquote>
+> [!NOTE]
+> This server is meant to be a cozy and welcoming place. Please be respectful to all members.
 
 ## Rules
 
@@ -45,6 +44,9 @@ To keep this community enjoyable for everyone, please follow these guidelines:
 7. **Listen to moderators** - Staff decisions are final. If you have concerns, DM them privately.
 
 Failure to follow these rules may result in warnings, timeouts, or bans depending on the severity.
+
+> [!IMPORTANT]
+> In case someone is breaking the rules, please report it using the `/report` command from YAGPDB.
 
 </div>
 </section>

@@ -22,9 +22,8 @@ Este es un espacio donde personas con intereses similares se reúnen para discut
 - Eventos y actividades ocasionales
 - Una atmósfera relajada donde todos son bienvenidos
 
-<blockquote class="markdown-alert-note">
-Este servidor está pensado para ser un lugar acogedor y amigable. Por favor, sé respetuoso con todos los miembros.
-</blockquote>
+> [!NOTE]
+> Este servidor está pensado para ser un lugar acogedor y amigable. Por favor, sé respetuoso con todos los miembros.
 
 ## Reglas
 
@@ -45,6 +44,9 @@ Para mantener esta comunidad agradable para todos, por favor sigue estas pautas:
 7. **Escucha a los moderadores** - Las decisiones del staff son finales. Si tienes inquietudes, mándales un DM privado.
 
 El incumplimiento de estas reglas puede resultar en advertencias, timeouts o baneos dependiendo de la gravedad.
+
+> [!IMPORTANT]
+> En caso de que alguien esté rompiendo las reglas, por favor repórtalo usando el comando `/report` de YAGPDB.
 
 </div>
 </section>
