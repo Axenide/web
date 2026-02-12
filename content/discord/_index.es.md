@@ -1,5 +1,5 @@
 +++
-title = "Servidor de Discord"
+title = "AxLab"
 description = "Únete a nuestro servidor de Discord."
 [extra]
 no_header = true

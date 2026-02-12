@@ -4,8 +4,12 @@
 
 {% if lang == "es" %}
 	{% set desc = "Hecho para crear." %}
+  {% set label_online = "En línea" %}
+  {% set label_members = "Miembros" %}
 {% else %}
 	{% set desc = "Built for creation." %}
+  {% set label_online = "Online" %}
+  {% set label_members = "Members" %}
 {% endif %}
 
 <article id="server-widget-home" class="fancy-list snug-nook server-widget-card" 
@@ -118,7 +122,8 @@
   border-radius: var(--rounded-corner, 12px);
   outline: 1px solid var(--bg-muted-2, rgba(255,255,255,0.1));
   transform: rotate(10deg);
-  transition: transform 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  /* Snappier transition with slightly reduced overshoot and faster timing */
+  transition: transform 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.15) !important;
 }
 
 .server-widget-card:hover .server-icon-rotate {
