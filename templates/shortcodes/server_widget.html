@@ -1,6 +1,7 @@
 {% import "macros/icon.html" as macros_icon %}
 {% set invite_code = "gHG9WHyNvH" %}
 {% set data = load_data(url="https://discord.com/api/invites/" ~ invite_code ~ "?with_counts=true", format="json") %}
+
 {% if lang == "es" %}
 	{% set desc = "Hecho para crear." %}
 {% else %}
@@ -14,11 +15,18 @@
                 --orange-fg: #DB4740;
                 --orange-bg-1: rgba(219, 71, 64, 0.1);
                 --orange-bg-2: rgba(219, 71, 64, 0.2);">
-	<strong class="title">
+	<strong class="title home-widget-header">
     <span id="home-guild-name">{{ data.guild.name }}</span>
-    <span class="widget-stats">
-      <i class="dot online"></i>
-      <span id="home-guild-stats">{{ data.approximate_presence_count }}/{{ data.approximate_member_count }}</span>
+    <span id="home-guild-stats-container" class="widget-stats-block">
+      <span class="stat-item">
+        <i class="dot online"></i>
+        <span id="home-online-count">{{ data.approximate_presence_count }}</span>
+      </span>
+      <span class="stat-divider">/</span>
+      <span class="stat-item">
+        <i class="dot members"></i>
+        <span id="home-member-count">{{ data.approximate_member_count }}</span>
+      </span>
     </span>
   </strong>
 	<div class="discord-icon-container">
@@ -41,6 +49,8 @@
 .server-widget-card {
   transition: transform var(--transition-bezier), background-color var(--transition) !important;
   background-color: var(--bg-muted-1) !important;
+  display: flex;
+  flex-direction: column;
 }
 .server-widget-card:hover {
   transform: scale(1.02) !important;
@@ -49,37 +59,68 @@
 .server-widget-card:active {
   transform: scale(0.98) !important;
 }
+
+.home-widget-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 0.5rem !important;
+}
+
 .server-widget-card .title {
   color: var(--accent-color) !important;
 }
+
+.widget-stats-block {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  margin: 0 !important;
+  color: var(--fg-muted-2) !important;
+  font-size: var(--font-size-small, 0.875rem) !important;
+  font-weight: normal !important;
+}
+
+.stat-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  white-space: nowrap !important;
+}
+
+.stat-divider {
+  opacity: 0.5;
+  margin: 0 0.1rem;
+}
+
+.stat-item .dot {
+  display: inline-block !important;
+  width: 0.625rem !important;
+  height: 0.625rem !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.stat-item .dot.online {
+  background-color: var(--green-fg, #3ba55d) !important;
+}
+
+.stat-item .dot.members {
+  background-color: var(--fg-muted-1, #666) !important;
+}
+
 .server-widget-card .discord-icon-container .icon {
   color: var(--accent-color) !important;
 }
-.widget-stats {
-  font-size: 0.875rem;
-  font-weight: normal;
-  color: var(--fg-color) !important;
-  margin-inline-start: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  vertical-align: middle;
-}
-.widget-stats .dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.widget-stats .dot.online {
-  background-color: var(--green-fg, #3ba55d);
-}
+
 .server-icon-rotate {
   border-radius: var(--rounded-corner, 12px);
   outline: 1px solid var(--bg-muted-2, rgba(255,255,255,0.1));
   transform: rotate(10deg);
   transition: transform 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
+
 .server-widget-card:hover .server-icon-rotate {
   transform: rotate(-350deg) scale(1.2) !important;
 }
@@ -93,7 +134,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		const data = await response.json();
 		if (data.guild) {
 			document.getElementById("home-guild-name").textContent = data.guild.name;
-			document.getElementById("home-guild-stats").textContent = `${data.approximate_presence_count}/${data.approximate_member_count}`;
+			document.getElementById("home-online-count").textContent = data.approximate_presence_count;
+			document.getElementById("home-member-count").textContent = data.approximate_member_count;
 			if (data.guild.icon) {
 				document.getElementById("home-guild-icon").src = `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.webp?size=128`;
 			}
