@@ -65,6 +65,8 @@ curl -L get.axeni.de/ambxst | sh
 ```
 {% end %}
 
+Esto instalará Ambxst y sus dependencias. Tendrás disponible el comando `ambxst` en tu terminal para iniciar la shell. Si te gusta, puedes agregarlo a tu configuración de Hyprland como `exec-once = ambxst` para que se inicie automáticamente al iniciar sesión.
+
 Ambxst actualmente es compatible con **Arch**, **Fedora** y **NixOS**. Esto incluye tanto las distribuciones base como las derivadas.
 
 > [!IMPORTANT]
