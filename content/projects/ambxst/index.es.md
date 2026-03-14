@@ -2,7 +2,7 @@
 title = "Ambxst"
 date = 2025-12-31
 weight = 1
-description = "Una shell ***Ax**tremadamente* personalizable."
+description = "Una shell Axtremadamente personalizable."
 path = "/es/ambxst"
 
 [taxonomies]
