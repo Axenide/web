@@ -33,6 +33,7 @@ discord_user_id = "294856304969908224"
 styles = ["custom.css"]
 accent_color = "hsl(10, 25%, 65%)"
 date_format = "%d %b %Y"
+source_url = "https://github.com/Axenide/web"
 audio_button = true
 
 [extra.meta]

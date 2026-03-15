@@ -91,7 +91,7 @@ async function upload() {
 
 	// CHANGE THESE TO YOUR REPO
 	const owner = "Axenide";
-	const repo = "axenide.github.io";
+	const repo = "web";
 
 	const now = new Date();
 	const date = now.toISOString().slice(0, 19) + "Z";
