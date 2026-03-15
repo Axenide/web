@@ -284,4 +284,26 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (nanologEnabled === "true") {
 		nanologButton.removeAttribute("hidden");
 	}
+
+	const editLinks = document.querySelectorAll(".nanolog-edit-link");
+	let editClickCount = 0;
+	const editEnabled = localStorage.getItem("nanologEditEnabled");
+
+	const nanologListItems = document.querySelectorAll("#nanolog-list > li");
+	nanologListItems.forEach((li) => {
+		li.style.cursor = "pointer";
+		li.addEventListener("click", function () {
+			editClickCount++;
+
+			if (editEnabled != "true" && editClickCount === 10) {
+				console.log("Nanolog edit links revealed");
+				localStorage.setItem("nanologEditEnabled", true);
+				editLinks.forEach((link) => link.removeAttribute("hidden"));
+			}
+		});
+	});
+
+	if (editEnabled === "true") {
+		editLinks.forEach((link) => link.removeAttribute("hidden"));
+	}
 });

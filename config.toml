@@ -31,7 +31,7 @@ theme = "github-dark"
 [extra]
 discord_user_id = "294856304969908224"
 styles = ["custom.css"]
-accent_color = "hsl(10, 25%, 65%)"
+accent_color = "hsl(0, 0%, 50%)"
 date_format = "%d %b %Y"
 date_format_long = "%B %d, %Y, %R (%Z)"
 timezone = "UTC"

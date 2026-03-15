@@ -38,7 +38,7 @@
 			</a>
 			<div>
 				{% if config.extra.source_url %}
-					<a href="{{ config.extra.source_url }}/edit/main/content/{{ page.relative_path }}" target="_blank">{% if lang == 'es' %}Editar Post{% else %}Edit Post{% endif %}</a>
+					<a class="nanolog-edit-link" href="{{ config.extra.source_url }}/edit/main/content/{{ page.relative_path }}" target="_blank" hidden>{% if lang == 'es' %}Editar Post{% else %}Edit Post{% endif %}</a>
 				{%- endif -%}
 				{{ page.content | safe }}
 			</div>
