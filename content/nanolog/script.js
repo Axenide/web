@@ -96,54 +96,58 @@ async function upload() {
 	const now = new Date();
 	const date = now.toISOString().slice(0, 19) + "Z";
 
-	const filename = `${date}.md`;
-	const path = `content/nanolog/${filename}`;
-
 	const markdown = `+++\n+++\n\n${content}\n`;
-
 	const message = `Nanolog: ${date}`;
 
 	setLoadingState(true);
 
 	try {
-		const response = await fetch(
-			`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
-			{
-				method: "PUT",
-				headers: {
-					Accept: "application/vnd.github+json",
-					Authorization: `Bearer ${token}`,
-					"X-GitHub-Api-Version": "2022-11-28",
+		const uploadFile = async (path, content) => {
+			const res = await fetch(
+				`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
+				{
+					method: "PUT",
+					headers: {
+						Accept: "application/vnd.github+json",
+						Authorization: `Bearer ${token}`,
+						"X-GitHub-Api-Version": "2022-11-28",
+					},
+					body: JSON.stringify({
+						message: message,
+						content: btoa(unescape(encodeURIComponent(content))),
+					}),
 				},
-				body: JSON.stringify({
-					message: message,
-					content: btoa(unescape(encodeURIComponent(markdown))),
-				}),
-			},
-		);
+			);
+			return res.json();
+		};
 
-		const result = await response.json();
+		const [enResult, esResult] = await Promise.all([
+			uploadFile(`content/nanolog/${date}.md`, markdown),
+			uploadFile(`content/nanolog/${date}.es.md`, markdown),
+		]);
 
-		if (response.ok) {
+		if (enResult.content || esResult.content) {
 			showAlert("Post published successfully!", "success");
-			console.log("Published:", result);
+			console.log("EN:", enResult, "ES:", esResult);
 			document.getElementById("post-content").value = "";
 			document.getElementById("nanolog-modal").classList.remove("active");
 		} else {
 			let errorMessage = "Failed to publish post.";
-
-			if (response.status === 401) {
-				errorMessage = "Invalid or expired GitHub token. Please check your token.";
-			} else if (response.status === 403) {
-				errorMessage = "Access denied. Check your token permissions.";
-			} else if (response.status === 404) {
-				errorMessage = "Repository not found. Check repository name and permissions.";
-			} else if (result.message) {
-				errorMessage = result.message;
+			const errorResult = enResult.message ? enResult : (esResult.message ? esResult : null);
+			if (errorResult) {
+				if (errorResult.message.includes("Invalid") || errorResult.message.includes("expired")) {
+					errorMessage = "Invalid or expired GitHub token. Please check your token.";
+				} else if (errorResult.message.includes("Forbidden") || errorResult.message.includes("403")) {
+					errorMessage = "Access denied. Check your token permissions.";
+				} else if (errorResult.message.includes("Not Found") || errorResult.message.includes("404")) {
+					errorMessage = "Repository not found. Check repository name and permissions.";
+				} else {
+					errorMessage = errorResult.message;
+				}
 			}
 
 			showAlert(`Error: ${errorMessage}`, "error");
-			console.error("GitHub API Error:", result);
+			console.error("GitHub API Error:", enResult, esResult);
 		}
 	} catch (error) {
 		showAlert(`Network error: ${error.message}`, "error");
