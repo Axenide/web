@@ -1,7 +1,7 @@
 @use "../../themes/ametrine/sass/abstracts/variables" as *;
 
 :root {
-	@include colors-accent("light");
+	@include variables-accent("light");
 	@include variables("light");
 	font-size: 16px;
 	--border-width: 0.5mm;

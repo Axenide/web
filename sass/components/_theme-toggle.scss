@@ -4,14 +4,14 @@
 // Manual light theme override
 html[data-theme="light"] {
   @include variables(("light", "accent"));
-  @include colors-accent("light");
+  @include variables-accent("light");
   color-scheme: light;
 }
 
 // Manual dark theme override
 html[data-theme="dark"] {
   @include variables(("dark", "accent"));
-  @include colors-accent("dark");
+  @include variables-accent("dark");
   color-scheme: dark;
 }
 
