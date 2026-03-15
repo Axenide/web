@@ -59,11 +59,13 @@ Una shell ***Ax**tremadamente* personalizable.
 
 ## Instalación
 
-{% crt() %}
+<div style="width:50%; margin:0 auto; text-align:center; scale: 1.25; margin-bottom: 2rem; margin-top: 2rem;">
+
 ```bash
 curl -L get.axeni.de/ambxst | sh
 ```
-{% end %}
+
+</div>
 
 Esto instalará Ambxst y sus dependencias. Tendrás disponible el comando `ambxst` en tu terminal para iniciar la shell. Si te gusta, puedes agregarlo a tu configuración de Hyprland como `exec-once = ambxst` para que se inicie automáticamente al iniciar sesión.
 

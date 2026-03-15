@@ -59,11 +59,13 @@ links = [
 
 ## Installation
 
-{% crt() %}
+<div style="width:50%; margin:0 auto; text-align:center; scale: 1.25; margin-bottom: 2rem; margin-top: 2rem;">
+
 ```bash
 curl -L get.axeni.de/ambxst | sh
 ```
-{% end %}
+
+</div>
 
 This will install Ambxst and its dependencies. You will have the `ambxst` command available in your terminal, which you can use to start the shell. If you like it, you can add it to your Hyprland config as `exec-once = ambxst` to start it automatically on login.
 
