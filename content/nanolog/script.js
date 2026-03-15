@@ -121,14 +121,17 @@ async function upload() {
 			return res.json();
 		};
 
-		const [enResult, esResult] = await Promise.all([
-			uploadFile(`content/nanolog/${date}.md`, markdown),
-			uploadFile(`content/nanolog/${date}.es.md`, markdown),
-		]);
+		console.log("Uploading EN...");
+		const enResult = await uploadFile(`content/nanolog/${date}.md`, markdown);
+		console.log("EN result:", enResult);
+
+		console.log("Uploading ES...");
+		const esResult = await uploadFile(`content/nanolog/${date}.es.md`, markdown);
+		console.log("ES result:", esResult);
 
 		if (enResult.content || esResult.content) {
 			showAlert("Post published successfully!", "success");
-			console.log("EN:", enResult, "ES:", esResult);
+			console.log("Both uploaded:", enResult, esResult);
 			document.getElementById("post-content").value = "";
 			document.getElementById("nanolog-modal").classList.remove("active");
 		} else {
