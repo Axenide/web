@@ -43,6 +43,7 @@ icon = "images/avatar.jpg"
 links = [
 	{ name = "Personal", category = [
     { url = "@/blog/_index.md", name = "Blog", icon = "newspaper-clipping" },
+    { url = "@/nanolog/_index.md", name = "Nanolog", icon = "chat-centered-text" },
     { url = "@/projects/_index.md", name = "Projects", icon = "cube" },
 	] },
 ]
@@ -51,6 +52,7 @@ links = [
 links = [
 	{ name = "Personal", category = [
     { url = "@/blog/_index.md", name = "Blog", icon = "newspaper-clipping" },
+    { url = "@/nanolog/_index.md", name = "Nanolog", icon = "chat-centered-text" },
     { url = "@/projects/_index.md", name = "Proyectos", icon = "cube" },
 	] },
 ]

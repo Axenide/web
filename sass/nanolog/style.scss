@@ -22,14 +22,10 @@ h1 {
 	width: min(calc(var(--content-width) / 1.5), 100%);
 	list-style: none;
 
-	li {
+	& > li {
 		position: relative;
 		margin-block: 0;
 		padding-inline-start: 1rem;
-
-		&:last-child {
-			margin-block-end: 0;
-		}
 
 		&::before {
 			display: block;
@@ -44,24 +40,13 @@ h1 {
 			content: "";
 		}
 
-		& > div:nth-of-type(1) {
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
+		& > a {
+			display: block;
 			margin-block-end: 1rem;
 			line-height: 1;
-
-			strong {
-				display: block;
-				color: var(--accent-color);
-			}
-
-			small {
-				text-align: end;
-			}
 		}
 
-		& > div:nth-of-type(2) {
+		& > div {
 			box-shadow: var(--edge-highlight), var(--shadow);
 			border-radius: var(--rounded-corner);
 			border-start-end-radius: 2rem;
@@ -70,7 +55,8 @@ h1 {
 
 			& > a {
 				float: inline-end;
-				transition: all var(--transition),
+				transition:
+					all var(--transition),
 					transform var(--transition-bezier);
 				margin-inline-start: 1rem;
 				box-shadow: var(--edge-highlight);
@@ -105,7 +91,9 @@ h1 {
 	position: fixed;
 	appearance: none;
 	backdrop-filter: var(--blur);
-	transition: all var(--transition), transform var(--transition-bezier);
+	transition:
+		all var(--transition),
+		transform var(--transition-bezier);
 	cursor: pointer;
 	inset-block-end: 1rem;
 	inset-inline-end: 1rem;
@@ -167,25 +155,40 @@ h1 {
 	&-content {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
 		transform: var(--hover);
-		border-radius: 1.25rem 1.25rem 1.75rem 1.75rem;
+		border-radius: 1.25rem 1.25rem calc(var(--rounded-corner) + 0.5rem)
+			calc(var(--rounded-corner) + 0.5rem);
 		padding: 0.5rem;
 		-webkit-backdrop-filter: var(--blur);
 		backdrop-filter: var(--blur);
-		transition: all var(--transition),
+		transition:
+			all var(--transition),
 			transform var(--transition-bezier-longer);
 		box-shadow: var(--edge-highlight), var(--shadow-glass);
 		background-color: var(--glass-bg-1);
 		width: calc(100% - 2rem);
 		max-width: calc(var(--content-width) / 1.5);
 
+		.overshoot {
+			display: flex;
+			margin: -0.5rem;
+			border-radius: inherit;
+			border-end-start-radius: 0;
+			border-end-end-radius: 0;
+		}
+
+		.buttons {
+			align-items: center;
+			margin-block-start: 0.5rem;
+			border-block-start: rpx(1) solid var(--bg-muted-2);
+			padding-block-start: 0.5rem;
+		}
+
 		input,
 		textarea {
 			box-shadow: none;
 			border-radius: 0;
 			background-color: transparent;
-			padding: 0;
 			width: 100%;
 
 			&:focus-visible {
@@ -193,83 +196,49 @@ h1 {
 				outline: none;
 			}
 		}
-
-		#compose-container {
-			display: flex;
-			flex-direction: column;
-			box-shadow: var(--edge-highlight);
-			border-radius: var(--rounded-corner) var(--rounded-corner) 1.25rem
-				1.25rem;
-			background: var(--bg-muted-1);
-			padding: 0.5rem 0.75rem;
-
-			.overshoot {
-				display: flex;
-				margin-block: -1rem;
-
-				#post-content {
-					padding-block: 1rem;
-				}
-			}
-
-			.buttons {
-				align-items: center;
-				margin-inline-end: -0.25rem;
-				margin-block-start: 1rem;
-				border-block-start: rpx(1) solid var(--bg-muted-2);
-				padding-block-start: 0.5rem;
-			}
-		}
-
-		#post-title {
-			margin-block-end: 1rem;
-			border-block-end: rpx(1) solid var(--bg-muted-2);
-			padding-block-end: 0.5rem;
-		}
-
-		#post-content {
-			height: 8rem;
-			resize: none;
-		}
-
-		#char-count {
-			transition: var(--transition);
-			margin-inline-end: 0.5rem;
-			color: var(--fg-muted-2);
-			font-size: var(--font-size-small);
-			font-variant-numeric: tabular-nums;
-
-			&.half {
-				color: var(--yellow-fg);
-			}
-
-			&.max {
-				color: var(--red-fg);
-			}
-		}
-
-		#auth-container {
-			display: flex;
-			flex: 1;
-			box-shadow: var(--edge-highlight);
-			border-radius: var(--rounded-corner);
-			background-color: var(--bg-muted-1);
-			padding-inline-start: 0.75rem;
-		}
-
-		#github-token {
-			box-shadow: none;
-			border-radius: 0;
-			background-color: transparent;
-			padding: 0;
-		}
-
-		#show-token-btn {
-			margin: 0.25rem;
-			border-radius: var(--rounded-corner-small);
-			padding: 0.375rem;
-			font-size: 1.25rem;
-			line-height: 0;
-		}
 	}
+}
+
+#post-content {
+	border-radius: inherit;
+	padding: 1rem;
+	height: 8rem;
+	resize: none;
+}
+
+#char-count {
+	transition: var(--transition);
+	margin-inline: 0.5rem;
+	color: var(--fg-muted-2);
+	font-size: var(--font-size-small);
+	font-variant-numeric: tabular-nums;
+
+	&.half {
+		color: var(--yellow-fg);
+	}
+
+	&.max {
+		color: var(--red-fg);
+	}
+}
+
+#auth-container {
+	display: flex;
+	flex: 1;
+	box-shadow: var(--edge-highlight);
+	border-radius: var(--rounded-corner);
+	background-color: var(--bg-muted-1);
+	padding-inline-start: 0.75rem;
+}
+
+#github-token {
+	padding: 0;
+}
+
+#show-token-btn {
+	margin: 0.25rem;
+	border-radius: var(--rounded-corner-small);
+	padding: 0.375rem;
+	font-size: 1.25rem;
+	line-height: 0;
 }
