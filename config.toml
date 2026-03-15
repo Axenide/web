@@ -6,7 +6,7 @@ compile_sass = true
 build_search_index = true
 default_language = "en"
 feed_filenames = ["atom.xml", "rss.xml"]
-generate_feeds = true
+
 
 taxonomies = [
     {name = "categories", feed = true},
@@ -16,7 +16,7 @@ taxonomies = [
 [languages.es]
 title = "Axenide"
 description = "Hago cosas."
-generate_feeds = true
+
 taxonomies = [
     {name = "categories", feed = true},
     {name = "tags", feed = true},
