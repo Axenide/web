@@ -7,15 +7,19 @@ build_search_index = true
 default_language = "en"
 feed_filenames = ["atom.xml", "rss.xml"]
 
-
 taxonomies = [
     {name = "categories", feed = true},
     {name = "tags", feed = true},
 ]
 
+[search]
+index_format = "elasticlunr_javascript"
+
 [languages.es]
 title = "Axenide"
 description = "Hago cosas."
+build_search_index = true
+feed_filenames = ["atom.xml", "rss.xml"]
 
 taxonomies = [
     {name = "categories", feed = true},
