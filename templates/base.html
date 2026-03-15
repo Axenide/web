@@ -42,6 +42,19 @@ This variable will hold all the text strings for the language #}
 	{%- set blurnail = resize_image(path=section.colocated_path ~ banner, width=4, height=2, op="fill", format="webp") -%}
 {%- endif -%}
 
+{# Check banner_shadow setting - default to true if not specified #}
+{%- set banner_shadow = true -%}
+{%- if page.extra.banner_shadow is defined and page.extra.banner_shadow == false -%}
+	{%- set banner_shadow = false -%}
+{%- elif section.extra.banner_shadow is defined and section.extra.banner_shadow == false -%}
+	{%- set banner_shadow = false -%}
+{%- elif page.extra.banner_shadow is defined -%}
+	{%- set banner_shadow = page.extra.banner_shadow -%}
+{%- elif section.extra.banner_shadow is defined -%}
+	{%- set banner_shadow = section.extra.banner_shadow -%}
+{%- elif config.extra.banner_shadow is defined -%}
+	{%- set banner_shadow = config.extra.banner_shadow -%}
+{%- endif -%}
 {%- set hide_banner = page.extra.hide_banner | default(value=false) or section.extra.hide_banner | default(value=false) -%}
 
 <body
@@ -75,7 +88,7 @@ This variable will hold all the text strings for the language #}
 	{% include "partials/sidebar.html" %}
 	{% block body_before %}{% endblock body_before %}
 	{%- if banner and not hide_banner -%}
-		<div id="banner">
+		<div id="banner"{% if banner_shadow %} class="has-shadow"{% endif %}>
 			<div>
 				<style>
 					:root {

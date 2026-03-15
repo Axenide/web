@@ -660,3 +660,33 @@ section h3:target {
     }
   }
 }
+
+/* Banner Overrides - Remove glow, add full border-radius and shadow support */
+#banner {
+  /* Remove blur effect from the background image */
+  img:nth-of-type(1) {
+    filter: none;
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Remove blur animation from the main image */
+  img:nth-of-type(2) {
+    filter: none;
+    animation: none;
+    border-radius: var(--rounded-corner) !important;
+  }
+
+  /* Apply shadow when banner_shadow is enabled (default) */
+  &.has-shadow img:nth-of-type(2) {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+
+  /* Adjust + main-content spacing to not have rounded-corner on h1 */
+  & + #main-content {
+    article > h1:first-of-type,
+    h1:first-of-type {
+      border-radius: var(--rounded-corner);
+    }
+  }
+}
