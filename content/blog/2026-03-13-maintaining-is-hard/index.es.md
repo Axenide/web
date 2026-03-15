@@ -6,7 +6,8 @@ date = 2026-03-13
 tags = ["general", "rant"]
 
 [extra]
-banner = "cortisol.png"
+banner = "cortisol.jpg"
+accent_color = "hsl(0.0, 0%, 50%)"
 +++
 
 Y no es solo el código. Tampoco es solo la documentación (que, siendo honestos, en mis proyectos suele existir en un plano espiritual superior. Perdón por eso {{ dmoji(name="xdd") }}). También está todo lo demás: gestionar una comunidad, responder preguntas, ayudar a la gente que decidió usar tu proyecto… o incluso contribuir a él.

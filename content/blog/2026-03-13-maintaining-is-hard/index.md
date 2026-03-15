@@ -6,7 +6,8 @@ date = 2026-03-13
 tags = ["general", "rant"]
 
 [extra]
-banner = "cortisol.png"
+banner = "cortisol.jpg"
+accent_color = "hsl(0.0, 0%, 50%)"
 +++
 
 And it’s not just the code. It’s not just the documentation either (which, if I’m being honest, in my projects usually exists on some higher spiritual plane. Sorry about that {{ dmoji(name="xdd") }}). There’s also everything else: managing a community, answering questions, helping people who decided to use your project… or even contribute to it.
