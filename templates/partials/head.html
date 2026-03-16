@@ -167,12 +167,7 @@
 		{%- endfor %}
 	{%- endif %}
 
-	{%- set geist_version = "1.5.1" -%}
-	{%- set geist_version_string = "?v=" ~ geist_version -%}
-	<link rel="preload" href="{{ get_url(path='fonts/geist.woff2') ~ geist_version_string }}" as="font" type="font/woff2" crossorigin />
-	<link rel="preload" href="{{ get_url(path='fonts/geist-italic.woff2') ~ geist_version_string }}" as="font" type="font/woff2" crossorigin />
-	<link rel="preload" href="{{ get_url(path='fonts/geist-mono.woff2') ~ geist_version_string }}" as="font" type="font/woff2" crossorigin />
-	<link rel="preload" href="{{ get_url(path='fonts/geist-mono-italic.woff2') ~ geist_version_string }}" as="font" type="font/woff2" crossorigin />
+
 
 	{%- set styles = ["style.css"] %}
 
@@ -214,12 +209,16 @@
 	{%- set scripts = ["closable.js", "deanchor.js", "marquee.js"] %}
 
 	{%- if config.build_search_index %}
+		{%- set search_scripts = ["elasticlunr.min.js"] %}
 		{%- if config.search.index_format and config.search.index_format == "elasticlunr_javascript" %}
 			{%- set search_index = "search_index." ~ lang ~ ".js" %}
-			{%- set scripts = scripts | concat(with=[search_index, "elasticlunr.min.js", "search.js"]) %}
-		{%- else %}
-			{%- set scripts = scripts | concat(with=["elasticlunr.min.js", "search.js"]) %}
+			{%- set search_scripts = [search_index] | concat(with=search_scripts) %}
 		{%- endif %}
+		{%- if lang != "en" %}
+			{%- set search_scripts = search_scripts | concat(with=["js/elasticlunr.adapter.js", "js/lunr.stemmer.support.js", "js/lunr." ~ lang ~ ".js"]) %}
+		{%- endif %}
+		{%- set search_scripts = search_scripts | concat(with=["search.js"]) %}
+		{%- set scripts = scripts | concat(with=search_scripts) %}
 	{%- endif %}
 
 	{%- if page.extra.copy_button
