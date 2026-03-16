@@ -3,6 +3,7 @@ title = "Ambxst Changelog"
 description = "Últimas actualizaciones, arreglos y mejoras."
 template = "changelog.html"
 sort_by = "date"
+generate_feeds = true
 insert_anchor_links = "right"
 render = true
 transparent = true
