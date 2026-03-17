@@ -268,26 +268,26 @@ nanologModalContent.addEventListener("click", function (e) {
 });
 
 let nanologClickCount = 0;
-const nanologEnabled = localStorage.getItem("nanologEnabled");
+let nanologEnabled = false;
 
 document.getElementById("nanolog").addEventListener("click", function () {
 	nanologClickCount++;
 
-	if (nanologEnabled != "true" && nanologClickCount === 10) {
+	if (!nanologEnabled && nanologClickCount === 10) {
 		console.log("Nanolog new post button revealed");
-		localStorage.setItem("nanologEnabled", true);
+		nanologEnabled = true;
 		nanologButton.removeAttribute("hidden");
 	}
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-	if (nanologEnabled === "true") {
+	if (nanologEnabled) {
 		nanologButton.removeAttribute("hidden");
 	}
 
 	const editLinks = document.querySelectorAll(".nanolog-edit-link");
 	let editClickCount = 0;
-	const editEnabled = localStorage.getItem("nanologEditEnabled");
+	let editEnabled = false;
 
 	const nanologListItems = document.querySelectorAll("#nanolog-list > li");
 	nanologListItems.forEach((li) => {
@@ -295,15 +295,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		li.addEventListener("click", function () {
 			editClickCount++;
 
-			if (editEnabled != "true" && editClickCount === 10) {
+			if (!editEnabled && editClickCount === 10) {
 				console.log("Nanolog edit links revealed");
-				localStorage.setItem("nanologEditEnabled", true);
+				editEnabled = true;
 				editLinks.forEach((link) => link.removeAttribute("hidden"));
 			}
 		});
 	});
 
-	if (editEnabled === "true") {
+	if (editEnabled) {
 		editLinks.forEach((link) => link.removeAttribute("hidden"));
 	}
 });
