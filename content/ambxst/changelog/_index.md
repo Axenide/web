@@ -4,7 +4,7 @@ description = "Latest updates, fixes and improvements."
 template = "changelog.html"
 sort_by = "date"
 generate_feeds = true
-insert_anchor_links = "right"
+insert_anchor_links = "none"
 render = true
 transparent = true
 [extra]
