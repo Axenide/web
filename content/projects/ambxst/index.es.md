@@ -67,7 +67,25 @@ curl -L get.axeni.de/ambxst | sh
 
 </div>
 
-Esto instalará Ambxst y sus dependencias. Tendrás disponible el comando `ambxst` en tu terminal para iniciar la shell. Si te gusta, puedes agregarlo a tu configuración de Hyprland como `exec-once = ambxst` para que se inicie automáticamente al iniciar sesión.
+Esto instalará Ambxst y sus dependencias. Tendrás disponible el comando `ambxst` en tu terminal para iniciar la shell.
+
+### Hyprland (¡más compositores próximamente!)
+
+1. Ejecuta el comando de instalación anterior.
+
+2. Ejecuta `ambxst install hyprland` para agregar la configuración de Ambxst a Hyprland. Esto va a importar un archivo que aplica las configuraciones de Ambxst. Se verá así:
+
+```bash
+# Ambxst
+source = ~/.local/share/ambxst/hyprland.conf
+
+# OVERRIDES
+# Down here you can write or source anything that you want to override from Ambxst's settings.
+```
+
+Como se indicó, cualquier cosa que quieras sobreescribir de las configuraciones de Ambxst debe escribirse debajo de la sección "OVERRIDES".
+
+3. Inicia Ambxst ejecutando `ambxst` en tu terminal. Si quieres que siga funcionando sin la ventana de la terminal abierta, puedes usar `ambxst & disown`. Esto será necesario solo para tu primera prueba, ya que Ambxst iniciará automáticamente luego del paso 2.
 
 Ambxst actualmente es compatible con **Arch**, **Fedora** y **NixOS**. Esto incluye tanto las distribuciones base como las derivadas.
 
@@ -79,9 +97,7 @@ Ambxst actualmente es compatible con **Arch**, **Fedora** y **NixOS**. Esto incl
 
 ## ¿Cambiará esto mi configuración?
 
-Nope! Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
-
-Aplica sus propias configuraciones solo cuando se ejecuta, via IPC. Esto significa que puedes volver a tu configuración anterior simplemente cerrando Ambxst.
+Nope! Exceptuando la línea de configuración en tu `hyprland.conf`, Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
 
 ## Características
 - [x] Componentes personalizables
