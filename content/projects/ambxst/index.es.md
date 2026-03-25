@@ -139,6 +139,6 @@ Nope! Exceptuando la línea de configuración en tu `hyprland.conf`, Ambxst est�
 ## ¡Necesito ayuda!
 
 Si estás teniendo problemas o tienes preguntas:
-- Puedes preguntar lo que sea en [Discord](https://discord.com/invite/gHG9WHyNvH) o en las [discusiones de GitHub](https://github.com/Axenide/Ambxst/discussions).
+- Puedes preguntar lo que sea en [Discord](/discord) o en las [discusiones de GitHub](https://github.com/Axenide/Ambxst/discussions).
 - Puedes abrir un issue en el [repositorio de GitHub](https://github.com/Axenide/Ambxst/issues).
-- La configuración principal se encuentra en `~/.config/Ambxst/`.
+- La configuración principal se encuentra en `~/.config/ambxst/`.
