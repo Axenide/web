@@ -139,6 +139,6 @@ Nope! Besides the source line in your `hyprland.conf`, Ambxst is designed to be 
 ## I need help!
 
 If you are having trouble or have any questions:
-- You can ask anything on [Discord](https://discord.com/invite/gHG9WHyNvH) or in the [GitHub discussions](https://github.com/Axenide/Ambxst/discussions).
+- You can ask anything on [Discord](/discord) or in the [GitHub discussions](https://github.com/Axenide/Ambxst/discussions).
 - You can open an issue on the [GitHub repository](https://github.com/Axenide/Ambxst/issues).
-- The main configuration is located at `~/.config/Ambxst`.
+- The main configuration is located at `~/.config/ambxst`.
