@@ -7,3 +7,6 @@
 [submodule "static/piano"]
 	path = static/piano
 	url = https://github.com/Axenide/piano
+[submodule "themes/axetrine"]
+	path = themes/axetrine
+	url = https://codeberg.org/Axenide/Axetrine.git

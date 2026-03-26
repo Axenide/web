@@ -1,7 +1,7 @@
 base_url = "https://axeni.de"
 title = "Axenide"
 description = "I do things."
-theme = "ametrine"
+theme = "axetrine"
 compile_sass = true
 build_search_index = true
 default_language = "en"
