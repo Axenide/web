@@ -201,7 +201,7 @@ I honestly enjoy coding and problem-solving. It’s like a puzzle that I get to 
 
 **🔧 I like tinkering and building custom tools.**
 
-I’m obsessed with building my own tools and workflows. People say not to reinvent the wheel, but I think custom tools can unlock freedom and innovation. Just like every person is unique, the tools they use can be too. :D
+I’m obsessed with building my own tools and workflows. People say not to reinvent the wheel, but I believe that custom tools can unlock freedom and innovation. Just like every person is unique, the tools they use can be too. :D
 
 </article>
 

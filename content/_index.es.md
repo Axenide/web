@@ -201,7 +201,7 @@ Sinceramente disfruto programar y resolver problemas. Es como un rompecabezas qu
 
 **🔧 Me gusta experimentar y crear herramientas.**
 
-Me obsesiona con crear mis propias herramientas y flujos de trabajo. Dicen que no hay que reinventar la rueda, pero puede desbloquear libertad e innovación. Así como cada persona es única, sus herramientas también pueden serlo. :D
+Me obsesiono con crear mis propias herramientas y flujos de trabajo. Dicen que no hay que reinventar la rueda, pero creo que  crear tus propias herramientas puede desbloquear libertad e innovación. Así como cada persona es única, sus herramientas también pueden serlo. :D
 
 </article>
 
