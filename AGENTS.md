@@ -25,7 +25,7 @@ Personal website and blog built with **Zola** static site generator and **Axetri
 | Add blog post | `content/blog/` | Create folder with `index.md` |
 | Add project | `content/projects/` | Same pattern |
 | Add shortcode | `templates/shortcodes/` | Tera templates |
-| Custom styles | Override in theme | Don't modify submodule |
+| Custom styles | Override in Axetrine | Can modify submodule |
 | Config | `config.toml` | Zola settings |
 
 ## BUILD COMMANDS
