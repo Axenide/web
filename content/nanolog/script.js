@@ -1,31 +1,35 @@
 // Loosely based on https://stackoverflow.com/questions/76448215/programmatically-adding-a-file-in-a-github-repository-in-javascript-and-html/76472770#76472770
 
+// ── Persistence ──────────────────────────────────────────────
+
 document.getElementById("github-token").addEventListener("blur", saveToken);
+document.getElementById("gemini-key").addEventListener("blur", saveGeminiKey);
 
 function saveToken() {
-	const tokenInput = document.getElementById("github-token");
-	const token = tokenInput.value.trim();
-
+	const token = document.getElementById("github-token").value.trim();
 	if (!token) return;
-
 	localStorage.setItem("githubToken", token);
 }
+
+function saveGeminiKey() {
+	const key = document.getElementById("gemini-key").value.trim();
+	if (!key) return;
+	localStorage.setItem("geminiApiKey", key);
+}
+
+// ── Show/hide token ──────────────────────────────────────────
 
 const tokenInput = document.getElementById("github-token");
 const toggleBtn = document.getElementById("show-token-btn");
 
 toggleBtn.addEventListener("click", () => {
-	if (tokenInput.type === "password") {
-		tokenInput.type = "text";
-	} else {
-		tokenInput.type = "password";
-	}
+	tokenInput.type = tokenInput.type === "password" ? "text" : "password";
 });
 
+// ── Helpers ──────────────────────────────────────────────────
+
 function slugify(text) {
-	if (!text || typeof text !== "string") {
-		return "";
-	}
+	if (!text || typeof text !== "string") return "";
 
 	return text
 		.trim()
@@ -46,19 +50,18 @@ function showAlert(message, type = "info") {
 		info: "ℹ",
 	};
 
-	const prefix = alertTypes[type] || alertTypes.info;
-	alert(`${prefix} ${message}`);
+	alert(`${alertTypes[type] || alertTypes.info} ${message}`);
 }
 
-function validateInputs(content, token) {
+function validateInputs(enContent, esContent, token) {
 	const errors = [];
 
 	if (!token) {
 		errors.push("No GitHub token saved! Please save your token first.");
 	}
 
-	if (!content) {
-		errors.push("Post content cannot be empty!");
+	if (!enContent && !esContent) {
+		errors.push("Post content cannot be empty in at least one language!");
 	}
 
 	return errors;
@@ -79,24 +82,155 @@ function setLoadingState(isLoading) {
 	}
 }
 
+// ── Language tabs ────────────────────────────────────────────
+
+let activeLang = "en";
+const tabs = document.querySelectorAll(".lang-tab");
+const textareas = {
+	en: document.getElementById("post-content-en"),
+	es: document.getElementById("post-content-es"),
+};
+
+function switchTab(lang) {
+	activeLang = lang;
+
+	tabs.forEach((tab) => {
+		tab.classList.toggle("active", tab.dataset.lang === lang);
+	});
+
+	Object.entries(textareas).forEach(([key, textarea]) => {
+		textarea.classList.toggle("active", key === lang);
+	});
+
+	updateCharCount();
+}
+
+tabs.forEach((tab) => {
+	tab.addEventListener("click", () => switchTab(tab.dataset.lang));
+});
+
+// ── Character counter ────────────────────────────────────────
+
+const counter = document.getElementById("char-count");
+
+function updateCharCount() {
+	const textarea = textareas[activeLang];
+	const length = textarea.value.length;
+	const limit = textarea.maxLength;
+	counter.textContent = `${length}/${limit}`;
+
+	counter.classList.remove("half", "max");
+
+	if (length >= limit) {
+		counter.classList.add("max");
+	} else if (length >= limit / 2) {
+		counter.classList.add("half");
+	}
+}
+
+Object.values(textareas).forEach((textarea) => {
+	textarea.addEventListener("input", updateCharCount);
+});
+
+// ── Gemini Translation ───────────────────────────────────────
+
+const translateBtn = document.getElementById("translate-btn");
+
+function setTranslatingState(isTranslating) {
+	const span = translateBtn.querySelector("span");
+	if (span) {
+		span.textContent = isTranslating ? "Translating…" : "Translate";
+	}
+	translateBtn.disabled = isTranslating;
+	translateBtn.classList.toggle("progress", isTranslating);
+}
+
+async function translate() {
+	const apiKey = localStorage.getItem("geminiApiKey");
+	if (!apiKey) {
+		showAlert("No Gemini API key saved! Please enter your key first.", "error");
+		return;
+	}
+
+	const sourceText = textareas[activeLang].value.trim();
+	if (!sourceText) {
+		showAlert("Nothing to translate! Write something first.", "warning");
+		return;
+	}
+
+	const targetLang = activeLang === "en" ? "es" : "en";
+	const sourceName = activeLang === "en" ? "English" : "Spanish";
+	const targetName = targetLang === "en" ? "English" : "Spanish";
+
+	setTranslatingState(true);
+
+	try {
+		const res = await fetch(
+			`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`,
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					contents: [
+						{
+							parts: [
+								{
+									text: `Translate the following text from ${sourceName} to ${targetName}. Return ONLY the translated text, nothing else. Preserve all formatting, markdown, and special syntax exactly as-is (like {{ shortcodes }}).\n\n${sourceText}`,
+								},
+							],
+						},
+					],
+				}),
+			},
+		);
+
+		const data = await res.json();
+
+		if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+			const translated = data.candidates[0].content.parts[0].text.trim();
+			textareas[targetLang].value = translated;
+			showAlert(`Translated to ${targetName}!`, "success");
+		} else {
+			const errorMsg =
+				data.error?.message || "Unknown error from Gemini API";
+			showAlert(`Translation failed: ${errorMsg}`, "error");
+			console.error("Gemini API Error:", data);
+		}
+	} catch (error) {
+		showAlert(`Translation error: ${error.message}`, "error");
+		console.error("Translation Network Error:", error);
+	} finally {
+		setTranslatingState(false);
+	}
+}
+
+translateBtn.addEventListener("click", translate);
+
+// ── Publishing ───────────────────────────────────────────────
+
 async function upload() {
-	const content = document.getElementById("post-content")?.value || "";
+	let enContent = textareas.en.value.trim();
+	let esContent = textareas.es.value.trim();
 	const token = localStorage.getItem("githubToken");
 
-	const errors = validateInputs(content, token);
+	const errors = validateInputs(enContent, esContent, token);
 	if (errors.length > 0) {
 		showAlert(errors.join("\n"), "error");
 		return;
 	}
 
-	// CHANGE THESE TO YOUR REPO
+	// If one language is empty, duplicate from the other
+	if (!enContent && esContent) enContent = esContent;
+	if (!esContent && enContent) esContent = enContent;
+
 	const owner = "Axenide";
 	const repo = "web";
 
 	const now = new Date();
 	const date = now.toISOString().slice(0, 19) + "Z";
 
-	const markdown = `+++\n+++\n\n${content}\n`;
+	const enMarkdown = `+++\n+++\n\n${enContent}\n`;
+	const esMarkdown = `+++\n+++\n\n${esContent}\n`;
 	const message = `Nanolog: ${date}`;
 
 	setLoadingState(true);
@@ -122,28 +256,52 @@ async function upload() {
 		};
 
 		console.log("Uploading EN...");
-		const enResult = await uploadFile(`content/nanolog/${date}.md`, markdown);
+		const enResult = await uploadFile(
+			`content/nanolog/${date}.md`,
+			enMarkdown,
+		);
 		console.log("EN result:", enResult);
 
 		console.log("Uploading ES...");
-		const esResult = await uploadFile(`content/nanolog/${date}.es.md`, markdown);
+		const esResult = await uploadFile(
+			`content/nanolog/${date}.es.md`,
+			esMarkdown,
+		);
 		console.log("ES result:", esResult);
 
 		if (enResult.content || esResult.content) {
 			showAlert("Post published successfully!", "success");
 			console.log("Both uploaded:", enResult, esResult);
-			document.getElementById("post-content").value = "";
+			textareas.en.value = "";
+			textareas.es.value = "";
+			updateCharCount();
 			document.getElementById("nanolog-modal").classList.remove("active");
 		} else {
 			let errorMessage = "Failed to publish post.";
-			const errorResult = enResult.message ? enResult : (esResult.message ? esResult : null);
+			const errorResult = enResult.message
+				? enResult
+				: esResult.message
+					? esResult
+					: null;
 			if (errorResult) {
-				if (errorResult.message.includes("Invalid") || errorResult.message.includes("expired")) {
-					errorMessage = "Invalid or expired GitHub token. Please check your token.";
-				} else if (errorResult.message.includes("Forbidden") || errorResult.message.includes("403")) {
-					errorMessage = "Access denied. Check your token permissions.";
-				} else if (errorResult.message.includes("Not Found") || errorResult.message.includes("404")) {
-					errorMessage = "Repository not found. Check repository name and permissions.";
+				if (
+					errorResult.message.includes("Invalid") ||
+					errorResult.message.includes("expired")
+				) {
+					errorMessage =
+						"Invalid or expired GitHub token. Please check your token.";
+				} else if (
+					errorResult.message.includes("Forbidden") ||
+					errorResult.message.includes("403")
+				) {
+					errorMessage =
+						"Access denied. Check your token permissions.";
+				} else if (
+					errorResult.message.includes("Not Found") ||
+					errorResult.message.includes("404")
+				) {
+					errorMessage =
+						"Repository not found. Check repository name and permissions.";
 				} else {
 					errorMessage = errorResult.message;
 				}
@@ -160,23 +318,19 @@ async function upload() {
 	}
 }
 
+// ── Initialization ───────────────────────────────────────────
+
 document.addEventListener("DOMContentLoaded", () => {
 	try {
 		const storedToken = localStorage.getItem("githubToken");
+		const storedGeminiKey = localStorage.getItem("geminiApiKey");
 		const tokenInput = document.getElementById("github-token");
+		const geminiInput = document.getElementById("gemini-key");
 
-		if (storedToken && tokenInput) {
-			tokenInput.value = storedToken;
-		}
+		if (storedToken && tokenInput) tokenInput.value = storedToken;
+		if (storedGeminiKey && geminiInput) geminiInput.value = storedGeminiKey;
 
-		const saveTokenBtn = document.getElementById("save-token-btn");
 		const publishBtn = document.getElementById("publish-btn");
-
-		if (saveTokenBtn) {
-			saveTokenBtn.addEventListener("click", saveToken);
-		} else {
-			console.warn("Save token button not found");
-		}
 
 		if (publishBtn) {
 			publishBtn.addEventListener("click", upload);
@@ -196,40 +350,26 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-const textarea = document.getElementById("post-content");
-const counter = document.getElementById("char-count");
-const limit = textarea.maxLength;
-
-textarea.addEventListener("input", () => {
-	const length = textarea.value.length;
-	counter.textContent = `${length}/${limit}`;
-
-	counter.classList.remove("half", "max");
-
-	if (length >= limit) {
-		counter.classList.add("max");
-	} else if (length >= limit / 2) {
-		counter.classList.add("half");
-	}
-});
+// ── Modal ────────────────────────────────────────────────────
 
 var nanologModal = document.getElementById("nanolog-modal");
-var nanologModalContent = document.getElementById("nanolog-modal-content");
-var nanologInput = document.getElementById("post-content");
+var nanologModalWrapper = document.getElementById("nanolog-modal-wrapper");
 var nanologButton = document.getElementById("nanolog-button");
 
+function openModal() {
+	nanologModal.classList.add("active");
+	nanologModal.addEventListener(
+		"transitionend",
+		function handler() {
+			textareas[activeLang].focus();
+			nanologModal.removeEventListener("transitionend", handler);
+		},
+		{ once: true },
+	);
+}
+
 if (nanologButton) {
-	nanologButton.addEventListener("click", function () {
-		nanologModal.classList.add("active");
-		nanologModal.addEventListener(
-			"transitionend",
-			function handler() {
-				nanologInput.focus();
-				nanologModal.removeEventListener("transitionend", handler);
-			},
-			{ once: true },
-		);
-	});
+	nanologButton.addEventListener("click", openModal);
 }
 
 window.addEventListener("keydown", (event) => {
@@ -239,15 +379,7 @@ window.addEventListener("keydown", (event) => {
 		document.activeElement.tagName !== "TEXTAREA"
 	) {
 		event.preventDefault();
-		nanologModal.classList.add("active");
-		nanologModal.addEventListener(
-			"transitionend",
-			function handler() {
-				nanologInput.focus();
-				nanologModal.removeEventListener("transitionend", handler);
-			},
-			{ once: true },
-		);
+		openModal();
 	}
 });
 
@@ -258,14 +390,16 @@ window.addEventListener("keydown", (event) => {
 });
 
 nanologModal.addEventListener("click", function (e) {
-	if (!nanologModalContent.contains(e.target)) {
+	if (!nanologModalWrapper.contains(e.target)) {
 		nanologModal.classList.remove("active");
 	}
 });
 
-nanologModalContent.addEventListener("click", function (e) {
+nanologModalWrapper.addEventListener("click", function (e) {
 	e.stopPropagation();
 });
+
+// ── Secret reveal (10-click easter egg) ──────────────────────
 
 let nanologClickCount = 0;
 let nanologEnabled = false;
