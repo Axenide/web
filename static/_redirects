@@ -13,3 +13,8 @@
 
 # Easter Eggs
 /newshell https://www.youtube.com/watch?v=dQw4w9WgXcQ 302
+
+# XP static site language route
+/fix /fix/ 301
+/es/fix /fix/ 301
+/es/fix/ /fix/ 301
