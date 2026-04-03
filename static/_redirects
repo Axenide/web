@@ -15,9 +15,10 @@
 /newshell https://www.youtube.com/watch?v=dQw4w9WgXcQ 302
 
 # XP static site language route
-/fix /fix/ 302
-/es/fix /fix/ 302
-/es/fix/ /fix/ 302
-/xp /xp/ 301
-/es/xp /xp/ 301
-/es/xp/ /xp/ 301
+/xp /xp/ 302
+/es/xp /xp/ 302
+/es/xp/ /xp/ 302
+
+/fix /xp 302
+/es/fix /xp 302
+/es/fix/ /xp/ 302

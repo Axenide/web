@@ -10,6 +10,6 @@
 [submodule "themes/axetrine"]
 	path = themes/axetrine
 	url = https://codeberg.org/Axenide/Axetrine.git
-[submodule "static/fix"]
-	path = static/fix
+[submodule "static/xp"]
+	path = static/xp
 	url = https://github.com/Axenide/XP
