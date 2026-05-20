@@ -68,7 +68,7 @@ Soy <mark>Adriano Tisera</mark>, conocido en Internet como <mark>Axenide</mark>.
 <div id="scroll-target" style="position: absolute; bottom: 110px; left: 50%; width: 1px; height: 1px; z-index: -1;"></div>
 
 <a class="scroll-indicator" href="#sobre-mi" style="position: absolute; bottom: 120px; left: 50%; margin-left: -120px; display: flex; align-items: flex-end; gap: 76px; pointer-events: auto; cursor: pointer; z-index: 10; text-decoration: none;">
-<div style="width: 96px; height: 96px; z-index: 0; animation: svg-boil 0.3s infinite steps(1); flex-shrink: 0;">
+<div style="width: 96px; height: 96px; z-index: 0; flex-shrink: 0;">
 <div class="axie-icon" style="width: 96px; height: 96px; background-color: var(--accent-color); -webkit-mask: url('/images/axie.svg') no-repeat center / contain; mask: url('/images/axie.svg') no-repeat center / contain; transition: background-color 0.3s ease;"></div>
 </div>
 <div style="margin-bottom: 28px; min-width: max-content;">
@@ -89,7 +89,7 @@ Soy <mark>Adriano Tisera</mark>, conocido en Internet como <mark>Axenide</mark>.
     
     scrollIndicator.addEventListener('mouseenter', () => {
       // 1. Arrow (SVG)
-      const paths = document.querySelectorAll('.arrow-path-boil');
+      const paths = document.querySelectorAll('.arrow-path');
       paths.forEach(p => {
           p.style.transition = 'stroke 0.3s ease';
           p.style.stroke = 'var(--fg-color)';
@@ -108,7 +108,7 @@ Soy <mark>Adriano Tisera</mark>, conocido en Internet como <mark>Axenide</mark>.
     
     scrollIndicator.addEventListener('mouseleave', () => {
       // 1. Arrow (SVG)
-      const paths = document.querySelectorAll('.arrow-path-boil');
+      const paths = document.querySelectorAll('.arrow-path');
       paths.forEach(p => {
           p.style.stroke = 'var(--accent-color)';
       });

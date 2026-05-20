@@ -14,9 +14,22 @@
 		{%- endif -%}
 		<li>
 			<a href="{{ item.url }}" {% if type != "contacts" %}target="_blank"{% endif %}>
-				<i class="icon {{ item.icon }}" style="--icon: url('data:image/svg+xml,{{ icon | urlencode }}'); font-size: 1.5rem; margin-inline-end: 0.5rem; flex-shrink: 0;" aria-hidden="true"></i>
+				<i class="icon online-icon {{ item.icon }}" style="--icon: url('data:image/svg+xml,{{ icon | urlencode }}');" aria-hidden="true"></i>
 				{{ item.name }}
 			</a>
 		</li>
 	{%- endfor -%}
 </ul>
+
+<style>
+	.online-list .online-icon {
+		font-size: 1.5rem;
+		margin-inline-end: 0.75rem;
+		flex-shrink: 0;
+		transition: transform 0.3s ease;
+	}
+
+	.online-list a:hover .online-icon {
+		transform: rotate(-15deg);
+	}
+</style>
