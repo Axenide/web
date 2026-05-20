@@ -1,0 +1,22 @@
+{%- if type == "contacts" -%}
+	{%- set items = section.extra.contacts -%}
+{%- elif type == "socials" -%}
+	{%- set items = section.extra.socials -%}
+{%- elif type == "forges" -%}
+	{%- set items = section.extra.forges -%}
+{%- endif -%}
+
+<ul class="online-list">
+	{%- for item in items -%}
+		{%- set icon = load_data(path="icons/phosphor/" ~ item.icon ~ ".svg", required=false) -%}
+		{%- if not icon -%}
+			{%- set icon = load_data(path="themes/axetrine/icons/phosphor/" ~ item.icon ~ ".svg", required=false) -%}
+		{%- endif -%}
+		<li>
+			<a href="{{ item.url }}" {% if type != "contacts" %}target="_blank"{% endif %}>
+				<i class="icon {{ item.icon }}" style="--icon: url('data:image/svg+xml,{{ icon | urlencode }}'); font-size: 1.5rem; margin-inline-end: 0.5rem; flex-shrink: 0;" aria-hidden="true"></i>
+				{{ item.name }}
+			</a>
+		</li>
+	{%- endfor -%}
+</ul>

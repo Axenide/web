@@ -5,19 +5,19 @@ insert_anchor_links = "left"
 scripts = ["js/home.js", "js/shy.js"]
 no_header = true
 socials = [
-    { name = "YouTube", url = "https://www.youtube.com/@Axenide", icon = "/social-icons/16x/youtube_icon_bg.png" },
-    { name = "Twitch", url = "https://www.twitch.tv/Axenide", icon = "/social-icons/16x/twitch_icon_bg.png" },
-    { name = "X / Twitter", url = "https://x.com/Axenide", icon = "/social-icons/16x/xtwitter_icon_bg.png" },
-    { name = "Instagram", url = "https://www.instagram.com/Axenide", icon = "/social-icons/16x/instagram_icon_bg.png" },
-    { name = "Reddit", url = "https://www.reddit.com/user/Axenide", icon = "/social-icons/16x/reddit_icon_bg.png" },
-    { name = "Bluesky", url = "https://bsky.app/profile/axeni.de", icon = "/social-icons/16x/bluesky_icon_bg.png" },
+    { name = "YouTube", url = "https://www.youtube.com/@Axenide", icon = "youtube-logo" },
+    { name = "Twitch", url = "https://www.twitch.tv/Axenide", icon = "twitch-logo" },
+    { name = "X / Twitter", url = "https://x.com/Axenide", icon = "x-logo" },
+    { name = "Instagram", url = "https://www.instagram.com/Axenide", icon = "instagram-logo" },
+    { name = "Reddit", url = "https://www.reddit.com/user/Axenide", icon = "reddit-logo" },
+    { name = "Bluesky", url = "https://bsky.app/profile/axeni.de", icon = "butterfly" },
 ]
 forges = [
-    { name = "GitHub", url = "https://github.com/Axenide", icon = "/social-icons/16x/github_icon_bg.png" },
+    { name = "GitHub", url = "https://github.com/Axenide", icon = "github-logo" },
 ]
 contacts = [
-    { name = "Discord", url = "https://discord.com/invite/gHG9WHyNvH", icon = "/social-icons/16x/discord_icon_bg.png" },
-    { name = "Email", url = "mailto:hi@axeni.de", icon = "/social-icons/16x/domain_icon_bg.png" },
+    { name = "Discord", url = "https://discord.com/invite/gHG9WHyNvH", icon = "discord-logo" },
+    { name = "Email", url = "mailto:hi@axeni.de", icon = "envelope-simple" },
 ]
 badges = [
 { name = "axenide.gif", url = "https://axeni.de" },

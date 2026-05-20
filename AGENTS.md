@@ -57,6 +57,26 @@ zola check      # Validate links
 - **Action**: shalzz/zola-deploy-action
 - **Output**: Deploys to `main` branch (gh-pages)
 
+## DESIGN DECISIONS (for future reference)
+
+### Border Radius
+**Current state (2026-05-20):** Everything is square (`border-radius: 0`).
+
+**To switch to rounded corners:**
+1. In `themes/axetrine/sass/custom.scss`, change:
+   - `--rounded-corner: 0` → `--rounded-corner: 0.75rem`
+   - `--rounded-corner-small: 0` → `--rounded-corner-small: 0.5rem`
+2. Comment out the universal rule at the end of the file:
+   ```scss
+   /* *,
+   *::before,
+   *::after {
+     border-radius: 0 !important;
+   } */
+   ```
+
+**Note:** With rounded corners enabled, most elements (articles, cards, buttons, inputs, tags) will have soft 0.75rem corners. Only a few hardcoded elements (social icons, tile embeds, shy button, retro avatar, game items) remain square by design.
+
 ## NOTES
 - Missing `sass/custom.scss` at root (AGENTS.md outdated on this)
 - Theme has unfinished `skeuomorphic` mod (commented out, ignore)
