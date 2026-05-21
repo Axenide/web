@@ -69,7 +69,7 @@ I'm <mark>Adriano Tisera</mark>, known on the Internet as <mark>Axenide</mark>. 
 
 <a class="scroll-indicator" href="#about" style="position: absolute; bottom: 120px; left: 50%; margin-left: -120px; display: flex; align-items: flex-end; gap: 76px; pointer-events: auto; cursor: pointer; z-index: 10; text-decoration: none;">
 <div style="width: 96px; height: 96px; z-index: 0; flex-shrink: 0;">
-<div class="axie-icon" style="width: 96px; height: 96px; background-color: var(--accent-color); -webkit-mask: url('/images/axie.svg') no-repeat center / contain; mask: url('/images/axie.svg') no-repeat center / contain; transition: background-color 0.3s ease;"></div>
+{{ axie_icon() }}
 </div>
 <div style="margin-bottom: 28px; min-width: max-content;">
 <div style="transform: rotate(5deg); display: inline-block; text-align: center;">
@@ -96,7 +96,7 @@ I'm <mark>Adriano Tisera</mark>, known on the Internet as <mark>Axenide</mark>. 
       });
 
       // 2. Axie Icon
-      if (axie) axie.style.backgroundColor = 'var(--fg-color)';
+      if (axie) axie.style.color = 'var(--fg-color)';
 
       // 3. Text
       const note = scrollIndicator.querySelector('.arrow-note');
@@ -114,7 +114,7 @@ I'm <mark>Adriano Tisera</mark>, known on the Internet as <mark>Axenide</mark>. 
       });
 
       // 2. Axie Icon
-      if (axie) axie.style.backgroundColor = 'var(--accent-color)';
+      if (axie) axie.style.color = 'var(--accent-color)';
 
       // 3. Text
       const note = scrollIndicator.querySelector('.arrow-note');
