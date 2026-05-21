@@ -59,7 +59,7 @@ Una shell ***Ax**tremadamente* personalizable.
 
 ## Instalación
 
-<div style="width:50%; margin:0 auto; text-align:center; scale: 1.25; margin-bottom: 2rem; margin-top: 2rem;">
+<div style="margin:0 auto; text-align:center; margin-bottom: 2rem; margin-top: 2rem;">
 
 ```bash
 curl -L get.axeni.de/ambxst | sh

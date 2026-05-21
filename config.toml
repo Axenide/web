@@ -31,7 +31,7 @@ smart_punctuation = true
 github_alerts = true
 
 [markdown.highlighting]
-theme = "github-dark"
+theme = "ayu-dark"
 
 [extra]
 discord_user_id = "294856304969908224"
