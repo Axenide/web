@@ -27,9 +27,9 @@ Una shell modificable para [Hyprland](https://hyprland.org/), impulsada por [Fab
 {{ carousel(start=1, end=15, interval=3000, style="margin: -2rem 0 0 0") }}
 
 <div align="center">
-  {{ styled_button(image="/social-icons/16x/kofi_icon_bg.png", link="https://ko-fi.com/Axenide", width="32px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(image="/social-icons/16x/github_icon_bg.png", link="https://github.com/Axenide/Ax-Shell", width="32px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(image="/social-icons/16x/discord_icon_bg.png", link="https://discord.com/invite/gHG9WHyNvH", width="32px", effect="zoom rotate", rotate="-15") }}
+  {{ styled_button(icon="coffee", label="Ko-Fi", link="https://ko-fi.com/Axenide", width="24px", effect="zoom rotate", rotate="-15") }}
+  {{ styled_button(icon="github-logo", label="GitHub", link="https://github.com/Axenide/Ax-Shell", width="24px", effect="zoom rotate", rotate="-15") }}
+  {{ styled_button(icon="discord-logo", label="Discord", link="/es/discord", width="24px", effect="zoom rotate", rotate="-15") }}
 </div>
 
 ## Instalación

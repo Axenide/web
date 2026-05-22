@@ -52,9 +52,9 @@ Una shell ***Ax**tremadamente* personalizable.
     {{ arrow_note(text="¡Únete al servidor!", target="discord-btn", color="text", font_size="1.25rem", stroke_width="2", head_size="10", amplitude="50", ease_out="-20", ease_in="20", start_dir="top", end_dir="top") }}
   </div>
   
-  {{ styled_button(id="kofi-btn", image="/social-icons/16x/kofi_icon_bg.png", link="https://ko-fi.com/Axenide", width="32px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(image="/social-icons/16x/github_icon_bg.png", link="https://github.com/Axenide/Ambxst", width="32px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(id="discord-btn", image="/social-icons/16x/discord_icon_bg.png", link="https://discord.com/invite/gHG9WHyNvH", width="32px", effect="zoom rotate", rotate="-15") }}
+  {{ styled_button(id="kofi-btn", icon="coffee", label="Ko-Fi", link="https://ko-fi.com/Axenide", width="24px", effect="zoom rotate", rotate="-15") }}
+  {{ styled_button(icon="github-logo", label="GitHub", link="https://github.com/Axenide/Ambxst", width="24px", effect="zoom rotate", rotate="-15") }}
+  {{ styled_button(id="discord-btn", icon="discord-logo", label="Discord", link="/es/discord", width="24px", effect="zoom rotate", rotate="-15") }}
 </div>
 
 ## Instalación

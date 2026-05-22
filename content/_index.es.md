@@ -59,7 +59,9 @@ badges = [
 <div class="hero-content">
 {{ retro_text(text="Axenide", tag="h1") }}
 <p style="font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">
-Soy <mark>Adriano Tisera</mark>, conocido en Internet como <mark>Axenide</mark>. Futuro ingeniero informático, tecnólogo y científico. Soy programador, hago videos, música, animación y videojuegos... Entre otras cosas.
+Soy <mark>Adriano Tisera</mark>, conocido en Internet como <mark>Axenide</mark>.<br>
+Futuro ingeniero informático, tecnólogo y científico.<br>
+Creo software, videos, música, arte y juegos.
 </p>
 </div>
     
