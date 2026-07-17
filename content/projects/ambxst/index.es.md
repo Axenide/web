@@ -26,7 +26,7 @@ links = [
 	] },
     { name = "Links", category = [
     { url = "https://github.com/Axenide/Ambxst", name = "GitHub", icon = "github-logo" },
-    { url = "https://discord.com/invite/gHG9WHyNvH", name = "Discord", icon = "discord-logo" },
+    { url = "https://axeni.de/discord", name = "Discord", icon = "discord-logo" },
     { url = "https://ko-fi.com/Axenide", name = "Donate ❤️", icon = "coffee" },
     ] },
 ]
