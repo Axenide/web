@@ -1,3 +1,4 @@
+{% component online(type: string, section) %}
 {%- if type == "contacts" -%}
 	{%- set items = section.extra.contacts -%}
 {%- elif type == "socials" -%}
@@ -33,3 +34,4 @@
 		transform: rotate(-15deg);
 	}
 </style>
+{% endcomponent online %}
