@@ -5,7 +5,7 @@ description = "Join our community Discord server."
 no_header = true
 +++
 
-{{ discord_server(description="Built for creation.") }}
+{{<discord_server description="Built for creation." lang={lang} config={config}/>}}
 
 <section class="snap-section content-wrapper">
 <div style="width: 100%;">

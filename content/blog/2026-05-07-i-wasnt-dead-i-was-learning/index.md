@@ -12,29 +12,29 @@ accent_color = "hsl(240, 50%, 75%)"
 
 So... It's been a while.
 
-First of all, I should apolog- nah, honestly, not really. {{ dmoji(name="xdd") }}
+First of all, I should apolog- nah, honestly, not really. {{<dmoji name="xdd" config={config}/>}}
 
 But seriously, what happened? Why did I disappear? It's not like many people noticed, but I definitely did. And the truth is, believe it or not, every day without releasing an update makes me feel a little worse.
 
-Let's talk about [Ambxst](/), which hasn't been updated in over a month. I've been learning Go, Rust, and Zig, trying to make the most out of this new knowledge to deliver a better experience. However, this has consumed a lot of my time and energy, resulting in a lack of regular updates. On top of that, university has also been pretty demanding, which contributed to my absence. And not only that, but I've also had to w-w-w-w-work... {{ dmoji(name="perturbated") }}
+Let's talk about [Ambxst](/), which hasn't been updated in over a month. I've been learning Go, Rust, and Zig, trying to make the most out of this new knowledge to deliver a better experience. However, this has consumed a lot of my time and energy, resulting in a lack of regular updates. On top of that, university has also been pretty demanding, which contributed to my absence. And not only that, but I've also had to w-w-w-w-work... {{<dmoji name="perturbated" config={config}/>}}
 
-Well, I don't really have a stable job at all. I repair computers, nothing much beyond that. It usually takes me one or two days per client, but I learn things and make some money, so I can't really complain. {{ dmoji(name="tiredmonster") }}
+Well, I don't really have a stable job at all. I repair computers, nothing much beyond that. It usually takes me one or two days per client, but I learn things and make some money, so I can't really complain. {{<dmoji name="tiredmonster" config={config}/>}}
 
-Still, if you'd like to support me, you can always throw a few bucks my way on [Ko-fi](https://ko-fi.com/Axenide). {{ dmoji(name="oldsmiley") }}
+Still, if you'd like to support me, you can always throw a few bucks my way on [Ko-fi](https://ko-fi.com/Axenide). {{<dmoji name="oldsmiley" config={config}/>}}
 
 (I'm planning to make my own donation page soon, but for now we're sticking with Ko-fi.)
 
 Also, unfortunately, I have to move. I hate moving, but it's for the good of my family. We'll be able to save more money and stuff, but... Ugh, I don't really want to go into too much detail, but honestly this change stresses me out a lot. I don't want to leave.
 
-It's not far away, so it's not like I'm going to lose contact with my friends or anything, but... I don't want to leave. {{ dmoji(name="Sadge") }}
+It's not far away, so it's not like I'm going to lose contact with my friends or anything, but... I don't want to leave. {{<dmoji name="Sadge" config={config}/>}}
 
 Back to Ambxst, my attempt to port all of its logic to Go turned into a long and complicated process, and unfortunately... It remained mostly a learning experience. In other words, I failed. At least for now.
 
 I managed to port quite a few things, but the experience became significantly worse. Performance turned into a disaster, and the user experience became unbearable.
 
-And it's absolutely not Go's fault, it's mine. I genuinely LOVE Go, it's an incredibly powerful and efficient language, but between Ambxst being a pretty complex project and me being a beginner in Go, the result was catastrophic. {{ dmoji(name="Sadge") }}
+And it's absolutely not Go's fault, it's mine. I genuinely LOVE Go, it's an incredibly powerful and efficient language, but between Ambxst being a pretty complex project and me being a beginner in Go, the result was catastrophic. {{<dmoji name="Sadge" config={config}/>}}
 
-So I reverted everything. I went back to the previous version, and while it's not as efficient as I'd like, at least it's functional. And that's what matters for now. Plus, there are many PRs that can finally be merged now, which wouldn't have happened if I had continued with the Go version. {{ dmoji(name="skl") }}
+So I reverted everything. I went back to the previous version, and while it's not as efficient as I'd like, at least it's functional. And that's what matters for now. Plus, there are many PRs that can finally be merged now, which wouldn't have happened if I had continued with the Go version. {{<dmoji name="skl" config={config}/>}}
 
 When I get another chance, I'll try again.
 
@@ -76,8 +76,8 @@ Well... What else? Oh, right. Other things I've been working on:
   That's actually why, over a year ago, I tried learning 3D.
   And honestly, I did pretty well considering I only spent a few hours with Blender, but I still have a LOT to learn before I can make something decent.
 
-  And as you probably know, if something isn't decent, I don't release it. {{ dmoji(name="angryasf") }}
+  And as you probably know, if something isn't decent, I don't release it. {{<dmoji name="angryasf" config={config}/>}}
 
 Anyway, that's all for now.
 I didn't want to make such a long update, but I had a lot to say.
-I hope you're all doing well, and thanks for sticking around despite my absence. {{ dmoji(name="sans") }}
+I hope you're all doing well, and thanks for sticking around despite my absence. {{<dmoji name="sans" config={config}/>}}

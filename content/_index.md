@@ -57,7 +57,7 @@ badges = [
 <section class="snap-section hero-wrapper">
 <div class="hero-container">
 <div class="hero-content">
-{{ retro_text(text="Axenide", tag="h1") }}
+{{<retro_text text="Axenide" tag="h1"/>}}
 <p style="font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">
 I'm <mark>Adriano Tisera</mark>, known on the Internet as <mark>Axenide</mark>.<br>
 Future computer engineer, technologist and scientist.<br>
@@ -65,17 +65,17 @@ I create software, videos, music, art and games.
 </p>
 </div>
     
-{{ retro_avatar(src="/images/avatar.jpg", alt="Axenide") }}
+{{<retro_avatar src="/images/avatar.jpg" alt="Axenide"/>}}
 </div>
 <div id="scroll-target" style="position: absolute; bottom: 110px; left: 50%; width: 1px; height: 1px; z-index: -1;"></div>
 
 <a class="scroll-indicator" href="#about" style="position: absolute; bottom: 120px; left: 50%; margin-left: -120px; display: flex; align-items: flex-end; gap: 76px; pointer-events: auto; cursor: pointer; z-index: 10; text-decoration: none;">
 <div style="width: 96px; height: 96px; z-index: 0; flex-shrink: 0;">
-{{ axie_icon() }}
+{{<axie_icon />}}
 </div>
 <div style="margin-bottom: 28px; min-width: max-content;">
 <div style="transform: rotate(5deg); display: inline-block; text-align: center;">
-{{ arrow_note(text="Pssst...<br>There's more.", target="scroll-target", start_dir="left", end_dir="top", color="accent", font_size="1rem", amplitude="30", spacing="10", stroke_width="2") }}
+{{<arrow_note text="Pssst...<br>There's more." target="scroll-target" start_dir="left" end_dir="top" color="accent" font_size="1rem" amplitude="30" spacing="10" stroke_width="2"/>}}
 </div>
 </div>
 </a>
@@ -143,7 +143,7 @@ I create software, videos, music, art and games.
 
 I'm from Mendoza, Argentina. I’ve always been drawn to technology and science, and I love making things like code, music, animations, videos, and games. ᕙ(͡°‿ ͡°)ᕗ
 
-**I’m {{ age() }} years old.**
+**I’m {{<age />}} years old.**
 
 2001, what a year. June 12th, it was a Tuesday. A really cold night in Mendoza...
 
@@ -166,7 +166,7 @@ I was extracted successfully, with my eyes wide open, and my first thought was "
 
 <article class="fancy-list">
 
-{{ piano_embed() }}
+{{<piano_embed />}}
 
 **🎶 I play some instruments:**
 - Piano
@@ -181,7 +181,7 @@ I was extracted successfully, with my eyes wide open, and my first thought was "
 <!-- Card Start: Tile Embed -->
 <li>
 <article>
-{{ tile_embed() }}
+{{<tile_embed />}}
 
 **👾 I study computer science engineering.**
 
@@ -191,7 +191,7 @@ My curiosity about computers led me into this field, where I get to merge creati
 
 <article>
 
-{{ github_grid(color="#40c463") }}
+{{<github_grid color="#40c463"/>}}
 
 I honestly enjoy coding and problem-solving. It’s like a puzzle that I get to solve every day, and I love the satisfaction of seeing my ideas come to life through code. :)
 
@@ -211,7 +211,7 @@ I’m obsessed with building my own tools and workflows. People say not to reinv
 
 **🕹️ Procrastination Kit:**
 
-{{ games() }}
+{{<games  config={config}/>}}
 </article>
 </li>
 </ul>
@@ -224,7 +224,7 @@ Cozy and nostalgic, like the early days of the internet. Since I became an adult
 
 Also, I had a lot of fun making my own 88x31 button, and you should make one too! :)
 
-{{ badges(note_text="My 88x31 here") }}
+{{<badges note_text="My 88x31 here" section={section} config={config}/>}}
 
 </div>
 
@@ -235,7 +235,7 @@ Where and when to find me online.
 <ul class="masonry">
 <!-- Card Start -->
 <li>
-{{ now_playing() }}
+{{<now_playing />}}
 </li>
 <!-- Card End -->
 
@@ -244,7 +244,7 @@ Where and when to find me online.
 <article class="online fancy-list">
 <strong id="socials" class="title">Socials</strong>
 
-{{ online(type="socials") }}
+{{<online type="socials" section={section}/>}}
 
 </article>
 </li>
@@ -255,7 +255,7 @@ Where and when to find me online.
 <article class="online fancy-list">
 <strong id="forges" class="title">Code</strong>
 
-{{ online(type="forges") }}
+{{<online type="forges" section={section}/>}}
 
 </article>
 </li>
@@ -270,7 +270,7 @@ For me it's currently <time id="clock">00:00</time> <small>(UTC-3)</small> and I
 
 Feel free to reach me out on any of these!
 
-{{ online(type="contacts") }}
+{{<online type="contacts" section={section}/>}}
 
 </article>
 </li>
@@ -278,7 +278,7 @@ Feel free to reach me out on any of these!
 
 <!-- Card Start -->
 <li>
-{{ server_widget() }}
+{{<server_widget  lang={lang} config={config}/>}}
 </li>
 <!-- Card End -->
 </ul>

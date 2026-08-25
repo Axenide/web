@@ -57,7 +57,7 @@ badges = [
 <section class="snap-section hero-wrapper">
 <div class="hero-container">
 <div class="hero-content">
-{{ retro_text(text="Axenide", tag="h1") }}
+{{<retro_text text="Axenide" tag="h1"/>}}
 <p style="font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">
 Soy <mark>Adriano Tisera</mark>, conocido en Internet como <mark>Axenide</mark>.<br>
 Futuro ingeniero informático, tecnólogo y científico.<br>
@@ -65,17 +65,17 @@ Creo software, videos, música, arte y juegos.
 </p>
 </div>
     
-{{ retro_avatar(src="/images/avatar.jpg", alt="Axenide") }}
+{{<retro_avatar src="/images/avatar.jpg" alt="Axenide"/>}}
 </div>
 <div id="scroll-target" style="position: absolute; bottom: 110px; left: 50%; width: 1px; height: 1px; z-index: -1;"></div>
 
 <a class="scroll-indicator" href="#sobre-mi" style="position: absolute; bottom: 120px; left: 50%; margin-left: -120px; display: flex; align-items: flex-end; gap: 76px; pointer-events: auto; cursor: pointer; z-index: 10; text-decoration: none;">
 <div style="width: 96px; height: 96px; z-index: 0; flex-shrink: 0;">
-{{ axie_icon() }}
+{{<axie_icon />}}
 </div>
 <div style="margin-bottom: 28px; min-width: max-content;">
 <div style="transform: rotate(5deg); display: inline-block; text-align: center;">
-{{ arrow_note(text="Pssst...<br>Hay más.", target="scroll-target", start_dir="left", end_dir="top", color="accent", font_size="1rem", amplitude="30", spacing="10", stroke_width="2") }}
+{{<arrow_note text="Pssst...<br>Hay más." target="scroll-target" start_dir="left" end_dir="top" color="accent" font_size="1rem" amplitude="30" spacing="10" stroke_width="2"/>}}
 </div>
 </div>
 </a>
@@ -143,7 +143,7 @@ Creo software, videos, música, arte y juegos.
 
 Soy de Mendoza, Argentina. Siempre me ha atraído la tecnología y la ciencia, y me encanta crear cosas como código, música, animaciones, videos y videojuegos. ᕙ(͡°‿ ͡°)ᕗ
 
-**Tengo {{ age() }} años.**
+**Tengo {{<age />}} años.**
 
 2001, qué año. 12 de junio, fue un martes. Una noche muy fría en Mendoza...
 
@@ -166,7 +166,7 @@ Fui extraído con éxito, con los ojos bien abiertos, y mi primer pensamiento fu
 
 <article class="fancy-list">
 
-{{ piano_embed() }}
+{{<piano_embed />}}
 
 **🎶 Toco algunos instrumentos:**
 - Piano
@@ -181,7 +181,7 @@ Fui extraído con éxito, con los ojos bien abiertos, y mi primer pensamiento fu
 <!-- Card Start: Tile Embed -->
 <li>
 <article>
-{{ tile_embed() }}
+{{<tile_embed />}}
 
 **👾 Estudio ingeniería informática.**
 
@@ -191,7 +191,7 @@ Mi curiosidad por las computadoras me llevó a esto, combinando creatividad y te
 
 <article>
 
-{{ github_grid(color="#40c463") }}
+{{<github_grid color="#40c463"/>}}
 
 Sinceramente disfruto programar y resolver problemas. Es como un rompecabezas que puedo resolver todos los días, y es muy satisfactorio ver mis ideas cobrar vida a través del código. :)
 
@@ -211,7 +211,7 @@ Me obsesiono con crear mis propias herramientas y flujos de trabajo. Dicen que n
 
 **🕹️ Kit de Procrastinación:**
 
-{{ games() }}
+{{<games  config={config}/>}}
 </article>
 </li>
 </ul>
@@ -224,7 +224,7 @@ Acogedor y nostálgico, como en los primeros días de Internet. Desde que me con
 
 Además, fue divertido mi propio botón de 88x31, ¡también deberías hacer uno! :)
 
-{{ badges(note_text="Mi 88x31 acá") }}
+{{<badges note_text="Mi 88x31 acá" section={section} config={config}/>}}
 
 </div>
 
@@ -235,7 +235,7 @@ Dónde y cuándo encontrarme en línea.
 <ul class="masonry">
 <!-- Card Start -->
 <li>
-{{ now_playing() }}
+{{<now_playing />}}
 </li>
 <!-- Card End -->
 
@@ -244,7 +244,7 @@ Dónde y cuándo encontrarme en línea.
 <article class="online fancy-list">
 <strong id="socials" class="title">Redes Sociales</strong>
 
-{{ online(type="socials") }}
+{{<online type="socials" section={section}/>}}
 
 </article>
 </li>
@@ -255,7 +255,7 @@ Dónde y cuándo encontrarme en línea.
 <article class="online fancy-list">
 <strong id="forges" class="title">Código</strong>
 
-{{ online(type="forges") }}
+{{<online type="forges" section={section}/>}}
 
 </article>
 </li>
@@ -270,7 +270,7 @@ Para mí son las <time id="clock">00:00</time> <small>(UTC-3)</small> y estoy <s
 
 ¡Siéntete libre de contactarme por cualquiera de estos medios!
 
-{{ online(type="contacts") }}
+{{<online type="contacts" section={section}/>}}
 
 </article>
 </li>
@@ -278,7 +278,7 @@ Para mí son las <time id="clock">00:00</time> <small>(UTC-3)</small> y estoy <s
 
 <!-- Card Start -->
 <li>
-{{ server_widget() }}
+{{<server_widget  lang={lang} config={config}/>}}
 </li>
 <!-- Card End -->
 </ul>

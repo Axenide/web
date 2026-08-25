@@ -10,7 +10,7 @@ banner = "cortisol.jpg"
 accent_color = "hsl(0.0, 0%, 50%)"
 +++
 
-Y no es solo el código. Tampoco es solo la documentación (que, siendo honestos, en mis proyectos suele existir en un plano espiritual superior. Perdón por eso {{ dmoji(name="xdd") }}). También está todo lo demás: gestionar una comunidad, responder preguntas, ayudar a la gente que decidió usar tu proyecto… o incluso contribuir a él.
+Y no es solo el código. Tampoco es solo la documentación (que, siendo honestos, en mis proyectos suele existir en un plano espiritual superior. Perdón por eso {{<dmoji name="xdd" config={config}/>}}). También está todo lo demás: gestionar una comunidad, responder preguntas, ayudar a la gente que decidió usar tu proyecto… o incluso contribuir a él.
 
 Y eso… es difícil.
 
@@ -58,7 +58,7 @@ Y eso lo aprecio muchísimo.
 
 Si uno mira la proporción entre gente que contribuye y gente que solo consume, probablemente estemos hablando de algo como 99 a 1. Mis proyectos son pequeños, pero en proyectos grandes esa proporción probablemente es aún más extrema.
 
-Y está bien. Nunca esperé que la gente viniera a contribuir con código. Ni siquiera con documentación (insisto: esa criatura mitológica {{ dmoji(name="xdd") }}).
+Y está bien. Nunca esperé que la gente viniera a contribuir con código. Ni siquiera con documentación (insisto: esa criatura mitológica {{<dmoji name="xdd" config={config}/>}}).
 
 Pero cuando parte de ese 99% empieza a exigir cosas como si alguien les hubiera prometido algo… la verdad es que se vuelve un poco frustrante.
 

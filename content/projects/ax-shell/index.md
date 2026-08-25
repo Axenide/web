@@ -24,12 +24,12 @@ A hackable shell for [Hyprland](https://hyprland.org/), powered by [Fabric](http
 
 </div>
 
-{{ carousel(start=1, end=15, interval=3000, style="margin: -2rem 0 0 0") }}
+{{<carousel start={1} end={15} interval={3000} style="margin: -2rem 0 0 0"/>}}
 
 <div align="center">
-  {{ styled_button(icon="coffee", label="Ko-Fi", link="https://ko-fi.com/Axenide", width="24px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(icon="github-logo", label="GitHub", link="https://github.com/Axenide/Ax-Shell", width="24px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(icon="discord-logo", label="Discord", link="/discord", width="24px", effect="zoom rotate", rotate="-15") }}
+  {{<styled_button icon="coffee" label="Ko-Fi" link="https://ko-fi.com/Axenide" width="24px" effect="zoom rotate" rotate="-15" config={config}/>}}
+  {{<styled_button icon="github-logo" label="GitHub" link="https://github.com/Axenide/Ax-Shell" width="24px" effect="zoom rotate" rotate="-15" config={config}/>}}
+  {{<styled_button icon="discord-logo" label="Discord" link="/discord" width="24px" effect="zoom rotate" rotate="-15" config={config}/>}}
 </div>
 
 ## Installation

@@ -10,7 +10,7 @@ banner = "cortisol.jpg"
 accent_color = "hsl(0.0, 0%, 50%)"
 +++
 
-And it’s not just the code. It’s not just the documentation either (which, if I’m being honest, in my projects usually exists on some higher spiritual plane. Sorry about that {{ dmoji(name="xdd") }}). There’s also everything else: managing a community, answering questions, helping people who decided to use your project… or even contribute to it.
+And it’s not just the code. It’s not just the documentation either (which, if I’m being honest, in my projects usually exists on some higher spiritual plane. Sorry about that {{<dmoji name="xdd" config={config}/>}}). There’s also everything else: managing a community, answering questions, helping people who decided to use your project… or even contribute to it.
 
 And that… is hard.
 
@@ -58,7 +58,7 @@ And I appreciate that a lot.
 
 If you look at the ratio between people who contribute and people who just consume, it’s probably something like 99 to 1. My projects are small, but in larger projects that ratio is probably even more extreme.
 
-And that’s fine. I never expected people to come and contribute code. Not even documentation (again: that mythical creature {{ dmoji(name="xdd") }}).
+And that’s fine. I never expected people to come and contribute code. Not even documentation (again: that mythical creature {{<dmoji name="xdd" config={config}/>}}).
 
 But when part of that 99% starts demanding things as if someone had promised them something… it honestly becomes a bit frustrating.
 

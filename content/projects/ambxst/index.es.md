@@ -41,20 +41,20 @@ Una shell ***Ax**tremadamente* personalizable.
 
 </div>
 
-{{ carousel(start=1, end=10, interval=3000, style="margin: -2rem 0 -2rem 0") }}
+{{<carousel start={1} end={10} interval={3000} style="margin: -2rem 0 -2rem 0"/>}}
 
 <div align="center" style="position: relative; margin-top: 4rem; margin-bottom: 4rem;">
   <div class="desktop-only" style="position: absolute; right: calc(50% + 90px); top: 10px; width: max-content;">
-    {{ arrow_note(text="¡Apoya el proyecto!", target="kofi-btn", color="text", font_size="1.25rem", stroke_width="2", head_size="10", amplitude="50", ease_out="20", ease_in="-20", start_dir="bottom", end_dir="bottom") }}
+    {{<arrow_note text="¡Apoya el proyecto!" target="kofi-btn" color="text" font_size="1.25rem" stroke_width="2" head_size="10" amplitude="50" ease_out="20" ease_in="-20" start_dir="bottom" end_dir="bottom"/>}}
   </div>
 
   <div class="desktop-only" style="position: absolute; left: calc(50% + 90px); top: 10px; width: max-content;">
-    {{ arrow_note(text="¡Únete al servidor!", target="discord-btn", color="text", font_size="1.25rem", stroke_width="2", head_size="10", amplitude="50", ease_out="-20", ease_in="20", start_dir="top", end_dir="top") }}
+    {{<arrow_note text="¡Únete al servidor!" target="discord-btn" color="text" font_size="1.25rem" stroke_width="2" head_size="10" amplitude="50" ease_out="-20" ease_in="20" start_dir="top" end_dir="top"/>}}
   </div>
   
-  {{ styled_button(id="kofi-btn", icon="coffee", label="Ko-Fi", link="https://ko-fi.com/Axenide", width="24px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(icon="github-logo", label="GitHub", link="https://github.com/Axenide/Ambxst", width="24px", effect="zoom rotate", rotate="-15") }}
-  {{ styled_button(id="discord-btn", icon="discord-logo", label="Discord", link="/es/discord", width="24px", effect="zoom rotate", rotate="-15") }}
+  {{<styled_button id="kofi-btn" icon="coffee" label="Ko-Fi" link="https://ko-fi.com/Axenide" width="24px" effect="zoom rotate" rotate="-15" config={config}/>}}
+  {{<styled_button icon="github-logo" label="GitHub" link="https://github.com/Axenide/Ambxst" width="24px" effect="zoom rotate" rotate="-15" config={config}/>}}
+  {{<styled_button id="discord-btn" icon="discord-logo" label="Discord" link="/es/discord" width="24px" effect="zoom rotate" rotate="-15" config={config}/>}}
 </div>
 
 ## Instalación
