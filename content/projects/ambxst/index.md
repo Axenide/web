@@ -62,7 +62,7 @@ links = [
 <div style="margin:0 auto; text-align:center; margin-bottom: 2rem; margin-top: 2rem;">
 
 ```bash
-curl -L get.axeni.de/ambxst | sh
+curl -fsSL get.axeni.de/ambxst | sh
 ```
 
 </div>
