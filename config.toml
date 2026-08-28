@@ -37,12 +37,28 @@ theme = "ayu-dark"
 discord_user_id = "294856304969908224"
 styles = ["custom.css"]
 accent_color = "hsl(0, 0%, 50%)"
+
+# Mono palette inputs. Single source per theme; everything else derives via oklch(from ...) / color-mix(in oklch, ...).
+# Defaults match the pre-rework palette so the site looks identical out of the box.
+mono       = "#e5e8ea"
+mono_light = "#29242a"
+
+# Per-page overrides available via page.extra.mono / page.extra.mono_light / page.extra.semantic.<name>.
+
 date_format = "%d %b %Y"
 date_format_long = "%B %d, %Y, %R (%Z)"
 timezone = "UTC"
 date_locale = "en_US"
 source_url = "https://github.com/Axenide/web"
 audio_button = true
+
+[extra.semantic]
+red    = "#db4740"
+green  = "#a1a740"
+yellow = "#df9238"
+blue   = "#619a96"
+cyan   = "#79a976"
+purple = "#c27491"
 
 [extra.meta]
 favicon = true

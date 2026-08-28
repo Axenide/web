@@ -1,0 +1,102 @@
+{# Mono + semantic color inputs.
+
+   Defaults match the pre-rework palette so the site looks identical out of the box.
+
+   Override chain per field:
+     page.extra.<field> > section.extra.<field> > config.extra.<field> > default
+
+   These are emitted alongside accent_color.html on the inline style of <html>.
+   The actual palette derivation happens in CSS via oklch(from var(--mono) ...) and
+   color-mix(in oklch, var(--mono), black ...) inside themes/axetrine/sass/custom.scss. #}
+
+{%- set mono_default = "#e5e8ea" -%}
+{%- set mono_light_default = "#29242a" -%}
+
+{%- if page is defined and page.extra and page.extra.mono -%}
+    {%- set mono_value = page.extra.mono -%}
+{%- elif section is defined and section.extra and section.extra.mono -%}
+    {%- set mono_value = section.extra.mono -%}
+{%- elif config.extra.mono is defined -%}
+    {%- set mono_value = config.extra.mono -%}
+{%- else -%}
+    {%- set mono_value = mono_default -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.mono_light -%}
+    {%- set mono_light_value = page.extra.mono_light -%}
+{%- elif section is defined and section.extra and section.extra.mono_light -%}
+    {%- set mono_light_value = section.extra.mono_light -%}
+{%- elif config.extra.mono_light is defined -%}
+    {%- set mono_light_value = config.extra.mono_light -%}
+{%- else -%}
+    {%- set mono_light_value = mono_light_default -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.semantic and page.extra.semantic.red -%}
+    {%- set semantic_red = page.extra.semantic.red -%}
+{%- elif section is defined and section.extra and section.extra.semantic and section.extra.semantic.red -%}
+    {%- set semantic_red = section.extra.semantic.red -%}
+{%- elif config.extra.semantic is defined and config.extra.semantic.red -%}
+    {%- set semantic_red = config.extra.semantic.red -%}
+{%- else -%}
+    {%- set semantic_red = "#db4740" -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.semantic and page.extra.semantic.green -%}
+    {%- set semantic_green = page.extra.semantic.green -%}
+{%- elif section is defined and section.extra and section.extra.semantic and section.extra.semantic.green -%}
+    {%- set semantic_green = section.extra.semantic.green -%}
+{%- elif config.extra.semantic is defined and config.extra.semantic.green -%}
+    {%- set semantic_green = config.extra.semantic.green -%}
+{%- else -%}
+    {%- set semantic_green = "#a1a740" -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.semantic and page.extra.semantic.yellow -%}
+    {%- set semantic_yellow = page.extra.semantic.yellow -%}
+{%- elif section is defined and section.extra and section.extra.semantic and section.extra.semantic.yellow -%}
+    {%- set semantic_yellow = section.extra.semantic.yellow -%}
+{%- elif config.extra.semantic is defined and config.extra.semantic.yellow -%}
+    {%- set semantic_yellow = config.extra.semantic.yellow -%}
+{%- else -%}
+    {%- set semantic_yellow = "#df9238" -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.semantic and page.extra.semantic.blue -%}
+    {%- set semantic_blue = page.extra.semantic.blue -%}
+{%- elif section is defined and section.extra and section.extra.semantic and section.extra.semantic.blue -%}
+    {%- set semantic_blue = section.extra.semantic.blue -%}
+{%- elif config.extra.semantic is defined and config.extra.semantic.blue -%}
+    {%- set semantic_blue = config.extra.semantic.blue -%}
+{%- else -%}
+    {%- set semantic_blue = "#619a96" -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.semantic and page.extra.semantic.cyan -%}
+    {%- set semantic_cyan = page.extra.semantic.cyan -%}
+{%- elif section is defined and section.extra and section.extra.semantic and section.extra.semantic.cyan -%}
+    {%- set semantic_cyan = section.extra.semantic.cyan -%}
+{%- elif config.extra.semantic is defined and config.extra.semantic.cyan -%}
+    {%- set semantic_cyan = config.extra.semantic.cyan -%}
+{%- else -%}
+    {%- set semantic_cyan = "#79a976" -%}
+{%- endif -%}
+
+{%- if page is defined and page.extra and page.extra.semantic and page.extra.semantic.purple -%}
+    {%- set semantic_purple = page.extra.semantic.purple -%}
+{%- elif section is defined and section.extra and section.extra.semantic and section.extra.semantic.purple -%}
+    {%- set semantic_purple = section.extra.semantic.purple -%}
+{%- elif config.extra.semantic is defined and config.extra.semantic.purple -%}
+    {%- set semantic_purple = config.extra.semantic.purple -%}
+{%- else -%}
+    {%- set semantic_purple = "#c27491" -%}
+{%- endif -%}
+
+--mono:        {{ mono_value }};
+--mono-light:  {{ mono_light_value }};
+--semantic-red:    {{ semantic_red }};
+--semantic-green:  {{ semantic_green }};
+--semantic-yellow: {{ semantic_yellow }};
+--semantic-blue:   {{ semantic_blue }};
+--semantic-cyan:   {{ semantic_cyan }};
+--semantic-purple: {{ semantic_purple }};

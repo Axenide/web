@@ -25,8 +25,8 @@ Personal website and blog built with **Zola** static site generator and **Axetri
 | Add blog post | `content/blog/` | Create folder with `index.md` |
 | Add project | `content/projects/` | Same pattern |
 | Add shortcode | `templates/shortcodes/` | Tera templates |
-| Custom styles | Override in Axetrine | Can modify submodule |
-| Config | `config.toml` | Zola settings |
+| Custom styles | Override in `themes/axetrine/sass/custom.scss` | Project overrides live here |
+| Config | `config.toml` | Zola settings; `mono` / `mono_light` (monochrome anchors) and `[extra.semantic.*]` (red/green/yellow/blue/cyan/purple) feed the OKLCH-derived palette via `templates/partials/mono_color.html` |
 
 ## BUILD COMMANDS
 ```bash
@@ -34,6 +34,11 @@ zola serve      # Dev server (localhost:1111)
 zola build      # Production build
 zola check      # Validate links
 ```
+
+### Hot reload caveats (Zola 0.23)
+- **Content & template** changes (`.md`, `templates/**`) — auto-reload, no action needed.
+- **SCSS** changes (`themes/axetrine/sass/**`) — auto-recompile + reload.
+- **`config.toml` changes** — Zola logs `Config changed. The browser needs to be refreshed` but the inline `--mono` / `--mono-light` / `[extra.semantic.*]` values emitted by `templates/partials/mono_color.html` do **not** re-render until `zola serve` is restarted. After editing `config.toml`, run `Ctrl+C` and `zola serve` again.
 
 ## CONVENTIONS (THIS PROJECT)
 - **Front matter**: TOML (`+++`)
