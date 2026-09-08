@@ -73,7 +73,17 @@ Esto instalará Ambxst y sus dependencias. Tendrás disponible el comando `ambxs
 
 1. Ejecuta el comando de instalación anterior.
 
-2. Ejecuta `ambxst install hyprland` para agregar la configuración de Ambxst a Hyprland. Esto va a importar un archivo que aplica las configuraciones de Ambxst. Se verá así:
+2. Ejecuta `ambxst install hyprland` para agregar la configuración de Ambxst a Hyprland. Esto va a importar un archivo que aplica las configuraciones de Ambxst. Si usas `hyprland.lua`, o si todavía no existe una configuración de Hyprland, se verá así:
+
+```lua
+-- Ambxst
+loadfile(os.getenv("HOME") .. "/.local/share/ambxst/hyprland.lua")()
+
+-- OVERRIDES
+-- Down here you can write or source anything that you want to override from Ambxst's settings.
+```
+
+Si solo tienes `hyprland.conf`, Ambxst seguirá usando el import legacy ahí por compatibilidad:
 
 ```bash
 # Ambxst
@@ -95,9 +105,49 @@ Ambxst actualmente es compatible con **Arch**, **Fedora** y **NixOS**. Esto incl
 > [!NOTE]
 > Para usuarios de NixOS, la utilidad de grabación de pantalla `gpu-screen-recorder` solo podrá usar el backend `portal` hasta que se agregue `programs.gpu-screen-recorder.enable = true;` a `configuration.nix` o **home-manager**.
 
+### NixOS + home-manager (Hyprland ≥0.56 Lua)
+
+Cuando ejecutes Ambxst en NixOS con [home-manager](https://github.com/nix-community/home-manager), **no** configures Hyprland mediante `wayland.windowManager.hyprland.settings` con variables como `$mod` / `$terminal`. Hyprland 0.56 espera un punto de entrada en Lua (`hl.config(...)`, `hl.bind(...)`, `hl.exec_cmd(...)`), no la sintaxis legacy `bind = "$mod, Return, exec, $terminal"`. El módulo de home-manager genera `hyprland.lua` literalmente a partir de `settings`, por lo que el archivo resultante es Lua inválido.
+
+En su lugar, usa un `xdg.configFile` declarativo y hazle hacer `loadfile()` del archivo que Ambxst escribe:
+
+```nix
+# home.nix
+{ lib, ... }: {
+  wayland.windowManager.hyprland.enable = false;
+
+  xdg.configFile."hypr/hyprland.lua".text = ''
+    -- Import the config axctl/ambxst writes to ~/.local/share/ambxst/
+    loadfile(os.getenv("HOME") .. "/.local/share/ambxst/hyprland.lua")()
+
+    -- OVERRIDES (hl.* API, Hyprland >=0.56)
+    hl.config({ input = { kb_layout = "latam", follow_mouse = 1 } })
+    hl.monitor({ output = "", mode = "preferred", scale = 1 })
+    hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
+    hl.bind("SUPER + Q",     hl.dsp.window.close())
+  '';
+
+  home.activation.fixHyprlandAmbxst = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ -f "$HOME/.config/hypr/hyprland.conf" ] \
+       && [ ! -L "$HOME/.config/hypr/hyprland.conf" ]; then
+      mv "$HOME/.config/hypr/hyprland.conf" \
+         "$HOME/.config/hypr/hyprland.conf.bak.$(date +%F-%H%M)"
+    fi
+    mkdir -p "$HOME/.local/share/ambxst"
+    [ -f "$HOME/.local/share/ambxst/hyprland.lua" ] \
+      || echo '-- placeholder' > "$HOME/.local/share/ambxst/hyprland.lua"
+  '';
+}
+```
+
+Notas:
+
+- `ambxst install hyprland` detecta los archivos gestionados por home-manager (symlinks hacia `/nix/store`) e imprime una guía en lugar de intentar añadir contenido; nunca romperá el symlink ni escribirá a través de él.
+- `~/.local/share/ambxst/hyprland.lua` es regenerado por el demonio `axctl` en cada cambio de tema/gaps/binds. Los ajustes cosméticos **no** requieren `nixos-rebuild`; solo los cambios estructurales (nuevos binds, cambio de layout) requieren un `home-manager switch`.
+
 ## ¿Cambiará esto mi configuración?
 
-Nope! Exceptuando la línea de configuración en tu `hyprland.conf`, Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
+¡Para nada! Exceptuando el bloque de importación de Ambxst en tu `hyprland.conf` o `hyprland.lua`, Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
 
 ## Características
 - [x] Componentes personalizables
@@ -133,7 +183,7 @@ Nope! Exceptuando la línea de configuración en tu `hyprland.conf`, Ambxst est�
 - [x] Soporte para diferentes layouts (dwindle, master, scrolling, etc.)
 - [x] Soporte para múltiples monitores
 - [x] Atajos de teclado personalizables
-- [x] Sistema de mods
+- [x] [Gestor de mods con integración nativa en Settings](https://github.com/Axenide/Ambxst/tree/main/docs/mods)
 - [x] Compatibilidad con otros compositores Wayland
 
 ## ¡Necesito ayuda!
