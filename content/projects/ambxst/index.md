@@ -133,8 +133,8 @@ Nope! Besides the source line in your `hyprland.conf`, Ambxst is designed to be 
 - [x] Support for different layouts (dwindle, master, scrolling, etc.)
 - [x] Multi-monitor support
 - [x] Customizable keybindings
-- [ ] Plugin and extension system
-- [ ] Compatibility with other Wayland compositors
+- [x] Mod system
+- [x] Compatibility with other Wayland compositors
 
 ## I need help!
 
