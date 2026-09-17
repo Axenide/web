@@ -12,8 +12,8 @@
         {% for page in section.pages %}
             {% set colors = ["red", "yellow", "green", "cyan", "blue", "magenta"] %}
             {% set colors_count = colors | length %}
-            {% set color_index = loop.index0 % colors_count %}
-            {% set color = page.extra.color | default(value=colors[color_index]) %}
+            {% set color_index = section.pages | length - 1 - loop.index0 %}
+            {% set color = colors[color_index % colors_count] %}
             <article id="{{ page.title }}" class="changelog-entry {{ color }}">
                 <div class="entry-date">{{ page.date | date(format=date_format, locale=date_locale) }}</div>
                 <div class="entry-dot"></div>
