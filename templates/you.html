@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+	#you-gif {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+	#you-gif img {
+		max-width: 100%;
+		max-height: 100%;
+		height: auto;
+	}
+</style>
+<div id="you-gif">
+	<img
+		src="{{ get_url(path="images/you.gif") }}"
+		alt="{{ page.extra.gif_alt | default(value="you") }}"
+		decoding="async"
+	/>
+</div>
+{% endblock content %}
