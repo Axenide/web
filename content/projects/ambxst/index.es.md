@@ -69,7 +69,7 @@ curl -fsSL get.axeni.de/ambxst | sh
 
 Esto instalará Ambxst y sus dependencias. Tendrás disponible el comando `ambxst` en tu terminal para iniciar la shell.
 
-### Hyprland (¡más compositores próximamente!)
+### Hyprland
 
 1. Ejecuta el comando de instalación anterior.
 
@@ -100,10 +100,30 @@ Como se indicó, cualquier cosa que quieras sobreescribir de las configuraciones
 Ambxst actualmente es compatible con **Arch**, **Fedora** y **NixOS**. Esto incluye tanto las distribuciones base como las derivadas.
 
 > [!IMPORTANT]
-> El único requisito previo es tener Hyprland instalado.
+> El único requisito previo es tener Hyprland o Niri instalado.
 
 > [!NOTE]
 > Para usuarios de NixOS, la utilidad de grabación de pantalla `gpu-screen-recorder` solo podrá usar el backend `portal` hasta que se agregue `programs.gpu-screen-recorder.enable = true;` a `configuration.nix` o **home-manager**.
+
+### Niri
+
+Las instrucciones son básicamente las mismas que para Hyprland, pero con el `niri.kdl` generado:
+
+1. Ejecuta el comando de instalación anterior.
+
+2. Ejecuta `ambxst install niri` para agregar la configuración de Ambxst a Niri. Esto va a añadir un bloque de include a `~/.config/niri/config.kdl` que se verá así:
+
+```kdl
+// Ambxst
+include "~/.local/share/ambxst/niri.kdl"
+
+// OVERRIDES
+// Down here you can write or include anything that you want to override from Ambxst's settings.
+```
+
+Como se indicó, cualquier cosa que quieras sobreescribir de las configuraciones de Ambxst debe escribirse debajo de la sección "OVERRIDES". El archivo `~/.local/share/ambxst/niri.kdl` es generado por Ambxst y se regenera automáticamente en cada cambio de tema/gaps/binds, así que no lo edites directamente — pon tus overrides en `~/.config/niri/config.kdl`.
+
+3. Inicia Ambxst ejecutando `ambxst` en tu terminal. Igual que con Hyprland, esto será necesario solo para tu primera prueba, ya que Ambxst iniciará automáticamente luego del paso 2.
 
 ### NixOS + home-manager (Hyprland ≥0.56 Lua)
 
@@ -147,7 +167,7 @@ Notas:
 
 ## ¿Cambiará esto mi configuración?
 
-¡Para nada! Exceptuando el bloque de importación de Ambxst en tu `hyprland.conf` o `hyprland.lua`, Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
+¡Para nada! Exceptuando el bloque de importación de Ambxst en tu `hyprland.conf`/`hyprland.lua` (o el bloque de include en el `config.kdl` de Niri), Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
 
 ## Características
 - [x] Componentes personalizables
