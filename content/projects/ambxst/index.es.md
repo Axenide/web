@@ -131,6 +131,34 @@ Las configuraciones gestionadas por home-manager son symlinks de solo lectura ha
 
 Los archivos generados se reescriben por el demonio `axctl` en cada cambio de tema/gaps/binds, así que los ajustes cosméticos **no** requieren un `home-manager switch`; solo los cambios estructurales (nuevos binds, cambio de layout) lo requieren.
 
+**home-manager:**
+
+```nix
+# inputs del flake.nix
+inputs.ambxst.url = "github:Axenide/Ambxst";
+
+# home.nix
+home.packages = [ inputs.ambxst.packages.${pkgs.system}.default ];
+```
+
+**NixOS sin home-manager:**
+
+```nix
+# flake.nix
+{
+  inputs.ambxst.url = "github:Axenide/Ambxst";
+
+  outputs = { self, nixpkgs, ambxst, ... }: {
+    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [ ambxst.nixosModules.default ];
+    };
+  };
+}
+```
+
+El módulo de NixOS instala el paquete, las fuentes necesarias y habilita los servicios recomendados (`programs.ambxst.enable` viene activado por defecto). Con home-manager, simplemente agrega el paquete y ejecuta `ambxst install hyprland` (o `niri`) como siempre.
+
 ## ¿Cambiará esto mi configuración?
 
 ¡Para nada! Exceptuando el bloque de importación de Ambxst en tu `hyprland.conf`/`hyprland.lua` (o el bloque de include en el `config.kdl` de Niri), Ambxst está diseñado para ser no intrusivo. No modificará ninguna de tus configuraciones existentes.
