@@ -157,7 +157,7 @@ home.packages = [ inputs.ambxst.packages.${pkgs.system}.default ];
 }
 ```
 
-El módulo de NixOS instala el paquete, las fuentes necesarias y habilita los servicios recomendados (`programs.ambxst.enable` viene activado por defecto). Con home-manager, simplemente agrega el paquete y ejecuta `ambxst install hyprland` (o `niri`) como siempre.
+El módulo de NixOS instala el paquete, las fuentes necesarias y habilita los servicios recomendados (`programs.ambxst.enable` viene activado por defecto). Con home-manager, simplemente agrega el paquete y ejecuta `ambxst install hyprland` (o `niri`) como siempre — funciona siempre que tu config del compositor no esté gestionada por home-manager (ver arriba).
 
 ## ¿Cambiará esto mi configuración?
 
