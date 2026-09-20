@@ -50,17 +50,16 @@ zola check      # Validate links
 ## ANTI-PATTERNS
 - **NEVER** modify `themes/axetrine/` directly → override in root `templates/`
 - **NEVER** commit secrets or API keys
-- **DO NOT** push to `main` branch → CI/CD auto-deploys from `dev`
+- **DO NOT** push to `main` branch → deploys happen on push to the branch configured in Cloudflare Pages
 
 ## SUBMODULES
 - `themes/axetrine` → https://codeberg.org/Axenide/Axetrine
 - Has independent remote → can push changes directly from submodule dir
 
 ## CI/CD
-- **Workflow**: `.github/workflows/zola.yml`
-- **Trigger**: Push to `dev` branch
-- **Action**: shalzz/zola-deploy-action
-- **Output**: Deploys to `main` branch (gh-pages)
+- **Platform**: Cloudflare Pages (configured in the Cloudflare dashboard, no in-repo workflow)
+- **Trigger**: Push to the production branch configured in Cloudflare (check dashboard; `dev` is the working branch)
+- **Note**: The old GitHub Actions workflow (`.github/workflows/zola.yml`, shalzz/zola-deploy-action → `main` branch) was removed in `a92470f` (Jan 2026). GitHub Actions does nothing here anymore.
 
 ## DESIGN DECISIONS (for future reference)
 
