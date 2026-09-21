@@ -63,6 +63,10 @@ purple = "#c27491"
 [extra.meta]
 favicon = true
 card = "images/smoking.png"
+apple_touch_icon = true
+manifest = true
+ms_tile = true
+ms_tile_color = "#29242a"
 
 [extra.nav]
 icon = "images/avatar.jpg"
