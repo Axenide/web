@@ -1,6 +1,6 @@
 base_url = "https://axeni.de"
 title = "Axenide"
-description = "I do things."
+description = "I'm Adriano Tisera, known on the Internet as Axenide. Future computer engineer, technologist and scientist. I create software, videos, music, art and games."
 theme = "axetrine"
 compile_sass = true
 build_search_index = true
@@ -17,7 +17,7 @@ index_format = "elasticlunr_javascript"
 
 [languages.es]
 title = "Axenide"
-description = "Hago cosas."
+description = "Soy Adriano Tisera, conocido en Internet como Axenide. Futuro ingeniero informático, tecnólogo y científico. Creo software, videos, música, arte y juegos."
 build_search_index = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
