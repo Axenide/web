@@ -62,7 +62,7 @@ purple = "#c27491"
 
 [extra.meta]
 favicon = true
-card = "images/avatar.jpg"
+card = "images/smoking.png"
 
 [extra.nav]
 icon = "images/avatar.jpg"
