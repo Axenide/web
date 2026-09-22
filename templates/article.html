@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article>
+  <h1>{{ page.title }}</h1>
+  {%- include "partials/article_details.html" -%}
+  {%- include "partials/statements.html" -%}
+  {{ page.content | safe }}
+  {%- include "partials/backlinks.html" -%}
+</article>
+
+{%- if page.extra.fediverse is defined and page.extra.fediverse.id -%}
+  {%- include "partials/comments.html" -%}
+{%- endif -%}
+
+{%- if page.lower or page.higher -%}
+  <hr />
+  {%- include "partials/article_nav.html" -%}
+{%- endif -%}
+{% endblock content %}

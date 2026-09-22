@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+{%- set number_of_tags = terms | length -%}
+
+<h1>{{< translate key="header_tags" default="Tags" language_strings={language_strings} lang={lang} />}}</h1>
+
+<p>
+  <small>{{< translate key="tags" number={number_of_tags} default="$NUMBER tags in total" language_strings={language_strings} lang={lang} />}}</small>
+</p>
+
+<ul id="tag-chips">
+  {%- for term in terms -%}
+    <li>
+      <a href="{{ get_taxonomy_url(kind='tags', name=term.name) }}">
+        {{ term.name }}
+        <span class="counter">{{ term.page_count }}</span>
+      </a>
+    </li>
+  {%- endfor -%}
+</ul>
+{% endblock content %}

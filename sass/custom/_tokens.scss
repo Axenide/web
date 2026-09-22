@@ -1,0 +1,175 @@
+// Dark palette — default theme and explicit dark mode.
+// All monochrome tokens derive from a single OKLCH input (--mono) injected by
+// templates/partials/mono_color.html. Override via config.extra.mono or per-page.
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+  /* === RAW INPUTS (Tera-injected; fall back to literals if unset) === */
+  --mono: #e5e8ea;
+  --mono-light: #29242a;
+  --semantic-red: #db4740;
+  --semantic-green: #a1a740;
+  --semantic-yellow: #df9238;
+  --semantic-blue: #619a96;
+  --semantic-cyan: #79a976;
+  --semantic-purple: #c27491;
+
+  /* === CORE MONO TOKENS (derived via oklch / color-mix from --mono) === */
+  --bg-color:        color-mix(in oklch, var(--mono), black 98%);
+  --fg-color:        var(--mono);
+  --fg-contrast:     var(--bg-color);
+  --contrast-color:  oklch(0 0 0);
+
+  --accent-color:        oklch(from var(--mono) calc(L * 0.85) C H);
+  --accent-color-hover:  color-mix(in oklch, var(--mono), black 30%);
+  --accent-highlight:    oklch(from var(--mono) calc(L * 0.85) C H / 0.38);
+
+  /* === MUTED VARIANTS — same L*C*H as --mono, alpha variable === */
+  --fg-muted-1:           oklch(from var(--mono) calc(L * 0.85) C H / 0.61);
+  --fg-muted-2:           oklch(from var(--mono) L C H / 0.81);
+  --bg-muted-1:           oklch(from var(--mono) L C H / 0.075);
+  --bg-muted-2:           oklch(from var(--mono) L C H / 0.15);
+  --bg-muted-neutral-1:   hsl(0 0% 100% / 0.075);
+  --bg-muted-neutral-2:   hsl(0 0% 100% / 0.15);
+  --background-dot-color: oklch(from var(--mono) L C H / 0.10);
+
+  /* === SURFACES === */
+  --surface-solid:        oklch(0 0 0);
+  --surface-panel:        oklch(0 0 0);
+  --surface-item:         color-mix(in oklch, var(--mono), black 95%);
+  --surface-item-hover:   color-mix(in oklch, var(--mono), black 92%);
+  --surface-border:       color-mix(in oklch, var(--mono), black 92%);
+  --blockquote-bg:        oklch(0 0 0 / 0.18);
+  --footer-bg:            color-mix(in oklch, var(--mono), black 95%);
+  --codeblock-bg:         color-mix(in oklch, var(--mono), black 95%);
+  --codeblock-header-bg:  var(--bg-color);
+  --codeblock-border:     oklch(from var(--mono) L C H / 0.16);
+  --shade-color:          oklch(0 0 0 / 0.58);
+
+  /* === GLASS === */
+  --glass-bg-1: oklch(from var(--mono) calc(L * 0.06) C H / 0.86);
+  --glass-bg-2: oklch(from var(--mono) calc(L * 0.08) C H / 0.90);
+
+  /* === BORDER HELPERS (replacement for inline rgba(194,200,203, X)) === */
+  --border-soft:    oklch(from var(--mono) L C H / 0.12);
+  --border-medium:  oklch(from var(--mono) L C H / 0.14);
+  --border-strong:  oklch(from var(--mono) L C H / 0.16);
+  --border-glow:    oklch(from var(--mono) L C H / 0.22);
+  --border-quote:   oklch(from var(--mono) L C H / 0.44);
+
+  /* === SEMANTIC TOKENS === */
+  --red-fg:    var(--semantic-red);
+  --green-fg:  var(--semantic-green);
+  --yellow-fg: var(--semantic-yellow);
+  --blue-fg:   var(--semantic-blue);
+  --cyan-fg:   var(--semantic-cyan);
+  --purple-fg: var(--semantic-purple);
+
+  /* bg-tinted variants (low-alpha overlays on dark bg) */
+  --red-bg-1:    oklch(from var(--semantic-red)    L C H / 0.10);
+  --red-bg-2:    oklch(from var(--semantic-red)    L C H / 0.20);
+  --green-bg-1:  oklch(from var(--semantic-green)  L C H / 0.10);
+  --green-bg-2:  oklch(from var(--semantic-green)  L C H / 0.20);
+  --yellow-bg-1: oklch(from var(--semantic-yellow) L C H / 0.10);
+  --yellow-bg-2: oklch(from var(--semantic-yellow) L C H / 0.20);
+  --blue-bg-1:   oklch(from var(--semantic-blue)   L C H / 0.10);
+  --blue-bg-2:   oklch(from var(--semantic-blue)   L C H / 0.20);
+  --cyan-bg-1:   oklch(from var(--semantic-cyan)   L C H / 0.10);
+  --cyan-bg-2:   oklch(from var(--semantic-cyan)   L C H / 0.20);
+  --purple-bg-1: oklch(from var(--semantic-purple) L C H / 0.10);
+  --purple-bg-2: oklch(from var(--semantic-purple) L C H / 0.20);
+
+  /* fg-muted variants (lighter, toward white) */
+  --red-fg-muted-1:    oklch(from var(--semantic-red)    calc(L + (1-L) * 0.85) C H / 0.5);
+  --red-fg-muted-2:    oklch(from var(--semantic-red)    calc(L + (1-L) * 0.85) C H / 0.6);
+  --green-fg-muted-1:  oklch(from var(--semantic-green)  calc(L + (1-L) * 0.85) C H / 0.5);
+  --green-fg-muted-2:  oklch(from var(--semantic-green)  calc(L + (1-L) * 0.85) C H / 0.6);
+  --yellow-fg-muted-1: oklch(from var(--semantic-yellow) calc(L + (1-L) * 0.85) C H / 0.5);
+  --yellow-fg-muted-2: oklch(from var(--semantic-yellow) calc(L + (1-L) * 0.85) C H / 0.6);
+  --blue-fg-muted-1:   oklch(from var(--semantic-blue)   calc(L + (1-L) * 0.85) C H / 0.5);
+  --blue-fg-muted-2:   oklch(from var(--semantic-blue)   calc(L + (1-L) * 0.85) C H / 0.6);
+  --cyan-fg-muted-1:   oklch(from var(--semantic-cyan)   calc(L + (1-L) * 0.85) C H / 0.5);
+  --cyan-fg-muted-2:   oklch(from var(--semantic-cyan)   calc(L + (1-L) * 0.85) C H / 0.6);
+  --purple-fg-muted-1: oklch(from var(--semantic-purple) calc(L + (1-L) * 0.85) C H / 0.5);
+  --purple-fg-muted-2: oklch(from var(--semantic-purple) calc(L + (1-L) * 0.85) C H / 0.6);
+
+  /* === HSL component triples — kept as fixed defaults so theme internals
+     that reference var(--red-h/s/l), var(--green-h/s/l), etc. continue to work.
+     If you change --semantic-* above, these do NOT auto-update. */
+  --red-h:    2.70968;  --red-s:    68.28194%; --red-l:    55.4902%;
+  --green-h:  63.49515; --green-s:  44.58874%; --green-l:  45.29412%;
+  --yellow-h: 32.33533; --yellow-s: 72.29437%; --yellow-l:  54.70588%;
+  --blue-h:   175.78947;--blue-s:   22.70916%; --blue-l:   49.21569%;
+  --cyan-h:   116.47059;--cyan-s:   22.86996%; --cyan-l:   56.27451%;
+  --purple-h: 337.69231;--purple-s: 39%;       --purple-l: 60.78431%;
+
+  /* === LAYOUT / MISC === */
+  --rounded-corner: 0;
+  --rounded-corner-small: 0;
+  --blur: blur(0.625rem) saturate(120%);
+  --shadow:
+    0 0 0 1px var(--border-medium),
+    0 0.75rem 2.5rem rgb(0 0 0 / 0.2);
+  --shadow-raised:
+    0 0 0 1px var(--border-strong),
+    0 1.25rem 3rem rgb(0 0 0 / 0.26);
+  --shadow-glass: 0 0.75rem 2rem rgb(0 0 0 / 0.18);
+  --shadow-glow: 0 0 0 1px var(--border-glow);
+  --shadow-glow-inset: inset 0 0 0 1px var(--border-glow);
+  --text-shadow-glow: none;
+  --edge-highlight: inset 0 0 0 1px rgb(255 255 255 / 0.055);
+
+  --font-sans-serif: "Roboto Condensed", "Geist", sans-serif;
+  --font-monospace: var(--font-ui-monospace);
+  --hover: translateY(-0.075rem);
+  --active: scale(0.98);
+  --transition: 0.2s;
+  --transition-longer: 0.35s;
+  --transition-long: 0.6s;
+  --transition-bezier: 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-bezier-longer: 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+// Light palette — mirror of dark. --mono-light is the dark fg anchor injected by
+// templates/partials/mono_color.html. bg is pushed toward white, fg is the input.
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-color:        color-mix(in oklch, var(--mono-light), white 96%);
+  --fg-color:        var(--mono-light);
+  --fg-contrast:     var(--bg-color);
+  --contrast-color:  oklch(1 0 0);
+
+  --accent-color:        oklch(from var(--mono-light) calc(L * 0.85) C H);
+  --accent-color-hover:  color-mix(in oklch, var(--mono-light), white 30%);
+  --accent-highlight:    oklch(from var(--mono-light) calc(L * 0.85) C H / 0.38);
+
+  --fg-muted-1:           oklch(from var(--mono-light) L C H / 0.61);
+  --fg-muted-2:           oklch(from var(--mono-light) L C H / 0.81);
+  --bg-muted-1:           oklch(from var(--mono-light) L C H / 0.075);
+  --bg-muted-2:           oklch(from var(--mono-light) L C H / 0.15);
+  --bg-muted-neutral-1:   hsl(0 0% 0% / 0.075);
+  --bg-muted-neutral-2:   hsl(0 0% 0% / 0.15);
+  --background-dot-color: oklch(from var(--mono-light) L C H / 0.10);
+
+  --surface-solid:        oklch(1 0 0);
+  --surface-panel:        oklch(1 0 0);
+  --surface-item:         color-mix(in oklch, var(--mono-light), white 92%);
+  --surface-item-hover:   color-mix(in oklch, var(--mono-light), white 87%);
+  --surface-border:       color-mix(in oklch, var(--mono-light), white 85%);
+  --blockquote-bg:        oklch(1 0 0 / 0.6);
+  --footer-bg:            color-mix(in oklch, var(--mono-light), white 90%);
+  --codeblock-bg:         color-mix(in oklch, var(--mono-light), white 92%);
+  --codeblock-header-bg:  var(--bg-color);
+  --codeblock-border:     oklch(from var(--mono-light) L C H / 0.16);
+  --shade-color:          oklch(0 0 0 / 0.08);
+
+  --glass-bg-1: oklch(from var(--mono-light) calc(L + (1-L) * 0.94) C H / 0.86);
+  --glass-bg-2: oklch(from var(--mono-light) calc(L + (1-L) * 0.92) C H / 0.90);
+
+  --border-soft:    oklch(from var(--mono-light) L C H / 0.12);
+  --border-medium:  oklch(from var(--mono-light) L C H / 0.14);
+  --border-strong:  oklch(from var(--mono-light) L C H / 0.16);
+  --border-glow:    oklch(from var(--mono-light) L C H / 0.22);
+  --border-quote:   oklch(from var(--mono-light) L C H / 0.44);
+}

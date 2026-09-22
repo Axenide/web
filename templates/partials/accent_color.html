@@ -1,4 +1,4 @@
-{# Override of themes/axetrine/templates/partials/accent_color.html.
+{# Site accent color logic (based on Ametrine's accent_color.html).
 
    Same logic as the original accent_color.html (unchanged); this override also
    emits the monochrome and semantic color inputs from partials/mono_color.html.
@@ -11,9 +11,6 @@
 {%- set accent_color = ["hsl(324, 2%, 43%)", "hsl(0, 1%, 75%)"] -%}
 
 {%- set presets = load_data(path="data/accent_presets.toml", required=false) -%}
-{% if not presets %}
-  {%- set presets = load_data(path="themes/axetrine/data/accent_presets.toml", required=false) -%}
-{% endif %}
 
 {%- if page is defined and page.extra and page.extra.accent_color -%}
   {%- set accent_color = page.extra.accent_color -%}

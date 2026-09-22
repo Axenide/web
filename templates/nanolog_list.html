@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block body_before %}
+<button id="nanolog-button" title="{% if lang == 'es' %}Nuevo Nanolog{% else %}New Nanolog{% endif %}" hidden>
+	{{< icon name="note-pencil" />}}
+</button>
+{% endblock body_before %}
+
+{% block content %}
+<h1 id="nanolog">{{ section.title }}</h1>
+
+{{ section.description | markdown | safe }}
+
+<div id="nanolog-modal">
+	<div id="nanolog-modal-wrapper">
+		<div class="lang-tabs">
+			<button class="lang-tab active" data-lang="en">English</button>
+			<button class="lang-tab" data-lang="es">Español</button>
+		</div>
+		<div id="nanolog-modal-content">
+			<div class="overshoot">
+				<textarea id="post-content-en" class="lang-content active" placeholder="What's on your mind?" maxlength="500"></textarea>
+				<textarea id="post-content-es" class="lang-content" placeholder="¿Qué tienes en mente?" maxlength="500"></textarea>
+			</div>
+			<div class="buttons">
+				<div class="button-row">
+					<div id="gemini-container">
+						<input id="gemini-key" type="password" placeholder="Gemini API Key">
+					</div>
+					<button id="translate-btn" title="{% if lang == 'es' %}Traducir{% else %}Translate{% endif %}">
+						{{< icon name="translate" />}}
+						<span>{% if lang == 'es' %}Traducir{% else %}Translate{% endif %}</span>
+					</button>
+				</div>
+				<div class="button-row">
+					<div id="char-count">0/500</div>
+					<div id="auth-container">
+						<input id="github-token" type="password" placeholder="GitHub token">
+						<button id="show-token-btn" title="{% if lang == 'es' %}Mostrar Token{% else %}Show Token{% endif %}">
+							{{< icon name="eye" />}}
+						</button>
+					</div>
+					<button id="publish-btn">{% if lang == 'es' %}Publicar{% else %}Publish{% endif %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ul id="nanolog-list">
+	{%- for page in section.pages %}
+		<li>
+			<a href="{{ page.permalink | safe }}">
+				{{ page.date | date(format=config.extra.date_format_long | default(value="%B %d, %Y, %R (%Z)"), timezone=config.extra.timezone | default(value="UTC"), locale=config.extra.date_locale | default(value="en_US")) }}
+			</a>
+			<div>
+				{% if config.extra.source_url %}
+					<a class="nanolog-edit-link" href="{{ config.extra.source_url }}/edit/main/content/{{ page.relative_path }}" target="_blank" hidden>{% if lang == 'es' %}Editar Post{% else %}Edit Post{% endif %}</a>
+				{%- endif -%}
+				{{ page.content | safe }}
+			</div>
+		</li>
+	{%- endfor %}
+</ul>
+
+{% endblock content %}

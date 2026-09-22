@@ -1,3 +1,1692 @@
+{% component icon(name: string, inline: bool = false, size: string = "", class: string = "") %}
+{%- if not name -%}
+{{ throw(message="Icon name is not specified.") }}
+{%- endif -%}
+
+{%- set icon_data = load_data(path="icons/phosphor/" ~ name ~ ".svg", required=false) -%}
+
+{%- if inline -%}
+url('data:image/svg+xml,{{ icon_data | urlencode | safe }}');
+{%- else -%}
+<i class="icon {{ name }}{% if class %} {{ class }}{% endif %}" style="--icon: url('data:image/svg+xml,{{ icon_data | urlencode }}');{% if size %} font-size: {{ size }};{% endif %}" aria-hidden="true"></i>
+{%- endif -%}
+{% endcomponent icon %}
+
+{% component translate(key: string, number: integer = -1, language_strings: map, default: string = "", replace: bool = true, lang: string) %}
+{%- set slavic_plural_languages = ["uk", "be", "bs", "hr", "ru", "sr"] -%}
+
+{%- set key_prefix = "" -%}
+{%- if number == 0 -%}
+{%- set key_prefix = "zero_" -%}
+{%- elif number == 1 -%}
+{%- set key_prefix = "one_" -%}
+{%- endif -%}
+
+{%- if number != -1 and key_prefix == "" -%}
+{%- if lang == "ar" -%}
+{%- set modulo = number % 100 -%}
+{%- if number == 2 -%}
+{%- set key_prefix = "two_" -%}
+{%- elif modulo >= 3 and modulo <= 10 -%}
+{%- set key_prefix = "few_" -%}
+{%- else -%}
+{%- set key_prefix = "many_" -%}
+{%- endif -%}
+{%- elif lang in slavic_plural_languages -%}
+{%- set modulo10 = number % 10 -%}
+{%- set modulo100 = number % 100 -%}
+{%- if modulo10 == 1 and modulo100 != 11 -%}
+{%- set key_prefix = "one_" -%}
+{%- elif modulo10 >= 2 and modulo10 <= 4 -%}
+{%- if modulo100 >= 12 and modulo100 <= 14 -%}
+{%- set key_prefix = "many_" -%}
+{%- else -%}
+{%- set key_prefix = "few_" -%}
+{%- endif -%}
+{%- else -%}
+{%- set key_prefix = "many_" -%}
+{%- endif -%}
+{%- else -%}
+{%- set key_prefix = "many_" -%}
+{%- endif -%}
+{%- endif -%}
+
+{%- set final_key = key_prefix ~ key -%}
+{%- set translated_text = language_strings[final_key] | default(value=default) | safe -%}
+
+{%- if replace -%}
+{%- set translated_text = translated_text | replace(from="$NUMBER", to=number | str) -%}
+{%- endif -%}
+{{- translated_text -}}
+{% endcomponent translate %}
+
+{% component link(link, lang: string, link_url: string, link_external: bool = false, link_active: bool = false, after_active: bool = false) %}
+{%- set link_classes = [] -%}
+{%- if link_external -%}
+{%- set link_classes = [...link_classes, "external"] -%}
+{%- endif -%}
+{%- if link.new -%}
+{%- set link_classes = [...link_classes, "new"] -%}
+{%- endif -%}
+
+{%- set link_classes = link_classes | join(sep=" ") -%}
+
+{%- if not link_external and not link_active -%}
+{%- if after_active -%}
+{%- set link_url = link_url ~ "#↓" -%}
+{%- else -%}
+{%- set link_url = link_url ~ "#↑" -%}
+{%- endif -%}
+{%- endif -%}
+
+<li>
+<a href="{{ link_url }}" {% if link_active %}aria-current="page"{% endif %} class="{{ link_classes }}">
+{%- if link.icon -%}
+{{< icon name={link.icon} />}}
+{%- else -%}
+<i class="icon fallback">{{ link.name | truncate(length=2, end="") }}</i>
+{%- endif -%}
+{{- link.name -}}
+</a>
+</li>
+{% endcomponent link %}
+
+{% component rel_attributes(config) %}
+{%- set attrs = [] -%}
+{%- if config.markdown.external_links_target_blank -%}
+{%- set attrs = [...attrs, "noopener"] -%}
+{%- endif -%}
+{%- if config.markdown.external_links_no_follow -%}
+{%- set attrs = [...attrs, "nofollow"] -%}
+{%- endif -%}
+{%- if config.markdown.external_links_no_referrer -%}
+{%- set attrs = [...attrs, "noreferrer"] -%}
+{%- endif -%}
+{{- attrs | join(sep=" ") -}}
+{% endcomponent rel_attributes %}
+
+{% component age(now_value = "") %}
+{%- if not now_value -%}
+{%- set now_value = now(utc=true) -%}
+{%- endif -%}
+<span id="age">
+{%- set year = 31556926 -%}
+{%- set birth = 992304000 -%}
+{%- set now = now_value | date(format="%s") | int -%}
+{%- set age = (now - birth) / year -%}
+{%- set chars = age | str | split(pat="") -%}
+
+{%- for ch in chars[1:-1] -%}
+{%- if ch == "." -%}
+<span class="char dot">.</span>
+{%- else -%}
+<span class="char digit" style="--delay: {{ get_random(start=200, end=800) }}ms">
+<span class="true">{{ ch | int }}</span>
+{%- for offset in range(start=1, end=10) -%}
+<span aria-hidden="true">{{ (ch | int + offset) % 10 }}</span>
+{%- endfor -%}
+<span aria-hidden="true" class="true">{{ ch | int }}</span>
+</span>
+{%- endif -%}
+{%- endfor -%}
+</span>
+
+<script>
+(function() {
+const ageEl = document.getElementById('age');
+if (!ageEl) return;
+
+const birth = 992304000;
+const yearSeconds = 31556926;
+let isLocked = false;
+
+startLoop();
+
+ageEl.addEventListener('mouseenter', () => {
+isLocked = true;
+const domChars = ageEl.querySelectorAll('.char.digit');
+domChars.forEach(el => {
+el.style.transition = '';
+el.style.transform = '';
+});
+setTimeout(() => {
+isLocked = false;
+}, 2000);
+});
+
+function startLoop() {
+setInterval(update, 50);
+}
+
+function update() {
+if (isLocked) return;
+const now = Date.now() / 1000;
+const age = (now - birth) / yearSeconds;
+const ageStr = age.toFixed(9);
+const domChars = ageEl.querySelectorAll('.char');
+const chars = ageStr.split('');
+
+for (let i = 0; i < domChars.length && i < chars.length; i++) {
+const domEl = domChars[i];
+const char = chars[i];
+if (domEl.classList.contains('dot')) continue;
+updateDigit(domEl, char);
+}
+}
+
+function updateDigit(el, newChar) {
+const bottomSpan = el.lastElementChild;
+const topSpan = el.firstElementChild;
+const currentVal = bottomSpan.textContent;
+
+if (currentVal !== newChar) {
+topSpan.textContent = currentVal;
+bottomSpan.textContent = newChar;
+el.style.transition = 'none';
+el.style.transform = 'translateY(0)';
+void el.offsetWidth;
+el.style.transition = 'transform 0.1s ease-out';
+el.style.transform = 'translateY(calc(-100% + 1.5rem))';
+}
+}
+})();
+</script>
+{% endcomponent age %}
+
+{% component alert(icon: string, title: string, color: string = "") %}
+{%- set alert_icon = load_data(path="icons/phosphor/" ~ icon ~ ".svg", required=false) -%}
+
+<blockquote class="markdown-alert{% if color %}-{{ color }}{% endif %}" style=" --alert-title: '{{ title }}'; --alert-icon: url('data:image/svg+xml,{{ alert_icon | urlencode | safe }}'); ">
+{{ body | markdown | safe }}
+</blockquote>
+{% endcomponent alert %}
+
+{% component arrow_note(text: string, target: string, start_dir: string = "bottom", end_dir: string = "bottom", color: string = "accent", font_size: string = "1.5rem", font_weight: string = "bold", stroke_width: string = "4", head_size: string = "10", spacing: string = "10", amplitude: string = "", amplitude_desktop: string = "", easing: string = "", ease_out: string = "", ease_in: string = "", lock_bottom: bool = false, bottom_offset: string = "") %}
+{% if color == "accent" %}
+{% set final_color = "var(--accent-color)" %}
+{% elif color == "text" %}
+{% set final_color = "var(--fg-color)" %}
+{% else %}
+{% set final_color = color %}
+{% endif %}
+
+<span class="arrow-note" style="color: {{ final_color }}; font-size: {{ font_size }}; font-weight: {{ font_weight }}; display: inline-block;" data-target-id="{{ target }}" data-start-dir="{{ start_dir }}" data-end-dir="{{ end_dir }}" data-color="{{ final_color }}" data-stroke-width="{{ stroke_width }}" data-head-size="{{ head_size }}" data-spacing="{{ spacing }}"{% if amplitude %} data-amplitude="{{ amplitude }}"{% endif %}{% if amplitude_desktop %} data-amplitude-desktop="{{ amplitude_desktop }}"{% endif %}{% if easing %} data-easing="{{ easing }}"{% endif %}{% if ease_out %} data-ease-out="{{ ease_out }}"{% endif %}{% if ease_in %} data-ease-in="{{ ease_in }}"{% endif %}{% if lock_bottom %} data-lock-bottom="{{ lock_bottom }}"{% endif %}{% if bottom_offset %} data-bottom-offset="{{ bottom_offset }}"{% endif %}>{{ text | safe }}</span>
+
+<script>
+(function() {
+const arrows = [];
+const boilFrames = [
+{ frequency: "0.018 0.026", textScale: "2.2", lineScale: "3.2", axieScale: "2.8", seed: "2" },
+{ frequency: "0.028 0.018", textScale: "3", lineScale: "4.1", axieScale: "3.6", seed: "5" },
+{ frequency: "0.014 0.032", textScale: "2.6", lineScale: "3.7", axieScale: "3.2", seed: "8" },
+{ frequency: "0.024 0.022", textScale: "3.2", lineScale: "4.5", axieScale: "3.9", seed: "13" }
+];
+const firefoxBoilFrames = [
+{ frequency: "0.022 0.032", textScale: "3.4", lineScale: "5.1", axieScale: "4.5", seed: "3" },
+{ frequency: "0.034 0.022", textScale: "4.2", lineScale: "6.2", axieScale: "5.4", seed: "7" },
+{ frequency: "0.018 0.038", textScale: "3.8", lineScale: "5.7", axieScale: "5", seed: "11" },
+{ frequency: "0.03 0.026", textScale: "4.4", lineScale: "6.6", axieScale: "5.8", seed: "17" }
+];
+const boilFilters = [];
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+const activeBoilFrames = isFirefox ? firefoxBoilFrames : boilFrames;
+
+function initArrowNotes() {
+const notes = document.querySelectorAll('.arrow-note');
+notes.forEach(note => {
+if (note.dataset.processed) return;
+const targetId = note.dataset.targetId;
+const target = document.getElementById(targetId);
+if (!target) {
+setTimeout(() => {
+const retryTarget = document.getElementById(targetId);
+if(retryTarget) registerArrow(note, retryTarget);
+}, 500);
+return;
+}
+registerArrow(note, target);
+});
+}
+
+function createBoilFilter(id, scale) {
+const filter = document.createElementNS("http://www.w3.org/2000/svg", "filter");
+filter.id = id;
+filter.setAttribute("x", "-28%");
+filter.setAttribute("y", "-28%");
+filter.setAttribute("width", "156%");
+filter.setAttribute("height", "156%");
+
+const turbulence = document.createElementNS("http://www.w3.org/2000/svg", "feTurbulence");
+turbulence.setAttribute("type", "turbulence");
+turbulence.setAttribute("baseFrequency", activeBoilFrames[0].frequency);
+turbulence.setAttribute("numOctaves", "2");
+turbulence.setAttribute("seed", activeBoilFrames[0].seed);
+turbulence.setAttribute("result", "noise");
+
+const displacement = document.createElementNS("http://www.w3.org/2000/svg", "feDisplacementMap");
+displacement.setAttribute("in", "SourceGraphic");
+displacement.setAttribute("in2", "noise");
+displacement.setAttribute("scale", scale);
+displacement.setAttribute("xChannelSelector", "R");
+displacement.setAttribute("yChannelSelector", "G");
+
+filter.appendChild(turbulence);
+filter.appendChild(displacement);
+
+return { filter, turbulence, displacement };
+}
+
+function ensureBoilFilters(svg) {
+let defs = document.getElementById('arrow-note-boil-defs');
+
+if (!defs) {
+defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+defs.id = "arrow-note-boil-defs";
+svg.appendChild(defs);
+}
+
+const filters = [
+{ id: "arrow-note-text-boil", scale: activeBoilFrames[0].textScale, role: "text" },
+{ id: "arrow-note-line-boil", scale: activeBoilFrames[0].lineScale, role: "line" },
+{ id: "arrow-note-axie-boil", scale: activeBoilFrames[0].axieScale, role: "axie" }
+];
+
+filters.forEach(config => {
+if (document.getElementById(config.id)) return;
+
+const filterData = createBoilFilter(config.id, config.scale);
+filterData.role = config.role;
+defs.appendChild(filterData.filter);
+boilFilters.push(filterData);
+});
+}
+
+function registerArrow(note, target) {
+let svg = document.getElementById('arrow-layer');
+if (!svg) {
+svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.id = "arrow-layer";
+svg.style.position = "absolute";
+svg.style.top = "0";
+svg.style.left = "0";
+svg.style.width = "100%";
+svg.style.height = "100%";
+svg.style.pointerEvents = "none";
+svg.style.zIndex = "900";
+svg.style.overflow = "visible";
+
+document.body.appendChild(svg);
+}
+
+ensureBoilFilters(svg);
+
+const color = note.dataset.color;
+const strokeWidth = parseFloat(note.dataset.strokeWidth);
+const headSize = parseFloat(note.dataset.headSize);
+const spacing = parseFloat(note.dataset.spacing);
+const customAmp = note.dataset.amplitude ? parseFloat(note.dataset.amplitude) : null;
+const customAmpDesktop = note.dataset.amplitudeDesktop ? parseFloat(note.dataset.amplitudeDesktop) : null;
+const baseEasing = note.dataset.easing ? parseFloat(note.dataset.easing) : 0;
+const easeOut = note.dataset.easeOut ? parseFloat(note.dataset.easeOut) : baseEasing;
+const easeIn = note.dataset.easeIn ? parseFloat(note.dataset.easeIn) : baseEasing;
+const lockBottom = note.dataset.lockBottom === "true";
+const bottomOffset = note.dataset.bottomOffset ? parseFloat(note.dataset.bottomOffset) : 10;
+
+const startDir = note.dataset.startDir;
+const endDir = note.dataset.endDir;
+
+const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+group.classList.add("arrow-line-boil");
+
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.classList.add("arrow-path");
+path.setAttribute("fill", "none");
+path.setAttribute("stroke", color);
+path.setAttribute("stroke-width", strokeWidth);
+path.setAttribute("stroke-linecap", "round");
+
+const head = document.createElementNS("http://www.w3.org/2000/svg", "path");
+head.classList.add("arrow-path");
+head.setAttribute("fill", "none");
+head.setAttribute("stroke", color);
+head.setAttribute("stroke-width", strokeWidth);
+head.setAttribute("stroke-linecap", "round");
+head.setAttribute("stroke-linejoin", "round");
+
+group.appendChild(path);
+group.appendChild(head);
+
+group.style.opacity = "0";
+group.style.transition = "opacity 0.2s ease";
+svg.appendChild(group);
+
+const arrowData = {
+note,
+target,
+group,
+path,
+head,
+config: {
+startDir, endDir, headSize, customAmp, customAmpDesktop, easeOut, easeIn, spacing, lockBottom, bottomOffset
+}
+};
+
+arrows.push(arrowData);
+note.dataset.processed = "true";
+}
+
+function startLoop() {
+requestAnimationFrame(loop);
+}
+
+function loop() {
+const scrollX = window.scrollX;
+const scrollY = window.scrollY;
+const viewportHeight = window.innerHeight;
+const isDesktop = window.innerWidth > 768;
+const boilFrame = activeBoilFrames[Math.floor(performance.now() / 120) % activeBoilFrames.length];
+
+arrows.forEach(arrow => {
+const { note, target, config } = arrow;
+
+if (note.offsetParent === null) {
+arrow.nextState = { visible: false };
+return;
+}
+
+const r1 = note.getBoundingClientRect();
+const r2 = target.getBoundingClientRect();
+
+let x1, y1, x2, y2;
+
+const spacing = config.spacing;
+switch(config.startDir) {
+case 'top': x1 = r1.left + r1.width/2; y1 = r1.top - spacing; break;
+case 'bottom': x1 = r1.left + r1.width/2; y1 = r1.bottom + spacing; break;
+case 'left': x1 = r1.left - spacing; y1 = r1.top + r1.height/2; break;
+case 'right': x1 = r1.right + spacing; y1 = r1.top + r1.height/2; break;
+}
+
+switch(config.endDir) {
+case 'top': x2 = r2.left + r2.width/2; y2 = r2.top - spacing; break;
+case 'bottom': x2 = r2.left + r2.width/2; y2 = r2.bottom + spacing; break;
+case 'left': x2 = r2.left - spacing; y2 = r2.top + r2.height/2; break;
+case 'right': x2 = r2.right + spacing; y2 = r2.top + r2.height/2; break;
+}
+
+if (config.lockBottom) {
+y2 = viewportHeight - config.bottomOffset;
+}
+
+x1 += scrollX; y1 += scrollY;
+x2 += scrollX; y2 += scrollY;
+
+let curve;
+const effectiveAmp = (isDesktop && config.customAmpDesktop !== null) ? config.customAmpDesktop : config.customAmp;
+
+if (effectiveAmp !== null) {
+curve = effectiveAmp;
+} else {
+const dist = Math.hypot(x2-x1, y2-y1);
+curve = Math.min(Math.max(dist * 0.5, 50), 200);
+}
+
+let cp1x = x1, cp1y = y1, cp2x = x2, cp2y = y2;
+
+switch(config.startDir) {
+case 'top': cp1y -= curve; cp1x += config.easeOut; break;
+case 'bottom': cp1y += curve; cp1x += config.easeOut; break;
+case 'left': cp1x -= curve; cp1y += config.easeOut; break;
+case 'right': cp1x += curve; cp1y += config.easeOut; break;
+}
+
+switch(config.endDir) {
+case 'top': cp2y -= curve; cp2x += config.easeIn; break;
+case 'bottom': cp2y += curve; cp2x += config.easeIn; break;
+case 'left': cp2x -= curve; cp2y += config.easeIn; break;
+case 'right': cp2x += curve; cp2y += config.easeIn; break;
+}
+
+const d = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+
+const angle = Math.atan2(y2 - cp2y, x2 - cp2x);
+const headLen = config.headSize;
+const headAngle = Math.PI / 6;
+
+const p1x = x2 - headLen * Math.cos(angle - headAngle);
+const p1y = y2 - headLen * Math.sin(angle - headAngle);
+const p2x = x2 - headLen * Math.cos(angle + headAngle);
+const p2y = y2 - headLen * Math.sin(angle + headAngle);
+
+const headD = `M ${p1x} ${p1y} L ${x2} ${y2} L ${p2x} ${p2y}`;
+
+arrow.nextState = { visible: true, d, headD };
+});
+
+if (!reduceMotion.matches) {
+boilFilters.forEach(filter => {
+const scale = filter.role === "text" ? boilFrame.textScale : filter.role === "axie" ? boilFrame.axieScale : boilFrame.lineScale;
+
+if (filter.turbulence.getAttribute("baseFrequency") !== boilFrame.frequency) {
+filter.turbulence.setAttribute("baseFrequency", boilFrame.frequency);
+}
+if (filter.turbulence.getAttribute("seed") !== boilFrame.seed) {
+filter.turbulence.setAttribute("seed", boilFrame.seed);
+}
+if (filter.displacement.getAttribute("scale") !== scale) {
+filter.displacement.setAttribute("scale", scale);
+}
+});
+}
+
+arrows.forEach(arrow => {
+const { group, path, head, nextState, currentState } = arrow;
+
+if (!nextState) return;
+
+if (!nextState.visible) {
+if (group.style.opacity !== "0") group.style.opacity = "0";
+return;
+}
+
+if (group.style.opacity !== "1") group.style.opacity = "1";
+
+if (!currentState || currentState.d !== nextState.d) {
+path.setAttribute("d", nextState.d);
+}
+if (!currentState || currentState.headD !== nextState.headD) {
+head.setAttribute("d", nextState.headD);
+}
+
+arrow.currentState = nextState;
+});
+
+requestAnimationFrame(loop);
+}
+
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', () => {
+initArrowNotes();
+startLoop();
+});
+} else {
+initArrowNotes();
+startLoop();
+}
+})();
+</script>
+{% endcomponent arrow_note %}
+
+{% component audio(url: string, name: string) %}
+<button class="audio" data-audio="{{ url }}">{{ name }}{{< icon name="speaker-high" />}}</button>
+{% endcomponent audio %}
+
+{% component axie_icon() %}
+<svg class="axie-icon" width="96" height="96" viewBox="0 0 75.494301 55.264828" aria-hidden="true" focusable="false">
+<g transform="translate(-66.050026,-85.630874)">
+<path d="m 97.070447,113.48267 c -0.580763,-1.19031 -0.553684,-2.54083 -0.44965,-3.55223 5.840373,-7.17052 4.236183,-12.210591 -1.438881,-14.748524 -4.875155,-2.180206 -11.614341,-0.2564 -16.90684,4.172752 -2.985596,-1.8302 -6.92337,-3.397051 -11.475068,-2.338178 1.001833,3.5168 5.475163,6.32771 10.395908,7.51815 -3.225489,-0.009 -6.450979,-0.72222 -9.676468,2.08637 2.15832,2.42212 5.851445,3.16554 11.079376,2.23027 -2.290217,1.42689 -4.244696,3.18951 -5.863436,5.28788 4.148771,1.05518 7.146438,0.0959 8.993001,-2.87776" />
+<path d="m 91.956407,94.34261 c -1.154277,-3.329242 -0.454257,-5.877938 0.478184,-7.961796 2.725156,2.494006 3.85632,5.530647 3.393491,9.109924" />
+<path d="m 96.755496,96.015827 c 0.823508,-1.922842 2.053993,-3.328554 3.691454,-4.217135 1.10577,2.329763 0.79721,4.659526 -0.925693,6.989289" />
+<path d="m 100.15368,100.46079 c 1.23389,-0.818821 2.23038,-1.230412 2.98949,-1.234773 -0.0642,2.373073 -1.07795,3.796533 -3.04134,4.270383" />
+<path d="m 80.889003,112.3876 c 1.442889,0.008 2.454114,0.25642 3.033675,0.74435" />
+<path d="m 82.247675,112.48467 c -1.45646,23.57584 25.802555,32.42395 40.964535,21.10545" />
+<path d="m 135.37064,121.07558 c -5.04769,2.94537 -7.25857,8.69274 -12.15843,12.51454" />
+<path d="m 135.37064,121.07558 c -6.91074,-2.67 -14.1925,13.28249 -24.16424,6.35901 0.75107,-0.87743 1.83634,-1.31832 3.25581,-1.32267 1.79748,-1.35659 2.73013,-3.79845 2.74709,-4.68023 0.017,-0.88178 -0.96243,0.51123 -1.42441,0.22893 -0.46198,-0.28231 0.0511,-1.17355 -0.45785,-1.34812 -0.509,-0.17457 -0.6094,0.89212 -1.14463,0.81395 -0.53523,-0.0782 -0.25189,-1.23103 -0.94113,-1.11918 -0.68924,0.11185 -0.61047,2.49273 -0.61047,2.49273 -1.22093,-0.89874 -2.64534,-1.01744 -4.27325,-0.3561" />
+<path d="m 96.576802,111.47794 c 4.431918,2.22379 5.957408,5.10131 4.576468,8.63257" />
+<path d="m 98.383425,115.1104 c 0.347729,1.24703 -0.281781,2.92573 -0.683469,3.45332 -0.401688,0.52759 0.702767,0.15687 1.007217,0.46764 0.30445,0.31077 0.129875,0.80201 0.467636,0.97124 0.337761,0.16923 0.664677,-0.10291 1.043191,-0.10792 0.37851,-0.005 0.93527,0.21583 0.93527,0.21583" />
+<path d="m 101.61158,117.11067 c 2.33349,0.57158 6.79449,3.58222 7.70733,7.13662" />
+<path d="m 88.239321,116.6572 c 1.36817,3.05469 8.363026,2.56142 6.367043,3.63318 0,0 -0.1046,0.40969 -0.143887,0.82735 -0.06919,0.73561 0.91317,0.58198 0.71944,1.295 -0.14428,0.53101 -0.736121,-0.009 -0.935274,0.5036 -0.161445,0.41583 0.345791,0.52194 0.107917,0.8993 -0.473405,0.75101 -0.32607,-0.20624 -2.518039,-0.32379 -1.249361,-0.067 -3.796062,-1.20562 -5.647604,-2.80581" />
+<path d="m 95.757467,130.83017 c 1.043187,-2.54202 2.757851,-2.92572 5.143993,-1.1511" />
+<path d="m 100.14605,133.13238 c 4.71233,0.23981 6.35506,-1.72666 4.92817,-5.89941 0,0 -0.46293,1.10076 -1.00722,1.07916 -0.54429,-0.0216 -0.55471,-1.44412 -1.11513,-1.40291 -0.56042,0.0412 -0.31194,1.25335 -0.79139,1.36694 -0.47945,0.11359 -0.6254,-1.02247 -1.1511,-0.75541 -0.5257,0.26706 -0.10792,2.15832 -0.10792,2.15832" />
+<path d="m 104.65214,138.30284 c 25.29622,7.90141 22.54812,-11.76745 36.14228,-18.30024 -13.3267,-7.46627 -17.8631,9.18935 -27.01831,8.75596" />
+<path d="m 84.507275,104.06896 c 2.561414,-1.01208 4.053662,-1.046 5.799417,-0.61046" />
+<path d="m 98.254323,97.171779 c -1.37895,1.363957 -1.914654,2.030948 -2.208333,3.445771" />
+</g>
+</svg>
+{% endcomponent axie_icon %}
+
+{% component badges(note_text: string = "", target: string = "badges-plus-label", start_dir: string = "right", end_dir: string = "right", color: string = "accent", font_size: string = "1.6rem", amplitude: string = "50", spacing: string = "10", section, config) %}
+<aside id="badges">
+<div style="display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem;">
+<strong class="title">Badges</strong>
+<small><abbr title="Also Known As">AKA</abbr> 88x31 buttons</small>
+</div>
+<input type="checkbox" id="badges-popup-expand" class="visually-hidden" autocomplete="off" />
+<label for="badges-popup-expand" id="badges-plus-label" autocomplete="off" title="Link to Me">
+{{< icon name="plus" />}}
+{{< icon name="x" />}}
+</label>
+
+<div class="desktop-only badge-arrow-wide" style="position: absolute; top: -3.5rem; right: -2rem; z-index: 20;">
+{{< arrow_note text={note_text} target={target} start_dir={start_dir} end_dir={end_dir} color={color} font_size={font_size} amplitude={amplitude} spacing={spacing} />}}
+</div>
+
+<div class="desktop-only badge-arrow-narrow" style="position: absolute; top: -3.5rem; right: 1.5rem; z-index: 20;">
+{{< arrow_note text={note_text} target={target} start_dir="bottom" end_dir="left" color={color} font_size={font_size} amplitude="30" spacing={spacing} />}}
+</div>
+
+<div id="badges-popup">
+<p>
+If you'd like to link to me, you can use one of the following badges:
+</p>
+<ul>
+<li>
+<img width="88" height="31" class="pixels transparent no-hover" alt="Axenide" src="{{ get_url(path='images/88x31.gif') }}" />
+<span>Current</span>
+</li>
+</ul>
+</div>
+
+<div class="badges-marquee-wrapper overshoot-row">
+<div class="badges-marquee">
+<ul style="--duration: {{ section.extra.badges | length * 2 | default(value=10) }}s">
+{%- for badge in section.extra.badges -%}
+<li>
+{%- if badge.url -%}
+<a href="{{ badge.url }}">
+{%- endif -%}
+
+{%- set img_src = "" -%}
+{%- if badge.image -%}
+{%- if badge.image is starting_with(pat="http") -%}
+{%- set img_src = badge.image -%}
+{%- else -%}
+{%- set img_src = get_url(path=badge.image) -%}
+{%- endif -%}
+{%- else -%}
+{%- if badge.name is starting_with(pat="http") -%}
+{%- set img_src = badge.name -%}
+{%- else -%}
+{%- set img_src = get_url(path="badges/" ~ badge.name) -%}
+{%- endif -%}
+{%- endif -%}
+
+<img width="88" height="31" class="pixels transparent no-hover" {%- if badge.alt -%} alt="{{ badge.alt }}" {%- else -%} alt="{{ badge.name }}" {%- endif -%} src="{{ img_src }}" {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+{%- if badge.url -%}
+</a>
+{%- endif -%}
+</li>
+{%- endfor -%}
+<li>
+<iframe src="https://incr.easrng.net/badge?key={{ config.base_url | replace(from='https://', to='') }}" title="increment badge"></iframe>
+</li>
+</ul>
+<ul style="--duration: {{ section.extra.badges | length * 2 | default(value=10) }}s" aria-hidden="true">
+{%- for badge in section.extra.badges -%}
+<li>
+{%- if badge.url -%}
+<a href="{{ badge.url }}">
+{%- endif -%}
+
+{%- set img_src = "" -%}
+{%- if badge.image -%}
+{%- if badge.image is starting_with(pat="http") -%}
+{%- set img_src = badge.image -%}
+{%- else -%}
+{%- set img_src = get_url(path=badge.image) -%}
+{%- endif -%}
+{%- else -%}
+{%- if badge.name is starting_with(pat="http") -%}
+{%- set img_src = badge.name -%}
+{%- else -%}
+{%- set img_src = get_url(path="badges/" ~ badge.name) -%}
+{%- endif -%}
+{%- endif -%}
+
+<img width="88" height="31" class="pixels transparent no-hover" {%- if badge.alt -%} alt="{{ badge.alt }}" {%- else -%} alt="{{ badge.name }}" {%- endif -%} src="{{ img_src }}" />
+{%- if badge.url -%}
+</a>
+{%- endif -%}
+</li>
+{%- endfor -%}
+<li>
+<iframe src="https://incr.easrng.net/badge?key={{ config.base_url | replace(from='https://', to='') }}" title="increment badge"></iframe>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+{% endcomponent badges %}
+
+{% component carousel(start: integer = 0, end: integer = 0, interval: integer = 3000, prefix: string = "", extension: string = ".png", images = [], speed: integer = 5, class: string = "", style: string = "") %}
+{%- set manual_images = images -%}
+{%- set range_images = [prefix ~ i ~ extension for i in range(start=start, end=end + 1)] -%}
+{%- set final_images = [...manual_images, ...range_images] -%}
+
+<div class="carousel-marquee-wrapper {{ class }}" style="{{ style }}">
+<div class="carousel-marquee">
+<ul style="--duration: {{ final_images | length * speed }}s">
+{% for image in final_images %}
+<li>
+<img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }}" loading="lazy" />
+</li>
+{% endfor %}
+</ul>
+<ul style="--duration: {{ final_images | length * speed }}s" aria-hidden="true">
+{% for image in final_images %}
+<li>
+<img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }} (clone)" loading="lazy" />
+</li>
+{% endfor %}
+</ul>
+</div>
+</div>
+
+<div class="lightbox-overlay">
+<div class="lightbox-nav lightbox-prev" aria-label="Previous image">
+<svg class="lightbox-arrow-icon" viewBox="0 0 24 24" fill="white">
+<path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+</svg>
+</div>
+<img class="lightbox-img" src="" alt="Full size view" />
+<div class="lightbox-nav lightbox-next" aria-label="Next image">
+<svg class="lightbox-arrow-icon" viewBox="0 0 24 24" fill="white">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+</svg>
+</div>
+</div>
+
+<script>
+(function() {
+const script = document.currentScript;
+const lightbox = script.previousElementSibling;
+const wrapper = lightbox.previousElementSibling;
+const triggers = Array.from(wrapper.querySelectorAll('.lightbox-trigger'));
+
+const lightboxImg = lightbox.querySelector('.lightbox-img');
+const prevBtn = lightbox.querySelector('.lightbox-prev');
+const nextBtn = lightbox.querySelector('.lightbox-next');
+
+let currentSrcs = triggers.map(t => t.src);
+let currentIndex = 0;
+
+function init() {
+triggers.forEach((img, index) => {
+img.addEventListener('click', () => openLightbox(index));
+});
+
+prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevLightboxSlide(); });
+nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextLightboxSlide(); });
+
+document.addEventListener('keydown', (e) => {
+if (!lightbox.classList.contains('visible')) return;
+if (e.key === 'Escape') closeLightbox();
+else if (e.key === 'ArrowLeft') { e.preventDefault(); prevLightboxSlide(); }
+else if (e.key === 'ArrowRight') { e.preventDefault(); nextLightboxSlide(); }
+});
+
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+}
+
+function openLightbox(index) {
+currentIndex = index;
+updateLightboxImage();
+lightbox.classList.add('visible');
+document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+lightbox.classList.remove('visible');
+document.body.style.overflow = '';
+}
+
+function updateLightboxImage() {
+if (currentIndex < 0) currentIndex = currentSrcs.length - 1;
+if (currentIndex >= currentSrcs.length) currentIndex = 0;
+lightboxImg.src = currentSrcs[currentIndex];
+}
+
+function nextLightboxSlide() { currentIndex++; updateLightboxImage(); }
+function prevLightboxSlide() { currentIndex--; updateLightboxImage(); }
+
+init();
+})();
+</script>
+{% endcomponent carousel %}
+
+{% component crt(label: string = "") %}
+<pre class="crt" {% if label %}role="img" aria-label="{{ label }}"{% else %}aria-hidden="true"{% endif %}><div><code aria-hidden="true">{{ body | safe }}</code></div></pre>
+{% endcomponent crt %}
+
+{% component discord_server(description: string = "", about: string = "", rules: string = "", join: string = "", online: string = "", members: string = "", about_link: string = "", rules_link: string = "", lang: string, config) %}
+{% set invite_code = "gHG9WHyNvH" %}
+{% set data = load_data(url="https://discord.com/api/invites/" ~ invite_code ~ "?with_counts=true", format="json") %}
+
+{% if lang == "es" %}
+{% set def_about = "Sobre ↓" %}
+{% set def_rules = "Reglas" %}
+{% set def_join = "Unirse →" %}
+{% set def_online = "En línea" %}
+{% set def_members = "Miembros" %}
+{% set def_about_id = "#sobre" %}
+{% set def_rules_id = "#reglas" %}
+{% else %}
+{% set def_about = "About ↓" %}
+{% set def_rules = "Rules" %}
+{% set def_join = "Join →" %}
+{% set def_online = "Online" %}
+{% set def_members = "Members" %}
+{% set def_about_id = "#about" %}
+{% set def_rules_id = "#rules" %}
+{% endif %}
+
+{%- set label_about = about if about is defined and about != "" else def_about -%}
+{%- set label_rules = rules if rules is defined and rules != "" else def_rules -%}
+{%- set label_join = join if join is defined and join != "" else def_join -%}
+{%- set label_online = online if online is defined and online != "" else def_online -%}
+{%- set label_members = members if members is defined and members != "" else def_members -%}
+{%- set about_id = about_link if about_link is defined and about_link != "" else def_about_id -%}
+{%- set rules_id = rules_link if rules_link is defined and rules_link != "" else def_rules_id -%}
+{%- set server_desc = description if description is defined and description != "" else "Cozy and welcoming space for cool people to hang out in." -%}
+
+<section class="snap-section hero-wrapper discord-hero-wrapper">
+<div class="hero-container">
+<div id="guild-widget">
+<div id="guild-banner" style="--banner: url('{% if data.guild.banner %}https://cdn.discordapp.com/banners/{{ data.guild.id }}/{{ data.guild.banner }}.webp?size=1024{% else %}https://cdn.discordapp.com/icons/{{ data.guild.id }}/{{ data.guild.icon }}.webp?size=128{% endif %}');">
+</div>
+<img id="guild-icon" class="transparent no-hover" src="https://cdn.discordapp.com/icons/{{ data.guild.id }}/{{ data.guild.icon }}.webp?size=128" alt="Server icon." {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+<strong id="guild-name" class="title">{{ data.guild.name }}</strong>
+<p id="guild-stats">
+<span id="online-count">{{ data.approximate_presence_count }} {{ label_online }}</span>
+<span id="member-count">{{ data.approximate_member_count }} {{ label_members }}</span>
+</p>
+<p id="guild-description">{{ server_desc }}</p>
+<ul id="guild-traits">
+{% if data.profile and data.profile.traits %}
+{% for trait in data.profile.traits %}
+<li>
+{% if trait.emoji_name == "keyboard" %}�️
+{% elif trait.emoji_name == "tada" %}🎉
+{% elif trait.emoji_name == "sparkles" %}✨
+{% elif trait.emoji_name == "flag_es" %}🇪🇸
+{% elif trait.emoji_name == "flag_gb" %}🇬🇧
+{% elif trait.emoji_name == "art" %}🎨
+{% elif trait.emoji_name == "video_game" %}🎮
+{% elif trait.emoji_name == "music" %}🎵
+{% elif trait.emoji_name == "musical_note" %}🎵
+{% elif trait.emoji_name == "watermelon" %}🍉
+{% elif trait.emoji_name == "computer" %}💻
+{% elif trait.emoji_name == "speech_balloon" %}💬
+{% endif %}
+{{ trait.label }}
+</li>
+{% endfor %}
+{% else %}
+<li>💫 Silly</li>
+<li>🗣️ Multi-topic</li>
+<li>💜 Friendly</li>
+{% endif %}
+</ul>
+<div class="buttons start">
+<a href="{{ about_id }}">{{ label_about }}</a>
+<a href="{{ rules_id }}">{{ label_rules }}</a>
+<a id="guild-invite" class="suggested" href="https://discord.com/invite/{{ invite_code }}">{{ label_join }}</a>
+</div>
+<div id="hover-map">
+<div class="top-left"></div>
+<div class="top-middle"></div>
+<div class="top-right"></div>
+<div class="middle-left"></div>
+<div class="middle"></div>
+<div class="middle-right"></div>
+<div class="bottom-left"></div>
+<div class="bottom-middle"></div>
+<div class="bottom-right"></div>
+</div>
+</div>
+</div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+const INVITE_CODE = "{{ invite_code }}";
+const labelOnline = "{{ label_online }}";
+const labelMembers = "{{ label_members }}";
+const guildWidget = document.getElementById("guild-widget");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+const emojiMap = {
+"keyboard": "⌨️", "tada": "🎉", "sparkles": "✨", "flag_es": "🇪🇸", "flag_gb": "🇬🇧",
+"art": "🎨", "video_game": "🎮", "music": "🎵", "musical_note": "🎵", "watermelon": "🍉",
+"computer": "💻", "speech_balloon": "💬"
+};
+
+if (guildWidget) {
+guildWidget.addEventListener("pointermove", event => {
+if (reduceMotion.matches) return;
+
+const rect = guildWidget.getBoundingClientRect();
+const x = (event.clientX - rect.left) / rect.width;
+const y = (event.clientY - rect.top) / rect.height;
+const clampedX = Math.min(Math.max(x, 0), 1);
+const clampedY = Math.min(Math.max(y, 0), 1);
+
+guildWidget.style.setProperty("--guild-glare-x", `${clampedX * 100}%`);
+guildWidget.style.setProperty("--guild-glare-y", `${clampedY * 100}%`);
+});
+
+guildWidget.addEventListener("pointerleave", () => {
+guildWidget.style.setProperty("--guild-glare-x", "50%");
+guildWidget.style.setProperty("--guild-glare-y", "0%");
+});
+}
+
+async function updateDiscordInfo() {
+try {
+const response = await fetch(`https://discord.com/api/invites/${INVITE_CODE}?with_counts=true`);
+const data = await response.json();
+if (data.guild) {
+document.getElementById("guild-name").textContent = data.guild.name;
+
+if (data.guild.icon) {
+const iconUrl = `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.webp?size=128`;
+document.getElementById("guild-icon").src = iconUrl;
+const bannerElement = document.getElementById("guild-banner");
+if (data.guild.banner) {
+bannerElement.style.setProperty('--banner', `url('https://cdn.discordapp.com/banners/${data.guild.id}/${data.guild.banner}.webp?size=1024')`);
+} else {
+bannerElement.style.setProperty('--banner', `url('${iconUrl}')`);
+}
+}
+
+document.getElementById("online-count").textContent = `${data.approximate_presence_count} ${labelOnline}`;
+document.getElementById("member-count").textContent = `${data.approximate_member_count} ${labelMembers}`;
+
+if (data.profile && data.profile.traits) {
+const traits = data.profile.traits.map(trait => {
+const emoji = emojiMap[trait.emoji_name] || trait.emoji_name || "";
+return `<li>${emoji} ${trait.label}</li>`;
+}).join("");
+document.getElementById("guild-traits").innerHTML = traits;
+}
+}
+} catch (error) {
+console.warn("Failed to update Discord info", error);
+}
+}
+updateDiscordInfo();
+});
+</script>
+{% endcomponent discord_server %}
+
+{% component dmoji(name: string, id: string = "", animated: bool = false, config) %}
+{%- set emoji_id = "" -%}
+{%- set ext = "png" -%}
+
+{%- if id -%}
+{%- set emoji_id = id -%}
+{%- if animated -%}{%- set ext = "gif" -%}{%- endif -%}
+{%- elif name -%}
+{%- set app_id = get_env(name="AXIE_CLIENT_ID", default="NO_ID") -%}
+{%- set token = get_env(name="AXIE_BOT_TOKEN", default="NO_TOKEN") -%}
+
+{%- if app_id != "NO_ID" and token != "NO_TOKEN" -%}
+{%- set remote_data = load_data(
+url="https://discord.com/api/v10/applications/" ~ app_id ~ "/emojis",
+format="json",
+method="GET",
+headers=["Authorization= Bot " ~ token],
+fail_on_error=false
+) -%}
+
+{%- if remote_data and remote_data.items -%}
+{%- set matched = [item for item in remote_data.items if item.name == name] -%}
+{%- if matched | length > 0 -%}
+{%- set item = matched | first -%}
+{%- set emoji_id = item.id -%}
+{%- if item.animated -%}
+{%- set ext = "gif" -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+
+{%- if not emoji_id and config.extra.discord_emojis -%}
+{%- set val = config.extra.discord_emojis[name] | str -%}
+{%- if val -%}
+{%- if val is containing(pat=".") -%}
+{%- set parts = val | split(pat=".") -%}
+{%- set emoji_id = parts[0] -%}
+{%- set ext = parts[1] -%}
+{%- else -%}
+{%- set emoji_id = val -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+
+{%- if emoji_id -%}
+<img class="dmoji emoji no-hover transparent" src="https://cdn.discordapp.com/emojis/{{ emoji_id }}.{{ ext }}" alt=":{% if name %}{{ name }}{% else %}discord_emoji{% endif %}:" title=":{% if name %}{{ name }}{% else %}discord_emoji{% endif %}:" style="height: 1.2em; width: auto; vertical-align: -0.2em; display: inline-block; margin: 0; padding: 0 !important; border: none !important; box-shadow: none !important; background: transparent !important;" />
+{%- else -%}
+<span style="color: red; font-weight: bold;">[dmoji error: '{{ name }}' not found]</span>
+{%- endif -%}
+{% endcomponent dmoji %}
+
+{% component emoji(name: string, path: string = "", big: bool = false, page, section, config) %}
+{%- if not name and not path -%}
+{{ throw(message="Emoji name/path not specified.") }}
+{%- endif -%}
+
+{%- set emoji_src = "" -%}
+{%- set emoji_title = "" -%}
+
+{%- if name -%}
+{%- if page and page.extra and page.extra.fediverse and page.extra.fediverse.host -%}
+{%- set host = page.extra.fediverse.host -%}
+{%- elif section and section.extra and section.extra.fediverse and section.extra.fediverse.host -%}
+{%- set host = section.extra.fediverse.host -%}
+{%- elif config and config.extra and config.extra.fediverse and config.extra.fediverse.host -%}
+{%- set host = config.extra.fediverse.host -%}
+{%- else -%}
+{% set host = "mastodon.social" %}
+{%- endif -%}
+
+{%- set data = load_data(url="https://" ~ host ~ "/api/v1/custom_emojis", format="json", required=false) -%}
+{%- if data -%}
+{%- set matched = [item for item in data if item.shortcode == name] -%}
+{%- if matched | length > 0 -%}
+{%- set item = matched | first -%}
+{%- set emoji_src = item.url -%}
+{%- set emoji_title = name -%}
+{%- endif -%}
+{%- endif -%}
+{%- elif path -%}
+{%- set emoji_src = get_url(path=page.path ~ path) -%}
+{%- set emoji_title = path | split(pat='.', limit=2) | first -%}
+{%- endif -%}
+
+{%- if emoji_src and emoji_title -%}
+<img class="emoji{% if big %} big{% endif %}" src="{{ emoji_src | safe }}" title="{{ emoji_title }}" width="24" height="24" />
+{%- endif -%}
+{% endcomponent emoji %}
+
+{% component games(config, now_value = "") %}
+{%- if not now_value -%}
+{%- set now_value = now(utc=true) -%}
+{%- endif -%}
+{%- set token = get_env(name="DISCORD_TOKEN", default="NO_TOKEN") -%}
+{%- set sgdb_token = get_env(name="STEAMGRIDDB_API_KEY", default="NO_TOKEN") -%}
+{%- set user = config.extra.discord_user_id | default(value="NO_USER") -%}
+{%- set widget_id = "1438359198198136863" -%}
+{%- set x_super = '{"os":"Windows","client_build_number":472914}' | base64_encode -%}
+{%- set parms = [
+"type=modal",
+"with_mutual_guilds=false",
+"with_mutual_friends=false",
+"with_mutual_friends_count=false"] | join(sep="&") -%}
+
+{%- if token != "NO_TOKEN" and user != "NO_USER" -%}
+{%- set profile = load_data(
+url="https://discord.com/api/v10/users/" ~ user ~ "/profile?" ~ parms,
+format="json",
+method="GET",
+content_type="application/json",
+headers=[
+"authorization= " ~ token,
+"user-agent= DiscordBot (" ~ config.base_url ~ ", 0.1.0)",
+"x-super-properties= " ~ x_super
+])
+-%}
+
+{%- set matched_games = [w for w in profile.widgets if w.id == widget_id] -%}
+{%- if matched_games | length > 0 -%}
+{%- set played_games = matched_games | first -%}
+{%- endif -%}
+{%- endif -%}
+
+{%- if token != "NO_TOKEN" and user != "NO_USER" and played_games -%}
+{%- if played_games.data.games | length > 8 -%}
+<input class="visually-hidden" id="show-more" type="checkbox" name="show-more" autocomplete="off" />
+<label for="show-more">
+<span class="more">Show More…</span>
+<span class="less">Show Less…</span>
+</label>
+{%- endif -%}
+
+<ul>
+{%- for game in played_games.data.games -%}
+{%- if loop.index == 9 -%}
+</ul>
+<ul class="games-extra">
+{%- endif -%}
+{%- set data = load_data(
+url="https://discord.com/api/v9/applications/public?application_ids=" ~ game.game_id,
+format="json",
+method="GET",
+content_type="application/json",
+headers=[
+"authorization= " ~ token,
+"user-agent= DiscordBot (" ~ config.base_url ~ ", 0.1.0)",
+"x-super-properties= " ~ x_super
+]) | first
+-%}
+{%- set steam_matches = [s for s in data.third_party_skus if s.distributor == "steam"] -%}
+{%- set steam = steam_matches | first | default(value="") -%}
+
+{%- set sgdb_img = "" -%}
+{%- if sgdb_token != "NO_TOKEN" and steam -%}
+{%- set sgdb_data = load_data(
+url="https://www.steamgriddb.com/api/v2/grids/steam/" ~ steam.id ~ "?dimensions=600x900&nsfw=false",
+format="json",
+method="GET",
+headers=["Authorization= Bearer " ~ sgdb_token],
+fail_on_error=false
+) -%}
+{%- if sgdb_data and sgdb_data.success and sgdb_data.data | length > 0 -%}
+{%- set sgdb_img = sgdb_data.data[0].url -%}
+{%- endif -%}
+{%- endif -%}
+
+{%- if sgdb_token != "NO_TOKEN" and not steam -%}
+{%- set search_query = data.name | urlencode -%}
+{%- set sgdb_search = load_data(
+url="https://www.steamgriddb.com/api/v2/search/autocomplete/" ~ search_query,
+format="json",
+method="GET",
+headers=["Authorization= Bearer " ~ sgdb_token],
+fail_on_error=false
+) -%}
+
+{%- if sgdb_search and sgdb_search.success and sgdb_search.data | length > 0 -%}
+{%- set game_id = sgdb_search.data[0].id -%}
+{%- set sgdb_data = load_data(
+url="https://www.steamgriddb.com/api/v2/grids/game/" ~ game_id ~ "?dimensions=600x900&nsfw=false",
+format="json",
+method="GET",
+headers=["Authorization= Bearer " ~ sgdb_token],
+fail_on_error=false
+) -%}
+{%- if sgdb_data and sgdb_data.success and sgdb_data.data | length > 0 -%}
+{%- set sgdb_img = sgdb_data.data[0].url -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+
+{%- if steam or sgdb_img -%}
+<li>
+<a href="{% if steam %}https://store.steampowered.com/app/{{ steam.id }}{% else %}#{% endif %}">
+{%- set steam_img = "" -%}
+{%- if steam -%}
+{%- set steam_img = "https://shared.steamstatic.com/store_item_assets/steam/apps/" ~ steam.id ~ "/library_600x900.jpg" -%}
+{%- endif -%}
+
+<img class="transparent no-hover" alt="Capsule art of {{ data.name }}." {% if steam_img %} src="{{ steam_img }}" {% else %} src="{{ sgdb_img }}" {% endif %} {% if steam_img and sgdb_img %} onerror="this.onerror=null;this.src='{{ sgdb_img }}';" {% endif %} {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+</a>
+</li>
+{%- endif -%}
+{%- endfor -%}
+</ul>
+{%- else -%}
+<p><em>(Games list unavailable - Discord Token missing or widget not found)</em></p>
+{%- endif -%}
+{% endcomponent games %}
+
+{% component github_grid(username: string = "Axenide", color: string = "", now_value = "") %}
+{%- if not now_value -%}
+{%- set now_value = now() -%}
+{%- endif -%}
+<div class="github-grid-container" style="{% if color %}--github-color: {{ color }};{% endif %}">
+{% set data = load_data(url="https://github-contributions-api.jogruber.de/v4/" ~ username, format="json") %}
+
+{% if data.contributions %}
+{% set all_days = data.contributions | sort(attribute="date") %}
+{% set today = now_value | date(format="%Y-%m-%d") %}
+
+{%- set days_before_today = [day for day in all_days if day.date <= today] -%}
+{%- set end_index = days_before_today | length -%}
+
+{%- set start_index = end_index - 365 -%}
+{%- if start_index < 0 -%}{%- set start_index = 0 -%}{%- endif -%}
+
+{%- set days = all_days[start_index:end_index] -%}
+
+{%- set total_year = 0 -%}
+{%- for day in days -%}
+{%- set_global total_year = total_year + day.count -%}
+{%- endfor -%}
+{%- if total_year < 0 -%}{%- set total_year = 0 -%}{%- endif -%}
+
+<div class="github-stats">
+<strong>{{ total_year }}</strong> contributions in the last year
+</div>
+
+<div class="github-grid">
+{% set first_day = days | first %}
+{% set weekday = first_day.date | date(format="%w") | int %}
+
+{% for i in range(end=weekday) %}
+<div class="github-day empty"></div>
+{% endfor %}
+
+{% for day in days %}
+<div class="github-day level-{{ day.level }}" title="{{ day.date }}: {{ day.count }} contributions"></div>
+{% endfor %}
+</div>
+
+<div class="github-legend">
+<span>Less</span>
+<div class="github-day level-0"></div>
+<div class="github-day level-1"></div>
+<div class="github-day level-2"></div>
+<div class="github-day level-3"></div>
+<div class="github-day level-4"></div>
+<span>More</span>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+const grids = document.querySelectorAll('.github-grid');
+grids.forEach(grid => {
+grid.scrollLeft = grid.scrollWidth;
+});
+});
+</script>
+{% else %}
+<div class="error" style="color: orange; border: 1px dashed orange; padding: 1rem;">
+<strong>Error:</strong> Could not load GitHub data.
+</div>
+{% endif %}
+</div>
+{% endcomponent github_grid %}
+
+{% component icons() %}
+<div id="icons">
+<img width="64" height="64" class="transparent no-hover drop-shadow" src="/design/icons/original/de.schmidhuberj.DieBahn.svg" alt="Railway app icon." {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+<img width="64" height="64" class="transparent no-hover drop-shadow" src="/design/icons/original/io.github.tfuxu.Halftone.svg" alt="Halftone app icon." {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+<img width="64" height="64" class="transparent no-hover drop-shadow" src="/design/icons/original/org.nickvision.cavalier.svg" alt="Cavalier app icon." {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+<img width="64" height="64" class="transparent no-hover drop-shadow" src="/design/icons/original/org.nickvision.tagger.svg" alt="Tagger app icon." {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+</div>
+{% endcomponent icons %}
+
+{% component image(url: string, alt: string, url_min: string = "", full: bool = false, start: bool = false, end: bool = false, pixels: bool = false, transparent: bool = false, drop_shadow: bool = false, no_hover: bool = false, spoiler: bool = false, solid: bool = false, config) %}
+{%- set image_classes = [] -%}
+{%- if full -%}
+{%- set image_classes = [...image_classes, "full"] -%}
+{%- endif -%}
+{%- if start -%}
+{%- set image_classes = [...image_classes, "start"] -%}
+{%- endif -%}
+{%- if end -%}
+{%- set image_classes = [...image_classes, "end"] -%}
+{%- endif -%}
+{%- if pixels -%}
+{%- set image_classes = [...image_classes, "pixels"] -%}
+{%- endif -%}
+{%- if transparent -%}
+{%- set image_classes = [...image_classes, "transparent"] -%}
+{%- endif -%}
+{%- if drop_shadow -%}
+{%- set image_classes = [...image_classes, "drop-shadow"] -%}
+{%- endif -%}
+{%- if no_hover -%}
+{%- set image_classes = [...image_classes, "no-hover"] -%}
+{%- endif -%}
+{%- if spoiler -%}
+{%- set image_classes = [...image_classes, "spoiler"] -%}
+{%- endif -%}
+{%- if spoiler and solid -%}
+{%- set image_classes = [...image_classes, "solid"] -%}
+{%- endif -%}
+
+{%- set image_classes = image_classes | join(sep=" ") -%}
+
+{%- if url_min -%}
+<a href="{{ url }}">
+<img class="{{ image_classes }}" {% if alt %}alt="{{ alt }}"{% endif %} src="{{ url_min }}" {% if config.markdown.lazy_async_image %}decoding="async" loading="lazy"{% endif %} />
+</a>
+{%- else -%}
+<img class="{{ image_classes }}" {% if alt %}alt="{{ alt }}"{% endif %} src="{{ url }}" {% if config.markdown.lazy_async_image %}decoding="async" loading="lazy"{% endif %} />
+{%- endif -%}
+{% endcomponent image %}
+
+{% component mastodon(id: string, host: string, user: string, config) %}
+{%- if not host -%}
+{%- set host = config.extra.fediverse.host -%}
+{%- endif -%}
+{%- if not user -%}
+{%- set user = config.extra.fediverse.user -%}
+{%- endif -%}
+
+<iframe class="mastodon-embed" src="https://{{ host }}/@{{ user }}/{{ id }}/embed">
+</iframe>
+{% endcomponent mastodon %}
+
+{% component now_playing() %}
+<article id="player">
+<div id="cover-container">
+<img id="cover" width="64" height="64" class="transparent no-hover" src="home/image-loading.svg" alt="" />
+<div id="cd-container">
+<img id="cd" width="64" height="64" class="transparent no-hover" src="home/media-optical.svg" alt="" />
+<div id="cd-shade"></div>
+</div>
+</div>
+<div id="player-info">
+<div id="player-status">
+<span id="now-playing">Now Playing</span>
+<span id="last-played">Last Played</span>
+</div>
+<div id="player-title-container" class="marquee">
+<strong id="player-title" class="title">Loading…</strong>
+</div>
+<div id="player-artist-container" class="marquee">
+<span id="player-artist">Loading…</span>
+</div>
+</div>
+<a id="player-go" href="#main-content" title="View on Last.fm">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+<path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+</svg>
+</a>
+</article>
+{% endcomponent now_playing %}
+
+{% component piano_embed() %}
+<div class="piano-embed-wrapper">
+<iframe src="/piano/index.html" title="Piano Embed" scrolling="no"></iframe>
+</div>
+
+<style>
+.piano-embed-wrapper {
+width: 100%;
+aspect-ratio: 2 / 1;
+position: relative;
+overflow: hidden;
+border-radius: 0 !important;
+}
+.piano-embed-wrapper iframe {
+width: 100%;
+height: 100%;
+border: none;
+display: block;
+border-radius: 0 !important;
+}
+.piano-embed-wrapper iframe {
+width: 100%;
+height: 100%;
+border: none;
+display: block;
+}
+</style>
+{% endcomponent piano_embed %}
+
+{% component polaroid() %}
+<div id="polaroid">
+<div id="polaroid-shine"></div>
+<div id="polaroid-photo">
+<img class="full transparent no-hover" width="144" height="144" alt="My current Discord avatar." src="home/avatar.webp" />
+</div>
+<span id="polaroid-title">Instant photo<br />format</span>
+<span id="statuscafe-content">Loading…</span>
+<a id="statuscafe-link" href="https://status.cafe/users/daudix">
+<span id="statuscafe-time-ago">0 days ago</span>
+<span id="statuscafe-face">⏳</span>
+</a>
+</div>
+{% endcomponent polaroid %}
+
+{% component retro_avatar(src: string = "/images/avatar.png", alt: string = "Avatar", size: string = "180px", rotation: string = "6deg", border: string = "#D10028") %}
+<div class="retro-avatar-container" style="--avatar-rotation: {{ rotation }};" >
+<span class="retro-avatar-frame" style="--avatar-size: {{ size }}; --avatar-border-color: {{ border }};">
+<img src="{{ src }}" alt="{{ alt }}" class="retro-avatar no-hover" />
+</span>
+<span class="retro-avatar-status">[ STATUS: <strong>OVERCLOCKED</strong> ]</span>
+</div>
+
+<script>
+(function() {
+const avatars = document.querySelectorAll('.retro-avatar-container:not([data-retro-avatar-ready])');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+avatars.forEach(avatar => {
+avatar.dataset.retroAvatarReady = 'true';
+
+avatar.addEventListener('pointermove', event => {
+if (reduceMotion.matches) return;
+
+const rect = avatar.getBoundingClientRect();
+const x = (event.clientX - rect.left) / rect.width;
+const y = (event.clientY - rect.top) / rect.height;
+const clampedX = Math.min(Math.max(x, 0), 1);
+const clampedY = Math.min(Math.max(y, 0), 1);
+
+avatar.style.setProperty('--avatar-glare-x', `${clampedX * 100}%`);
+avatar.style.setProperty('--avatar-glare-y', `${clampedY * 100}%`);
+avatar.style.setProperty('--avatar-tilt-x', `${(0.5 - clampedY) * 30}deg`);
+avatar.style.setProperty('--avatar-tilt-y', `${(clampedX - 0.5) * 30}deg`);
+});
+
+avatar.addEventListener('pointerleave', () => {
+avatar.style.setProperty('--avatar-tilt-x', '0deg');
+avatar.style.setProperty('--avatar-tilt-y', '0deg');
+});
+});
+})();
+</script>
+{% endcomponent retro_avatar %}
+
+{% component retro_text(text: string, tag: string = "div", size: string = "", font: string = "") -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bytesized&display=swap" rel="stylesheet">
+
+<{{ tag }} class="retro-word" {% if size or font %}style="{% if size %}--retro-text-size: {{ size }};{% endif %}{% if font %}--retro-text-font: {{ font }};{% endif %}"{% endif %}>
+{%- for char in text -%}
+{% if char == " " %}<span class="retro-letter" style="--i:{{ loop.index }}; width: 0.5em;" data-text="&nbsp;">&nbsp;</span>{% else %}<span class="retro-letter" style="--i:{{ loop.index }}" data-text="{{ char }}">{{ char }}</span>{% endif %}
+{%- endfor -%}
+</{{ tag }}>
+{%- endcomponent retro_text %}
+
+{% component server_widget(lang: string, config) %}
+{% set invite_code = "gHG9WHyNvH" %}
+{% set data = load_data(url="https://discord.com/api/invites/" ~ invite_code ~ "?with_counts=true", format="json") %}
+
+{% if lang == "es" %}
+{% set desc = "Hecho para crear." %}
+{% set label_online = "En línea" %}
+{% set label_members = "Miembros" %}
+{% else %}
+{% set desc = "Built for creation." %}
+{% set label_online = "Online" %}
+{% set label_members = "Members" %}
+{% endif %}
+
+<article id="server-widget-home" class="fancy-list snug-nook server-widget-card" style="--accent-color: #DB4740; --bg-muted-1: rgba(219, 71, 64, 0.1); --bg-muted-2: rgba(219, 71, 64, 0.2); --orange-fg: #DB4740; --orange-bg-1: rgba(219, 71, 64, 0.1); --orange-bg-2: rgba(219, 71, 64, 0.2);">
+<strong class="title home-widget-header">
+<span id="home-guild-name">{{ data.guild.name }}</span>
+<span id="home-guild-stats-container" class="widget-stats-block">
+<span class="stat-item">
+<i class="dot online"></i>
+<span id="home-online-count">{{ data.approximate_presence_count }}</span>
+</span>
+<span class="stat-divider">/</span>
+<span class="stat-item">
+<i class="dot members"></i>
+<span id="home-member-count">{{ data.approximate_member_count }}</span>
+</span>
+</span>
+</strong>
+<div class="discord-icon-container">
+{{< icon name="discord-logo" />}}
+</div>
+<p>{{ desc }}</p>
+<img id="home-guild-icon" src="https://cdn.discordapp.com/icons/{{ data.guild.id }}/{{ data.guild.icon }}.webp?size=128" alt="Server icon." class="server-icon-rotate" {% if config.markdown.lazy_async_image %} decoding="async" loading="lazy" {% endif %} />
+<a href="{{ get_url(path="/discord") }}"></a>
+</article>
+
+<style>
+.server-widget-card {
+transition: transform var(--transition-bezier), background-color var(--transition) !important;
+background-color: var(--bg-muted-1) !important;
+display: flex;
+flex-direction: column;
+}
+.server-widget-card:hover {
+transform: scale(1.02) !important;
+background-color: var(--bg-muted-2) !important;
+}
+.server-widget-card:active {
+transform: scale(0.98) !important;
+}
+
+.home-widget-header {
+display: flex !important;
+align-items: center !important;
+gap: 0.75rem !important;
+flex-wrap: wrap !important;
+margin-bottom: 0.5rem !important;
+}
+
+.server-widget-card .title {
+color: var(--accent-color) !important;
+}
+
+.widget-stats-block {
+display: inline-flex !important;
+align-items: center !important;
+gap: 0.35rem !important;
+margin: 0 !important;
+color: var(--fg-muted-2) !important;
+font-size: var(--font-size-small, 0.875rem) !important;
+font-weight: normal !important;
+}
+
+.stat-item {
+display: flex !important;
+align-items: center !important;
+gap: 0.25rem !important;
+white-space: nowrap !important;
+}
+
+.stat-divider {
+opacity: 0.5;
+margin: 0 0.1rem;
+}
+
+.stat-item .dot {
+display: inline-block !important;
+width: 0.625rem !important;
+height: 0.625rem !important;
+border-radius: 50% !important;
+flex-shrink: 0 !important;
+}
+
+.stat-item .dot.online {
+background-color: var(--green-fg, #3ba55d) !important;
+}
+
+.stat-item .dot.members {
+background-color: var(--fg-muted-1, #666) !important;
+}
+
+.server-widget-card .discord-icon-container .icon {
+color: var(--accent-color) !important;
+}
+
+.server-icon-rotate {
+border-radius: var(--rounded-corner, 12px);
+outline: 1px solid var(--bg-muted-2, rgba(255,255,255,0.1));
+transform: rotate(10deg);
+transition: transform 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.15) !important;
+}
+
+.server-widget-card:hover .server-icon-rotate {
+transform: rotate(-350deg) scale(1.2) !important;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+const INVITE_CODE = "{{ invite_code }}";
+try {
+const response = await fetch(`https://discord.com/api/invites/${INVITE_CODE}?with_counts=true`);
+const data = await response.json();
+if (data.guild) {
+document.getElementById("home-guild-name").textContent = data.guild.name;
+document.getElementById("home-online-count").textContent = data.approximate_presence_count;
+document.getElementById("home-member-count").textContent = data.approximate_member_count;
+if (data.guild.icon) {
+document.getElementById("home-guild-icon").src = `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.webp?size=128`;
+}
+}
+} catch (e) {}
+});
+</script>
+{% endcomponent server_widget %}
+
+{% component styled_button(link: string = "", url: string = "", id: string = "", label: string = "", icon: string = "", image: string = "", width: string = "", height: string = "", effect: string = "", zoom: string = "", rotate: string = "", config) %}
+{% set button_link = link | default(value=url | default(value="#")) %}
+{% set effect_list = effect | default(value="") %}
+{% set wrapper_style = "" %}
+{% set img_style = "" %}
+{% set icon_size = "16px" %}
+
+{% if width and height %}
+{% set wrapper_style = "width: " ~ width ~ "; height: " ~ height ~ ";" %}
+{% set icon_size = width %}
+{% elif width %}
+{% set wrapper_style = "width: " ~ width ~ "; height: " ~ width ~ ";" %}
+{% set icon_size = width %}
+{% elif height %}
+{% set wrapper_style = "width: " ~ height ~ "; height: " ~ height ~ ";" %}
+{% set icon_size = height %}
+{% else %}
+{% set wrapper_style = "width: 16px; height: 16px;" %}
+{% endif %}
+
+{% set d_z_val = 1.2 %}
+{% set d_z_dur = "0.25s" %}
+{% set d_r_val = 30 %}
+{% set d_r_dur = "0.5s" %}
+
+{% set final_z_val = 1.0 %}
+{% set final_z_dur = d_z_dur %}
+{% if zoom %}
+{% set z_str = zoom | str %}
+{% if "," in z_str %}
+{% set parts = z_str | split(pat=",") %}
+{% set final_z_val = parts[0] | trim %}
+{% set final_z_dur = parts[1] | trim %}
+{% else %}
+{% set final_z_val = z_str | trim %}
+{% endif %}
+{% elif "zoom" in effect_list %}
+{% set final_z_val = d_z_val %}
+{% endif %}
+
+{% set final_r_val = 0 %}
+{% set final_r_dur = d_r_dur %}
+{% if rotate %}
+{% set r_str = rotate | str %}
+{% if "," in r_str %}
+{% set parts = r_str | split(pat=",") %}
+{% set final_r_val = parts[0] | trim %}
+{% set final_r_dur = parts[1] | trim %}
+{% else %}
+{% set final_r_val = r_str | trim %}
+{% endif %}
+{% elif "rotate" in effect_list %}
+{% set final_r_val = d_r_val %}
+{% endif %}
+
+{% if not final_z_dur is ending_with(pat="s") and not final_z_dur is ending_with(pat="ms") %}
+{% set final_z_dur = final_z_dur ~ "s" %}
+{% endif %}
+{% if not final_r_dur is ending_with(pat="s") and not final_r_dur is ending_with(pat="ms") %}
+{% set final_r_dur = final_r_dur ~ "s" %}
+{% endif %}
+
+<a href="{{ button_link }}" {% if id %}id="{{ id }}"{% endif %} {% if label %}aria-label="{{ label }}"{% endif %} class="social-icon-wrapper" target="_blank" rel="noopener noreferrer" style="{{ wrapper_style }} --rotate-val: {{ final_r_val }}deg; --rotate-dur: {{ final_r_dur }}; --zoom-val: {{ final_z_val }}; --zoom-dur: {{ final_z_dur }};">
+{% if icon %}
+{{< icon name={icon} size={icon_size} class="social-icon-phosphor" />}}
+{% else %}
+<img src="{{ image }}" alt="button" class="social-icon-img transparent" {% if img_style %}style="{{ img_style }}"{% endif %} />
+{% endif %}
+</a>
+{% endcomponent styled_button %}
+
+{% component tile_embed() %}
+<div class="tile-embed-wrapper" id="tile-wrapper">
+<iframe id="tile-iframe" src="/tile/index.html" title="Tile Embed" scrolling="no"></iframe>
+</div>
+
+<style>
+.tile-embed-wrapper {
+width: 100%;
+aspect-ratio: 1 / 1;
+position: relative;
+overflow: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+touch-action: none;
+}
+#tile-iframe {
+border: none;
+width: 100%;
+height: 100%;
+display: block;
+}
+</style>
+{% endcomponent tile_embed %}
+
+{% component video(url: string, alt: string, full: bool = false, start: bool = false, end: bool = false, pixels: bool = false, transparent: bool = false, drop_shadow: bool = false, spoiler: bool = false, solid: bool = false, autoplay: bool = false, controls: bool = false, loop: bool = false, muted: bool = false, playsinline: bool = false) %}
+{%- set video_classes = [] -%}
+{%- if full -%}
+{%- set video_classes = [...video_classes, "full"] -%}
+{%- endif -%}
+{%- if start -%}
+{%- set video_classes = [...video_classes, "start"] -%}
+{%- endif -%}
+{%- if end -%}
+{%- set video_classes = [...video_classes, "end"] -%}
+{%- endif -%}
+{%- if pixels -%}
+{%- set video_classes = [...video_classes, "pixels"] -%}
+{%- endif -%}
+{%- if transparent -%}
+{%- set video_classes = [...video_classes, "transparent"] -%}
+{%- endif -%}
+{%- if drop_shadow -%}
+{%- set video_classes = [...video_classes, "drop-shadow"] -%}
+{%- endif -%}
+{%- if spoiler -%}
+{%- set video_classes = [...video_classes, "spoiler"] -%}
+{%- endif -%}
+{%- if spoiler and solid -%}
+{%- set video_classes = [...video_classes, "solid"] -%}
+{%- endif -%}
+
+{%- set video_classes = video_classes | join(sep=" ") -%}
+
+{%- set video_attributes = [] -%}
+{%- if autoplay -%}
+{%- set video_attributes = [...video_attributes, "autoplay"] -%}
+{%- endif -%}
+{%- if controls -%}
+{%- set video_attributes = [...video_attributes, "controls"] -%}
+{%- endif -%}
+{%- if loop -%}
+{%- set video_attributes = [...video_attributes, "loop"] -%}
+{%- endif -%}
+{%- if muted -%}
+{%- set video_attributes = [...video_attributes, "muted"] -%}
+{%- endif -%}
+{%- if playsinline -%}
+{%- set video_attributes = [...video_attributes, "playsinline"] -%}
+{%- endif -%}
+
+{%- set video_attributes = video_attributes | join(sep=" ") -%}
+
+<video class="{{ video_classes }}" src="{{ url }}" {% if alt %}aria-title="{{ alt }}"{% endif %} {{ video_attributes }}></video>
+{% endcomponent video %}
+
+{% component vimeo(id: string, autoplay: bool = false) %}
+<iframe class="vimeo-embed" src="https://player.vimeo.com/video/{{ id }}{% if autoplay %}?autoplay=1{% endif %}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+</iframe>
+{% endcomponent vimeo %}
+
+{% component window() %}
+<div>
+<div id="window-contents">
+<div id="rainbow-text">
+<span>silly little goober with a creative mind</span>
+<span aria-hidden="true">silly little goober with a creative mind</span>
+<span aria-hidden="true">silly little goober with a creative mind</span>
+<span aria-hidden="true">silly little goober with a creative mind</span>
+<span aria-hidden="true">silly little goober with a creative mind</span>
+<span aria-hidden="true">silly little goober with a creative mind</span>
+</div>
+<small>–<a href="https://veeronniecaw.space">Ronnie</a></small>
+</div>
+</div>
+{% endcomponent window %}
+
+{% component youtube(id: string, autoplay: bool = false, start: integer = 0) %}
+<iframe class="youtube-embed" src="https://www.youtube-nocookie.com/embed/{{ id }}{% if autoplay %}?autoplay=1{% endif %}{% if autoplay and start %}&start={{ start }}{% elif start %}?start={{ start }}{% endif %}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+{% endcomponent youtube %}
+
 {% component online(type: string, section) %}
 {%- if type == "contacts" -%}
 	{%- set items = section.extra.contacts -%}
@@ -9,13 +1698,9 @@
 
 <ul class="online-list">
 	{%- for item in items -%}
-		{%- set icon = load_data(path="icons/phosphor/" ~ item.icon ~ ".svg", required=false) -%}
-		{%- if not icon -%}
-			{%- set icon = load_data(path="themes/axetrine/icons/phosphor/" ~ item.icon ~ ".svg", required=false) -%}
-		{%- endif -%}
 		<li>
 			<a href="{{ item.url }}" {% if type != "contacts" %}target="_blank"{% endif %}>
-				<i class="icon online-icon {{ item.icon }}" style="--icon: url('data:image/svg+xml,{{ icon | urlencode }}');" aria-hidden="true"></i>
+				{{< icon name={item.icon} class="online-icon" />}}
 				{{ item.name }}
 			</a>
 		</li>

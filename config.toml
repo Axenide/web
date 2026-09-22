@@ -1,7 +1,6 @@
 base_url = "https://axeni.de"
 title = "Axenide"
 description = "I'm Adriano Tisera, known on the Internet as Axenide. Future computer engineer, technologist and scientist. I create software, videos, music, art and games."
-theme = "axetrine"
 compile_sass = true
 build_search_index = true
 default_language = "en"

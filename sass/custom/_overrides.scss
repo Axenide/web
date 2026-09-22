@@ -1,0 +1,687 @@
+body {
+  background:
+    radial-gradient(circle at center, var(--background-dot-color) 1px, transparent 1.2px) 0 0 / 1.5rem 1.5rem,
+    var(--bg-color);
+  letter-spacing: -0.015em;
+}
+
+#site-header::after,
+#site-sidebar::before {
+  background-color: var(--surface-solid);
+}
+
+#site-header {
+  border: 0;
+}
+
+#site-sidebar::before {
+  border-inline-end-color: var(--border-medium);
+}
+
+#sidebar-nav {
+  transform: none;
+}
+
+#sidebar-meta {
+  transform: none;
+  filter: none;
+}
+
+#site-sidebar-header,
+#sidebar-nav a,
+#sidebar-meta a,
+.buttons a,
+a.button,
+button,
+details,
+summary,
+.card,
+.article-list article,
+#tag-chips a,
+code:not(pre code),
+samp,
+q,
+mark,
+kbd,
+pre,
+table,
+input,
+textarea,
+select {
+  border: 2px solid var(--surface-border);
+  border-radius: var(--rounded-corner);
+  background-color: var(--surface-item);
+  box-shadow: none !important;
+}
+
+.buttons .dropdown,
+#tag-chips .counter {
+  border: 1px solid var(--border-medium);
+  border-radius: var(--rounded-corner);
+  background-color: var(--surface-item-hover);
+  box-shadow:
+    inset 0 0 0 1px oklch(from var(--mono) L C H / 0.05),
+    0 0.5rem 1.25rem oklch(0 0 0 / 0.14);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--fg-color);
+  font-family: var(--font-sans-serif), var(--font-system-ui), var(--font-emoji);
+  letter-spacing: -0.045em;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+a {
+  color: var(--fg-color);
+  text-decoration-color: rgba(var(--muted-decoration-rgb), 0.44);
+  text-underline-offset: 0.2em;
+}
+
+a:hover,
+button:hover,
+summary:hover,
+#sidebar-nav a:hover,
+#site-sidebar-header:hover,
+#tag-chips a:hover,
+.article-list article:hover {
+  background-color: var(--surface-item-hover);
+  color: var(--fg-color);
+  box-shadow: none !important;
+}
+
+#sidebar-nav a[aria-current="page"],
+.buttons a.suggested,
+a.button.suggested,
+button.suggested {
+  background-image: none;
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  text-shadow: none;
+}
+
+#sidebar-nav a[aria-current="page"] .icon,
+.buttons a.suggested .icon,
+a.button.suggested .icon,
+button.suggested .icon {
+  background-color: var(--contrast-color);
+  color: var(--accent-color);
+}
+
+blockquote {
+  border-inline-start-color: var(--border-quote);
+  background-color: var(--blockquote-bg);
+  padding: 0.75rem 1rem;
+}
+
+// GitHub-style alerts: the theme scopes their accent tokens via
+// prefers-color-scheme, but this site toggles via data-theme. Re-scope them
+// per site theme, else OS-dark + site-light leaves near-white text on white.
+html[data-theme="light"] [class^="markdown-alert"] {
+  --fg-muted-1: hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) - var(--accent-l) * 0.85), 0.5);
+  --fg-muted-2: hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) - var(--accent-l) * 0.85), 0.6);
+  --bg-color: hsl(var(--accent-h), calc(var(--accent-s) - var(--accent-s) * 0.6), calc(var(--accent-l) + (100% - var(--accent-l)) * 0.8));
+}
+
+html[data-theme="dark"] [class^="markdown-alert"] {
+  --fg-muted-1: hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + (100% - var(--accent-l)) * 0.85), 0.6);
+  --fg-muted-2: hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + (100% - var(--accent-l)) * 0.85), 0.7);
+  --bg-color: hsl(var(--accent-h), calc(var(--accent-s) - var(--accent-s) * 0.7), calc(var(--accent-l) - var(--accent-l) * 0.9));
+}
+
+code:not(pre code),
+samp,
+q,
+kbd,
+#tag-chips a,
+.tags a,
+.taxonomies a,
+.article-details a {
+  padding-block: 0.125rem;
+  color: var(--fg-color);
+  font-size: var(--font-size-small);
+}
+
+mark {
+  padding-block: 0.125rem;
+  color: var(--red-fg);
+  background-color: var(--surface-solid);
+  font-size: 0.95rem;
+}
+
+.accent-text {
+  color: var(--red-fg);
+}
+
+img,
+video,
+iframe {
+  border-radius: var(--rounded-corner-small);
+}
+
+hr {
+  border: 0;
+  border-block-start: 1px solid rgba(var(--muted-decoration-rgb), 0.2);
+}
+
+#main-content > article + hr {
+  margin-block-start: 0;
+  margin-inline: -1rem;
+}
+
+/* Banner Overrides - Remove glow, add full border-radius and shadow support */
+#banner {
+  /* Remove blur effect from the background image */
+  img:nth-of-type(1) {
+    filter: none;
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Remove blur animation from the main image */
+  img:nth-of-type(2) {
+    filter: none;
+    animation: none;
+  }
+
+  /* Apply shadow when banner_shadow is enabled (default) */
+  &.has-shadow img:nth-of-type(2) {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+
+  /* Adjust + main-content spacing to not have rounded-corner on h1 */
+  & + #main-content {
+    article > h1:first-of-type,
+    h1:first-of-type {
+      border-radius: var(--rounded-corner);
+    }
+  }
+}
+
+#main-content > article {
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  padding-block-start: 0;
+  padding-block-end: 1rem;
+  width: unset;
+
+  > h1:first-of-type {
+    margin-inline: -1rem;
+    margin-block-start: -1rem;
+    margin-block-end: 0;
+    border-radius: var(--rounded-corner) var(--rounded-corner) 0 0;
+    padding: 1rem;
+    width: unset;
+    box-shadow: inset 0 1px 0 var(--border-strong);
+    background-image: linear-gradient(
+      to bottom,
+      var(--surface-item),
+      transparent 50%
+    );
+    background-size: auto 200%;
+  }
+}
+
+#site-sidebar-header:hover {
+  background-color: var(--bg-muted-1);
+  box-shadow: none;
+}
+
+#site-sidebar-controls,
+#site-header .buttons {
+  border-color: var(--border-medium);
+  background-color: var(--surface-item);
+  box-shadow: none;
+}
+
+#site-sidebar-controls label,
+#site-header .buttons button,
+#site-header .buttons summary,
+#theme-toggle {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#sidebar-nav a,
+#sidebar-meta a {
+  border: 1px solid var(--border-soft);
+  background-color: var(--surface-item);
+  box-shadow: none;
+}
+
+#sidebar-meta .toc a,
+#sidebar-meta .toc a:hover,
+#sidebar-meta .toc a:focus-visible {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  color: inherit;
+}
+
+#sidebar-nav a:hover,
+#sidebar-nav a[aria-current="page"],
+#sidebar-nav a[aria-current="page"]:hover {
+  box-shadow: none;
+}
+
+#sidebar-nav a[aria-current="page"] {
+  border-color: var(--border-strong);
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+#sidebar-nav a[aria-current="page"] .icon {
+  background-image: none;
+  background-color: transparent;
+  color: var(--contrast-color);
+  text-shadow: none;
+}
+
+#sidebar-nav a:hover .icon,
+#sidebar-nav a[aria-current="page"]:hover .icon,
+#sidebar-meta a:hover .icon {
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#site-sidebar-controls input[type="radio"] + label::before {
+  background-image: none;
+  box-shadow: none;
+}
+
+#site-sidebar-controls input[type="radio"]:checked + label {
+  color: var(--contrast-color);
+}
+
+#site-sidebar-controls input[type="radio"]:checked + label::before,
+#site-sidebar-controls input[type="radio"]:checked + label:hover::before {
+  background-color: var(--accent-color);
+}
+
+#site-footer {
+  box-sizing: border-box;
+  margin-block-start: 4rem;
+  border-block-start: 1px solid var(--border-medium);
+  background-color: var(--footer-bg);
+  padding-inline: max(1rem, calc((100% - var(--content-width)) / 2 + 1rem));
+  width: 100%;
+  max-width: none;
+}
+
+#site-footer .socials a,
+.social-icon-wrapper {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+table {
+  background-color: var(--surface-solid);
+}
+
+body.has-banner {
+  background-image:
+    linear-gradient(rgba(6, 7, 8, 0.82), rgba(6, 7, 8, 0.82)),
+    var(--blurnail);
+  background-blend-mode: normal, luminosity;
+  background-color: var(--bg-color);
+}
+
+.article-list article.has-banner .open-post img,
+#banner img,
+#site-sidebar .carousel li.has-cover {
+  filter: grayscale(1);
+}
+
+.article-list article.has-banner .open-post,
+.article-list article .open-post,
+.icon-grid a .details,
+.icon-grid a .details * {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.article-list article .open-post {
+  border-color: var(--border-medium);
+}
+
+.icon-grid a {
+  border: 1px solid var(--border-medium);
+  box-shadow: none;
+}
+
+#main-content .masonry > * {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--surface-solid);
+}
+
+#main-content #badges,
+#main-content #player,
+#main-content #guild-widget,
+#main-content .discord-server,
+#main-content .window {
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--edge-highlight);
+}
+
+#sidebar-nav a[aria-current="page"]:hover {
+  border-color: var(--border-strong);
+  background-color: var(--accent-color-hover, #1f2224);
+  color: var(--contrast-color);
+  box-shadow: none;
+}
+
+#sidebar-nav a:hover {
+  box-shadow: none;
+}
+
+#sidebar-nav a[aria-current="page"]:hover .icon {
+  color: var(--contrast-color);
+}
+
+#sidebar-nav details,
+#sidebar-nav details:hover,
+#sidebar-nav details[open],
+#sidebar-nav summary,
+#sidebar-nav summary:hover,
+#sidebar-nav summary:focus-visible {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#site-sidebar-header:hover,
+#site-sidebar-header:focus-visible {
+  border: 0;
+  background-color: var(--surface-item-hover);
+  box-shadow: none;
+}
+
+#site-sidebar-header {
+  border: 0;
+  background-color: var(--surface-solid);
+  box-shadow: none;
+}
+
+// Icons render as flat currentColor masks everywhere; the !important flags are
+// intentional and required to beat the theme's nested icon selectors
+// (e.g. #sidebar-nav a .icon).
+#site-sidebar-header img,
+#site-sidebar-header .icon,
+#site-sidebar .icon,
+#site-header .icon,
+#site-footer .icon,
+#main-content .icon {
+  border: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+#main-content .fancy-list:not(.snug-nook),
+#main-content .card,
+#main-content #badges,
+#main-content #player,
+#main-content .github-grid-container,
+#main-content .icon-grid a {
+  background-image: none;
+  background-color: var(--surface-solid);
+}
+
+#main-content .fancy-list:not(.snug-nook) ul,
+#main-content .fancy-list:not(.snug-nook) li,
+#main-content .fancy-list:not(.snug-nook) a {
+  background-image: none;
+}
+
+/* Masonry cards: unify border treatment for plain <article> and <article class="fancy-list">.
+   Both get a visible 1px tinted border derived from --mono. The --surface-border (dark
+   gray) variant was previously invisible against the lighter --bg-muted-1 background. */
+#main-content .masonry article,
+#main-content .fancy-list:not(.snug-nook) {
+  border: 1px solid var(--border-medium);
+  padding: 1rem;
+}
+
+/* fancy-list keeps its subtle inset highlight; plain masonry articles rely on the masonry
+   parent's box-shadow (which we null out below for performance). */
+#main-content .fancy-list:not(.snug-nook) {
+  box-shadow: var(--edge-highlight);
+}
+
+#main-content .fancy-list:not(.snug-nook) ul {
+  margin-block: 0;
+}
+
+#main-content .fancy-list.games .games-extra {
+  margin-block-start: 0.5rem;
+}
+
+#main-content article,
+#main-content .article-list article,
+#main-content .card,
+#main-content .fancy-list,
+#main-content .icon-grid a,
+#main-content .media-grid,
+#main-content .github-grid-container,
+#main-content .window,
+#main-content .discord-server,
+#main-content #badges,
+#main-content #player,
+#main-content #guild-widget,
+#main-content #server-widget-home,
+#main-content [class$="-card"] {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--surface-panel);
+  background-image: none;
+}
+
+#main-content .fancy-list ul li,
+#main-content .fancy-list ul a,
+#main-content .online-list a,
+#main-content code:not(pre code),
+#main-content kbd {
+  background-color: var(--surface-item);
+}
+
+#main-content .pre-container,
+#main-content pre {
+  border: 1px solid var(--codeblock-border);
+  background-color: var(--codeblock-bg);
+  background-image: none;
+  box-shadow: none;
+  font-size: 0.875rem;
+}
+
+#main-content .pre-container {
+  overflow: hidden;
+}
+
+#main-content .pre-container::after {
+  box-shadow: none;
+}
+
+#main-content .pre-container .header {
+  border-block-end: 1px solid var(--codeblock-border);
+  background-color: var(--codeblock-header-bg);
+  background-image: none;
+  color: var(--fg-muted-2);
+}
+
+#main-content .pre-container pre {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#main-content pre code {
+  background: transparent;
+}
+
+#main-content .fancy-list ul a:hover,
+#main-content .online-list a:hover {
+  background-color: var(--surface-item-hover);
+}
+
+#main-content article img,
+#main-content .card img,
+#main-content .fancy-list img,
+#main-content .masonry img {
+  transition:
+    transform var(--transition-bezier),
+    filter var(--transition);
+}
+
+#main-content article img:hover,
+#main-content article picture:hover > img,
+#main-content article figure:hover > img,
+#main-content article .media:hover img,
+#main-content .card img:hover,
+#main-content .card picture:hover > img,
+#main-content .card figure:hover > img,
+#main-content .fancy-list img:hover,
+#main-content .masonry img:hover {
+  transform: scale(1.045);
+}
+
+#main-content .card,
+#main-content .fancy-list,
+#main-content .masonry > * {
+  overflow: visible;
+}
+
+#main-content #server-widget-home.server-widget-card {
+  background-color: var(--surface-panel);
+  background-image: none;
+  border: 1px solid var(--border-medium);
+  overflow: visible;
+}
+
+#main-content #server-widget-home.server-widget-card:hover {
+  background-color: var(--surface-item-hover);
+  background-image: none;
+  transform: scale(1.02);
+}
+
+#main-content #server-widget-home.server-widget-card > a,
+#main-content #server-widget-home.server-widget-card > a:hover,
+#main-content #server-widget-home.server-widget-card > a:focus-visible {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#main-content #home-guild-icon.server-icon-rotate,
+#main-content #server-widget-home:hover #home-guild-icon.server-icon-rotate {
+  outline: 0;
+  border: 1px solid var(--border-medium);
+  box-shadow: none;
+}
+
+#main-content #home-guild-icon.server-icon-rotate {
+  transform: rotate(10deg);
+}
+
+#main-content #server-widget-home:hover #home-guild-icon.server-icon-rotate {
+  transform: rotate(-350deg) scale(1.08);
+}
+
+#main-content #server-widget-home .dot {
+  border-radius: 0;
+}
+
+#main-content #server-widget-home .discord-icon-container,
+#main-content #server-widget-home .discord-icon-container .icon {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#main-content .masonry article,
+#main-content > article {
+  box-shadow: none;
+}
+
+#guild-widget {
+  overflow: visible;
+}
+
+#guild-banner {
+  overflow: hidden;
+}
+
+#guild-icon {
+  outline: 0.25rem solid var(--bg-color);
+}
+
+#guild-traits {
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
+}
+
+#guild-traits li {
+  margin-block: 0;
+}
+
+#main-content :is(.card, .fancy-list, .icon-grid a, .media-grid, .github-grid-container, .window, .discord-server, #badges, #player, #guild-widget, [class$="-card"]):not(.scroll-indicator):not(.hero-container):not(.hero-wrapper):not(#server-widget-home) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--surface-panel);
+  background-image: none;
+}
+
+#main-content .fancy-list.snug-nook:not(#server-widget-home) {
+  border: 0;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+#main-content .fancy-list.snug-nook:not(#server-widget-home):hover {
+  background-color: transparent;
+  transform: none;
+}
+
+#main-content .scroll-indicator,
+#main-content .scroll-indicator * {
+  background-image: none;
+  box-shadow: none;
+}
+
+#cd-shade {
+  box-shadow: none;
+  background-image: none;
+}
+
+// Light-mode overrides for components imported from the theme whose source
+// files still hardcode dark borders/shadows. Higher specificity required.
+html[data-theme="light"] {
+  .retro-avatar-container {
+    border-color: var(--surface-border);
+  }
+
+  #nanolog-list > li > div,
+  #nanolog-list > li > div > a {
+    border-color: var(--surface-border);
+  }
+
+  // Inset highlight on article h1 was tuned for dark; flip the alpha base
+  #main-content > article > h1:first-of-type {
+    box-shadow: inset 0 1px 0 var(--border-glow);
+  }
+
+  // Sidebar header hover uses muted-bg rather than dark-surface
+  #site-sidebar-header:hover {
+    background-color: var(--bg-muted-1);
+  }
+}

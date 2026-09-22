@@ -1,0 +1,41 @@
+name: "Fetch Icons"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  generate:
+    runs-on: codeberg-tiny
+    steps:
+      - name: "Checkout"
+        uses: "https://code.forgejo.org/actions/checkout@v4"
+
+      - name: "Fetch Icons"
+        run: |
+          git clone https://github.com/phosphor-icons/core.git /tmp/phosphor-icons
+          git clone https://github.com/simple-icons/simple-icons.git /tmp/simple-icons
+
+      - name: "Move to Destination"
+        run: |
+          rm -rf phosphor || true
+          rm -rf simple || true
+          mkdir phosphor || true
+          mkdir simple || true
+          mv /tmp/phosphor-icons/assets/bold/* ./phosphor/
+          mv /tmp/simple-icons/icons/* ./simple/
+          for file in ./phosphor/*-bold.svg; do mv "$file" "$(dirname "$file")/$(basename "$file" -bold.svg).svg"; done
+
+      - name: "Normalize Attributes and Set Width and Height"
+        run: |
+          for file in ./phosphor/*.svg; do sed -i 's|xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"|role="img" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"|' "$file"; done
+          for file in ./simple/*.svg; do sed -i 's|viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"|xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"|' "$file"; done
+
+      - name: "Commit Changes"
+        run: |
+          git config --global user.name 'Super Icon Fetcher 4000'
+          git config --global user.email 'noreply@snugnook.org'
+          git add --all
+          git commit -m "Fetch icons from upstream $(date -Is -u)" --allow-empty --quiet
+          git push

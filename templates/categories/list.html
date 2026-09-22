@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+{%- set number_of_categories = terms | length -%}
+
+{%- if lang != config.default_language -%}
+  {%- set categories = config.extra[lang].categories | default(value=[]) -%}
+{%- else -%}
+  {%- set categories = config.extra.categories | default(value=[]) -%}
+{%- endif -%}
+
+<h1>{{< translate key="header_categories" default="Categories" language_strings={language_strings} lang={lang} />}}</h1>
+
+<p>
+  <small>{{< translate key="categories" number={number_of_categories} default="$NUMBER categories in total" language_strings={language_strings} lang={lang} />}}</small>
+</p>
+
+<div class="article-list categories">
+  {%- for category in terms -%}
+    {%- set matched_categories = [c for c in categories if c.name == category.name] -%}
+    {%- set matched_category = matched_categories | first | default(value="") -%}
+    {%- set default_desc %}{{< translate key="category_no_info" default="There's no info on this category." language_strings={language_strings} lang={lang} />}}{% endset %}
+    {%- set category_description = matched_category.description | default(value=default_desc) -%}
+    {%- set number_of_posts = category.page_count | int -%}
+
+    <article {% if matched_category.color %}class="has-accent-color" style="{% include 'partials/accent_color.html' %}"{% endif %}>
+      <div>
+        <a href="{{ get_taxonomy_url(kind='categories', name=category.name) }}">
+          <h3>{{ category.name }}</h3>
+        </a>
+        <div class="description">
+          {{ category_description | markdown | safe }}
+        </div>
+        <div class="article-details">
+          <div class="item">
+            {{< icon name="newspaper" />}}
+            <span>{{< translate key="posts" number={number_of_posts} default="$NUMBER posts in total" language_strings={language_strings} lang={lang} />}}</span>
+          </div>
+        </div>
+      </div>
+      <a class="open-post" href="{{ get_taxonomy_url(kind='categories', name=category.name) }}">
+        {{< icon name="caret-right" />}}
+      </a>
+
+      {%- if matched_category.icon -%}
+        {{< icon name={matched_category.icon} />}}
+      {%- endif -%}
+    </article>
+  {%- endfor -%}
+</div>
+{% endblock content %}

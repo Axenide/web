@@ -1,0 +1,7 @@
+{%- if page is defined and page.description -%}
+  {{ page.description }}
+{%- elif section is defined and section.description -%}
+  {{ section.description }}
+{%- else -%}
+  {{ config.description }}
+{%- endif -%}

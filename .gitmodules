@@ -1,15 +1,9 @@
-[submodule "themes/ametrine"]
-	path = themes/ametrine
-	url = https://codeberg.org/Geode/ametrine.git
 [submodule "static/tile"]
 	path = static/tile
 	url = https://github.com/Axenide/tile.git
 [submodule "static/piano"]
 	path = static/piano
 	url = https://github.com/Axenide/piano
-[submodule "themes/axetrine"]
-	path = themes/axetrine
-	url = https://codeberg.org/Axenide/Axetrine.git
 [submodule "static/xp"]
 	path = static/xp
 	url = https://github.com/Axenide/XP

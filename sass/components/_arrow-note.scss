@@ -1,0 +1,47 @@
+
+/* Arrow Note Component */
+.arrow-note {
+  font-family: 'Pangolin', cursive;
+  display: inline-block;
+  position: relative;
+  line-height: 1.2;
+  filter: url("#arrow-note-text-boil");
+  /* Color, Size and Weight are handled via inline styles/shortcode params */
+}
+
+.arrow-connector-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.arrow-path {
+  fill: none;
+  stroke: var(--accent-color);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.arrow-line-boil {
+  filter: url("#arrow-note-line-boil");
+}
+
+.arrow-head {
+  fill: var(--accent-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow-note {
+    filter: none;
+  }
+
+  .arrow-line-boil {
+    filter: none;
+  }
+}

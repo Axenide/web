@@ -1,0 +1,60 @@
+{# Based on https://github.com/welpo/tabi/blob/36adac03a499194081cd4e6868d7e15400714eba/templates/partials/content_security_policy.html #}
+
+{%- if config.extra.csp -%}
+	{%- set connect_src = "connect-src 'self'" -%}
+	{%- set script_src = "script-src 'self'" -%}
+
+	{# Base logic for appending analytics domains #}
+	{%- set analytics_url = config.extra.analytics.self_hosted_url | default(value="") %}
+	{%- if analytics_url -%}
+		{%- set script_src = script_src ~ " " ~ analytics_url -%}
+		{%- set connect_src = connect_src ~ " " ~ analytics_url -%}
+	{%- else -%}
+		{%- if config.extra.analytics.service -%}
+			{%- if config.extra.analytics.service == "goatcounter" -%}
+				{%- set script_src = script_src ~ " gc.zgo.at" -%}
+				{%- set connect_src = connect_src ~ " " ~ config.extra.analytics.id ~ ".goatcounter.com/count" -%}
+			{%- elif config.extra.analytics.service == "umami" -%}
+				{%- set script_src = script_src ~ " cloud.umami.is" -%}
+				{%- set connect_src = connect_src ~ " *.umami.dev" ~ " cloud.umami.is" -%}
+			{%- elif config.extra.analytics.service == "plausible" -%}
+				{%- set script_src = script_src ~ " plausible.io" -%}
+				{%- set connect_src = connect_src ~ " plausible.io" -%}
+			{%- endif -%}
+		{%- endif -%}
+	{%- endif -%}
+
+	{%- if page and page.extra and page.extra.fediverse.host -%}
+		{%- set connect_src = connect_src ~ " " ~ "https://" ~ page.extra.fediverse.host -%}
+	{%- elif section and section.extra and section.extra.fediverse.host -%}
+		{%- set connect_src = connect_src ~ " " ~ "https://" ~ section.extra.fediverse.host -%}
+	{%- elif config.extra.fediverse.host -%}
+		{%- set connect_src = connect_src ~ " " ~ "https://" ~ config.extra.fediverse.host -%}
+	{%- endif -%}
+
+	{#- Append WebSocket for Zola serve mode -#}
+	{%- if config.mode == "serve" -%}
+		{%- set connect_src = connect_src ~ " ws:" -%}
+	{%- endif -%}
+
+	{# Collect configured domains using list comprehensions #}
+	{%- set connect_additions = [(domain.domains | join(sep=' ')) for domain in config.extra.csp if domain.directive == "connect-src"] -%}
+	{%- set script_additions = [(domain.domains | join(sep=' ')) for domain in config.extra.csp if domain.directive == "script-src"] -%}
+	{%- set other_directives = [domain.directive ~ " " ~ (domain.domains | join(sep=' ')) for domain in config.extra.csp if domain.directive != "connect-src" and domain.directive != "script-src"] -%}
+
+	{%- if connect_additions | length > 0 -%}
+		{%- set connect_src = connect_src ~ " " ~ (connect_additions | join(sep=' ')) -%}
+	{%- endif -%}
+	{%- if script_additions | length > 0 -%}
+		{%- set script_src = script_src ~ " " ~ (script_additions | join(sep=' ')) -%}
+	{%- endif -%}
+{%- endif -%}
+
+<meta http-equiv="Content-Security-Policy"
+content="default-src 'self'
+{%- if config.extra.csp -%}
+;
+	{{ other_directives | join(sep=";") }}
+	{{ ";" ~ connect_src }}
+	{{ ";" ~ script_src }}
+{%- endif -%}">

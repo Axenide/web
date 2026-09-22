@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{%- if not section.extra.no_header -%}
+  <h1>{{ section.title }}</h1>
+{%- endif -%}
+{%- include "partials/statements.html" -%}
+{{ section.content | safe }}
+{% endblock content %}
