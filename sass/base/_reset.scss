@@ -91,6 +91,12 @@ video {
   height: auto;
 }
 
+img,
+video,
+iframe {
+  border-radius: 0.5rem;
+}
+
 blockquote,
 q {
   quotes: none;

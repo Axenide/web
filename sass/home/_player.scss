@@ -156,11 +156,17 @@
 		justify-content: center;
 		align-items: center;
 		transition: all var(--transition), transform var(--transition-bezier);
-		box-shadow: var(--edge-highlight);
-		border-radius: var(--rounded-corner-small);
-		background-color: var(--bg-muted-1);
+		border: 1px solid var(--aero-border);
+		border-radius: 0.5rem;
+		box-shadow: var(--aero-shadow);
+		background-color: var(--aero-dark);
+		background-image: var(--aero-surface);
 		width: 2rem;
 		color: var(--fg-muted-2);
+
+		.icon {
+			filter: drop-shadow(0 1px 0 var(--aero-bright));
+		}
 
 		&:hover {
 			background-color: var(--bg-muted-2);

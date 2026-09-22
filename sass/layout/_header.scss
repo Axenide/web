@@ -54,10 +54,11 @@
     flex-wrap: nowrap;
     gap: 0.25rem;
     margin: 0;
-    // margin-inline-start: auto;
-    box-shadow: var(--edge-highlight);
+    border: 1px solid var(--aero-border);
+    box-shadow: var(--aero-shadow);
     border-radius: 1.125rem;
-    background-color: var(--glass-bg-1);
+    background-color: var(--aero-dark);
+    background-image: var(--aero-surface);
     padding: 0.25rem;
     list-style: none;
 
@@ -73,7 +74,9 @@
     }
 
     button,
-    details {
+    details,
+    summary {
+      border: 0;
       box-shadow: none;
       background-color: transparent;
       line-height: inherit;
@@ -90,6 +93,10 @@
     summary {
       border-radius: 50%;
       padding: 0.375rem;
+
+      .icon {
+        filter: drop-shadow(0 1px 0 var(--aero-bright));
+      }
 
       &:hover {
         box-shadow: var(--edge-highlight);
@@ -167,9 +174,11 @@
   animation: expand-up-right var(--transition-bezier);
   inset-block-start: calc(100% + 0.75rem);
   inset-inline-end: -0.25rem;
-  box-shadow: var(--edge-highlight), var(--shadow-glass);
-  border-radius: calc(var(--rounded-corner) + 0.25rem);
-  background-color: var(--glass-bg-1);
+  border: 1px solid var(--aero-border);
+  box-shadow: var(--aero-shadow);
+  border-radius: 0.75rem;
+  background-color: transparent;
+  background-image: var(--aero-sidebar);
   padding: 0.25rem;
   width: max-content;
   min-width: 8rem;
@@ -185,8 +194,9 @@
   }
 
   a {
+    border: 0;
     box-shadow: none;
-    border-radius: var(--rounded-corner);
+    border-radius: 0.5rem;
     background-color: transparent;
     padding: 0.375rem 0.75rem;
     width: 100%;
@@ -204,10 +214,12 @@
   gap: 0.25rem;
   transition: var(--transition);
   margin-block: 0;
-  box-shadow: var(--edge-highlight);
+  border: 1px solid var(--aero-border);
+  box-shadow: var(--aero-shadow);
   // border-radius: var(--rounded-corner);
   border-radius: 1.125rem;
-  background-color: var(--glass-bg-1);
+  background-color: var(--aero-dark);
+  background-image: var(--aero-surface);
   padding: 0.25rem;
   height: fit-content;
   overflow: hidden;
@@ -250,6 +262,10 @@
       color: var(--fg-muted-1);
       line-height: 0;
 
+      .icon {
+        filter: drop-shadow(0 1px 0 var(--aero-bright));
+      }
+
       &:hover {
         box-shadow: var(--edge-highlight);
         background-color: var(--bg-muted-1);
@@ -267,7 +283,6 @@
         z-index: 1;
 
         &::before {
-          @include gradient-fill;
           position: absolute;
           opacity: 0;
           z-index: -1;
@@ -281,18 +296,21 @@
       &:checked + label {
         color: var(--contrast-color);
 
+        .icon {
+          filter: drop-shadow(0 1px 0 var(--aero-accent-bright));
+        }
+
         &:hover {
           box-shadow: none;
           background-color: transparent;
         }
 
-        &:hover::before {
-          box-shadow: var(--edge-highlight);
-          background-color: var(--accent-color);
-        }
-
         &::before {
           opacity: 1;
+          border: 1px solid var(--aero-accent-border);
+          background-color: var(--aero-accent-dark);
+          background-image: var(--aero-accent-surface);
+          box-shadow: var(--aero-shadow);
         }
       }
     }

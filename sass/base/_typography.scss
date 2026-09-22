@@ -166,7 +166,20 @@ code:not(pre code) {
 }
 
 mark {
-  color: var(--accent-color);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--aero-border);
+  border-radius: 0.5rem;
+  padding-block: 0.125rem;
+  padding-inline: 0.375rem;
+  color: var(--red-fg);
+  background-color: transparent;
+  background-image: linear-gradient(
+    to bottom,
+    oklch(from var(--aero-bright) L C H / 0.5),
+    oklch(from var(--aero-dark) L C H / 0.4)
+  );
+  font-size: 0.95rem;
 }
 
 del {

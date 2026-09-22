@@ -6,10 +6,13 @@
   --avatar-glare-y: 0%;
   --avatar-tilt-x: 0deg;
   --avatar-tilt-y: 0deg;
-  background-color: var(--surface-panel, #050608);
-  border: 2px solid #101414;
-  border-radius: var(--rounded-corner);
-  box-shadow: none;
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  background-color: transparent;
+  background-image: var(--aero-avatar);
+  border: 1px solid var(--aero-border);
+  border-radius: 0.75rem;
+  box-shadow: var(--aero-shadow);
   display: inline-block;
   flex-shrink: 0;
   line-height: 0;
@@ -20,6 +23,11 @@
   transform-style: preserve-3d;
   transition: transform 120ms ease-out;
   will-change: transform;
+
+  img,
+  .retro-avatar {
+    border-radius: 0;
+  }
 
   &::before {
     border-radius: inherit;

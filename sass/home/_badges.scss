@@ -95,9 +95,13 @@
 			}
 		}
 
+		img,
+		iframe {
+			border-radius: 0;
+		}
+
 		iframe {
 			box-shadow: none;
-			border-radius: 0;
 		}
 
 		#more {

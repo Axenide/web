@@ -11,31 +11,12 @@ html[data-theme="light"] body {
     color-mix(in oklch, var(--mono-light), white 70%);
 }
 
-#site-header::after,
-#site-sidebar::before {
+#site-header::after {
   background-color: var(--surface-solid);
-}
-
-#site-sidebar::before {
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  background-color: transparent;
-  background-image: var(--aero-sidebar);
-}
-
-@media only screen and (max-width: 960px) {
-  #site-sidebar {
-    border-start-end-radius: 0.75rem;
-    border-end-end-radius: 0.75rem;
-  }
 }
 
 #site-header {
   border: 0;
-}
-
-#site-sidebar::before {
-  border-inline-end-color: var(--border-medium);
 }
 
 #sidebar-nav {
@@ -47,8 +28,6 @@ html[data-theme="light"] body {
   filter: none;
 }
 
-#site-sidebar-header,
-#sidebar-nav a,
 #sidebar-meta a,
 .buttons a,
 a.button,
@@ -61,7 +40,6 @@ summary,
 code:not(pre code),
 samp,
 q,
-mark,
 kbd,
 pre,
 table,
@@ -74,16 +52,6 @@ select {
   box-shadow: none !important;
 }
 
-.buttons .dropdown {
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  border: 1px solid var(--aero-border);
-  border-radius: 0.75rem;
-  background-color: transparent;
-  background-image: var(--aero-sidebar);
-  box-shadow: var(--aero-shadow);
-}
-
 #tag-chips .counter {
   border: 1px solid var(--border-medium);
   border-radius: var(--rounded-corner);
@@ -91,11 +59,6 @@ select {
   box-shadow:
     inset 0 0 0 1px oklch(from var(--mono) L C H / 0.05),
     0 0.5rem 1.25rem oklch(0 0 0 / 0.14);
-}
-
-.buttons .dropdown a {
-  border: 0;
-  border-radius: 0.5rem;
 }
 
 h1,
@@ -120,8 +83,6 @@ a {
 a:hover,
 button:hover,
 summary:hover,
-#sidebar-nav a:hover,
-#site-sidebar-header:hover,
 #tag-chips a:hover,
 .article-list article:hover {
   background-color: var(--surface-item-hover);
@@ -129,7 +90,6 @@ summary:hover,
   box-shadow: none !important;
 }
 
-#sidebar-nav a[aria-current="page"],
 .buttons a.suggested,
 a.button.suggested,
 button.suggested {
@@ -139,7 +99,6 @@ button.suggested {
   text-shadow: none;
 }
 
-#sidebar-nav a[aria-current="page"] .icon,
 .buttons a.suggested .icon,
 a.button.suggested .icon,
 button.suggested .icon {
@@ -181,37 +140,8 @@ kbd,
   font-size: var(--font-size-small);
 }
 
-mark {
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  border: 1px solid var(--aero-border);
-  border-radius: 0.5rem;
-  padding-block: 0.125rem;
-  padding-inline: 0.375rem;
-  color: var(--red-fg);
-  background-color: transparent;
-  background-image: linear-gradient(
-    to bottom,
-    oklch(from var(--aero-bright) L C H / 0.5),
-    oklch(from var(--aero-dark) L C H / 0.4)
-  );
-  font-size: 0.95rem;
-}
-
 .accent-text {
   color: var(--red-fg);
-}
-
-img,
-video,
-iframe {
-  border-radius: 0.5rem;
-}
-
-img.retro-avatar,
-.retro-avatar img,
-#badges .badges-marquee img {
-  border-radius: 0;
 }
 
 hr {
@@ -277,61 +207,10 @@ hr {
   }
 }
 
-#site-sidebar-header:hover {
-  background-color: var(--bg-muted-1);
-  box-shadow: none;
-}
-
-#site-sidebar-controls,
-#site-header .buttons {
-  border: 1px solid var(--aero-border);
-  background-color: var(--aero-dark);
-  background-image: var(--aero-surface);
-  box-shadow: var(--aero-shadow);
-}
-
-#site-sidebar-controls label,
-#site-header .buttons button,
-#site-header .buttons details,
-#site-header .buttons summary,
 #theme-toggle {
   border: 0;
   background-color: transparent;
   box-shadow: none;
-}
-
-#sidebar-nav a {
-  --nav-fg: oklch(from var(--mono) calc(L * 0.72) C H);
-  color: var(--nav-fg);
-  border: 1px solid var(--aero-border);
-  border-radius: 0.75rem;
-  background-color: var(--aero-dark);
-  background-image: var(--aero-surface);
-  box-shadow: var(--aero-shadow) !important;
-  text-shadow: var(--aero-text-shadow);
-}
-
-#sidebar-nav a:hover {
-  border-color: var(--border-strong);
-}
-
-.retro-avatar-container {
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  border: 1px solid var(--aero-border);
-  border-radius: 0.75rem;
-  background-color: transparent;
-  background-image: var(--aero-avatar);
-  box-shadow: var(--aero-shadow);
-}
-
-#sidebar-meta .card.toc {
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  border: 1px solid var(--aero-border);
-  border-radius: 0.75rem;
-  background-color: transparent;
-  background-image: var(--aero-sidebar);
 }
 
 #sidebar-meta .toc a,
@@ -351,59 +230,15 @@ hr {
   text-underline-offset: 0.2em;
 }
 
-#sidebar-nav details::details-content {
-  padding: 0.25rem;
-  margin: -0.25rem;
-}
-
-#sidebar-nav ul {
-  gap: 0.5rem;
-}
-
-#sidebar-nav a:hover,
-#sidebar-nav a[aria-current="page"],
-#sidebar-nav a[aria-current="page"]:hover {
-  box-shadow: none;
-}
-
-#sidebar-nav a[aria-current="page"] {
-  border-color: var(--aero-accent-border);
-  background-color: var(--aero-accent-dark);
-  background-image: var(--aero-accent-surface);
-  color: var(--contrast-color);
-  text-shadow: var(--aero-accent-text-shadow);
-}
-
-#sidebar-nav a[aria-current="page"] .icon {
-  background-image: none;
-  background-color: transparent;
-  color: var(--contrast-color);
-  text-shadow: none;
-}
-
-#sidebar-nav a:hover .icon,
-#sidebar-nav a[aria-current="page"]:hover .icon,
-#sidebar-meta a:hover .icon {
-  background-image: none;
+#sidebar-nav details,
+#sidebar-nav details:hover,
+#sidebar-nav details[open],
+#sidebar-nav summary,
+#sidebar-nav summary:hover,
+#sidebar-nav summary:focus-visible {
+  border: 0;
   background-color: transparent;
   box-shadow: none;
-}
-
-#site-sidebar-controls input[type="radio"] + label::before {
-  background-image: none;
-  box-shadow: none;
-}
-
-#site-sidebar-controls input[type="radio"]:checked + label {
-  color: var(--contrast-color);
-}
-
-#site-sidebar-controls input[type="radio"]:checked + label::before,
-#site-sidebar-controls input[type="radio"]:checked + label:hover::before {
-  border: 1px solid var(--aero-accent-border);
-  background-color: var(--aero-accent-dark);
-  background-image: var(--aero-accent-surface);
-  box-shadow: var(--aero-shadow);
 }
 
 #site-footer {
@@ -464,8 +299,6 @@ body.has-banner {
   background-color: var(--surface-solid);
 }
 
-#main-content #badges,
-#main-content #player,
 #main-content #guild-widget,
 #main-content .discord-server,
 #main-content .window {
@@ -477,25 +310,6 @@ body.has-banner {
   border-color: var(--border-strong);
   background-color: var(--accent-color-hover, #1f2224);
   color: var(--contrast-color);
-  box-shadow: none;
-}
-
-#sidebar-nav a:hover {
-  box-shadow: none;
-}
-
-#sidebar-nav a[aria-current="page"]:hover .icon {
-  color: var(--contrast-color);
-}
-
-#sidebar-nav details,
-#sidebar-nav details:hover,
-#sidebar-nav details[open],
-#sidebar-nav summary,
-#sidebar-nav summary:hover,
-#sidebar-nav summary:focus-visible {
-  border: 0;
-  background-color: transparent;
   box-shadow: none;
 }
 
@@ -533,39 +347,11 @@ body.has-banner {
   outline: 0 !important;
 }
 
-#main-content .fancy-list:not(.snug-nook),
 #main-content .card,
-#main-content #badges,
-#main-content #player,
 #main-content .github-grid-container,
 #main-content .icon-grid a {
   background-image: none;
   background-color: var(--surface-solid);
-}
-
-#main-content .fancy-list:not(.snug-nook):not(.online) ul,
-#main-content .fancy-list:not(.snug-nook):not(.online) li,
-#main-content .fancy-list:not(.snug-nook):not(.online) a {
-  background-image: none;
-}
-
-/* Masonry cards: unify border treatment for plain <article> and <article class="fancy-list">.
-   Both get a visible 1px tinted border derived from --mono. The --surface-border (dark
-   gray) variant was previously invisible against the lighter --bg-muted-1 background. */
-#main-content .masonry article,
-#main-content .fancy-list:not(.snug-nook) {
-  border: 1px solid var(--border-medium);
-  padding: 1rem;
-}
-
-/* fancy-list keeps its subtle inset highlight; plain masonry articles rely on the masonry
-   parent's box-shadow (which we null out below for performance). */
-#main-content .fancy-list:not(.snug-nook) {
-  box-shadow: var(--edge-highlight);
-}
-
-#main-content .fancy-list:not(.snug-nook) ul {
-  margin-block: 0;
 }
 
 #main-content .fancy-list.games .games-extra {
@@ -575,14 +361,11 @@ body.has-banner {
 #main-content article,
 #main-content .article-list article,
 #main-content .card,
-#main-content .fancy-list,
 #main-content .icon-grid a,
 #main-content .media-grid,
 #main-content .github-grid-container,
 #main-content .window,
 #main-content .discord-server,
-#main-content #badges,
-#main-content #player,
 #main-content #guild-widget,
 #main-content #server-widget-home,
 #main-content [class$="-card"] {
@@ -592,16 +375,9 @@ body.has-banner {
   background-image: none;
 }
 
-#main-content .fancy-list:not(.online) ul li,
-#main-content .fancy-list ul a,
-#main-content .online-list a,
 #main-content code:not(pre code),
 #main-content kbd {
   background-color: var(--surface-item);
-}
-
-#main-content ul.online-list li {
-  background-color: transparent;
 }
 
 #main-content .pre-container,
@@ -638,11 +414,6 @@ body.has-banner {
   background: transparent;
 }
 
-#main-content .fancy-list ul a:hover,
-#main-content .online-list a:hover {
-  border-color: var(--border-strong);
-}
-
 #main-content article img,
 #main-content .card img,
 #main-content .fancy-list img,
@@ -668,98 +439,6 @@ body.has-banner {
 #main-content .fancy-list,
 #main-content .masonry > * {
   overflow: visible;
-}
-
-#main-content #server-widget-home.server-widget-card {
-  isolation: isolate;
-  background-color: var(--surface-panel);
-  background-image: linear-gradient(
-    to bottom,
-    oklch(from var(--accent-color) L C H / 0.16),
-    oklch(from var(--accent-color) L C H / 0.05)
-  );
-  border: 1px solid var(--aero-border);
-  border-radius: 0.75rem;
-  overflow: visible;
-
-  &::before {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    border-radius: inherit;
-    -webkit-backdrop-filter: var(--blur);
-    backdrop-filter: var(--blur);
-    content: "";
-  }
-
-  // Brightness veil on hover instead of a flat background swap.
-  &::after {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    border-radius: inherit;
-    background: oklch(1 0 0 / 0.07);
-    opacity: 0;
-    transition: opacity var(--transition);
-    pointer-events: none;
-    content: "";
-  }
-
-  &:hover::after {
-    opacity: 1;
-  }
-}
-
-html[data-theme="light"] #main-content #server-widget-home.server-widget-card {
-  background-image: linear-gradient(
-    to bottom,
-    oklch(from var(--accent-color) L C H / 0.32),
-    oklch(from var(--accent-color) L C H / 0.12)
-  );
-}
-
-#main-content #server-widget-home.server-widget-card:hover {
-  transform: scale(1.02);
-}
-
-#main-content #server-widget-home.server-widget-card > a,
-#main-content #server-widget-home.server-widget-card > a:hover,
-#main-content #server-widget-home.server-widget-card > a:focus-visible {
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-#main-content #home-guild-icon.server-icon-rotate,
-#main-content #server-widget-home:hover #home-guild-icon.server-icon-rotate {
-  outline: 0;
-  border: 1px solid var(--border-medium);
-  border-radius: 0.5rem;
-  box-shadow: none;
-}
-
-#main-content #home-guild-icon.server-icon-rotate {
-  transform: rotate(10deg);
-}
-
-#main-content #server-widget-home:hover #home-guild-icon.server-icon-rotate {
-  transform: rotate(-350deg) scale(1.08);
-}
-
-#main-content #server-widget-home .dot {
-  border-radius: 0;
-}
-
-#main-content #server-widget-home .discord-icon-container,
-#main-content #server-widget-home .discord-icon-container .icon {
-  border: 0;
-  background-color: transparent;
-  box-shadow: none;
-}
-
-#main-content .masonry article,
-#main-content > article {
-  box-shadow: none;
 }
 
 #guild-widget {
@@ -790,84 +469,8 @@ html[data-theme="light"] #main-content #server-widget-home.server-widget-card {
   background-image: none;
 }
 
-#main-content .masonry article,
-#main-content .masonry .fancy-list:not(.snug-nook),
-#main-content #badges,
-#main-content #player {
-  position: relative;
-  isolation: isolate;
-  border-radius: 0.75rem;
-  background-color: transparent;
-  background-image: var(--aero-sidebar);
-  box-shadow: var(--aero-card-shadow);
-
-  // Blur on a ::before layer: transformed children (hovered images) must stay
-  // out of the backdrop sampling or Chrome paints blurred ghost rectangles.
-  &::before {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    border-radius: inherit;
-    -webkit-backdrop-filter: var(--blur);
-    backdrop-filter: var(--blur);
-    content: "";
-  }
-}
-
 #main-content .github-grid-container {
   background-color: transparent;
-}
-
-#main-content .fancy-list:not(.snug-nook):not(.online):not(.games) ul li,
-#main-content .fancy-list ul a {
-  border: 1px solid var(--aero-border);
-  border-radius: 0.75rem;
-  background-color: transparent;
-  background-image: var(--aero-sidebar);
-}
-
-#main-content ul.online-list a {
-  border: 1px solid var(--aero-border);
-  border-radius: 0.5rem;
-  background-color: var(--aero-dark);
-  background-image: var(--aero-surface);
-  box-shadow: var(--aero-shadow);
-  text-shadow: var(--aero-text-shadow);
-}
-
-#main-content ul.online-list a:hover {
-  border-color: var(--border-strong);
-  filter: brightness(1.12);
-}
-
-#main-content .fancy-list.online .title {
-  margin-block-end: 0.75rem;
-}
-
-#main-content #server-widget-home .title {
-  text-shadow: none;
-}
-
-#player-go {
-  border: 1px solid var(--aero-border);
-  border-radius: 0.5rem;
-  background-color: var(--aero-dark);
-  background-image: var(--aero-surface);
-  box-shadow: var(--aero-shadow);
-}
-
-#site-sidebar-controls .icon,
-#site-header .buttons .icon,
-#sidebar-nav a .icon,
-#player-go .icon,
-#main-content ul.online-list a .icon,
-#main-content ul.online-list a img {
-  filter: drop-shadow(0 1px 0 var(--aero-bright));
-}
-
-#site-sidebar-controls input[type="radio"]:checked + label .icon,
-#sidebar-nav a[aria-current="page"] .icon {
-  filter: drop-shadow(0 1px 0 var(--aero-accent-bright));
 }
 
 #main-content .fancy-list.snug-nook:not(#server-widget-home) {
@@ -904,10 +507,5 @@ html[data-theme="light"] {
   // Inset highlight on article h1 was tuned for dark; flip the alpha base
   #main-content > article > h1:first-of-type {
     box-shadow: inset 0 1px 0 var(--border-glow);
-  }
-
-  // Sidebar header hover uses muted-bg rather than dark-surface
-  #site-sidebar-header:hover {
-    background-color: var(--bg-muted-1);
   }
 }
