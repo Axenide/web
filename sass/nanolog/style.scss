@@ -48,11 +48,10 @@ h1 {
 
 		& > div {
 			box-shadow: none;
-			border: 2px solid #101414;
+			@include aero-sheen;
 			border-radius: var(--rounded-corner);
 			border-start-end-radius: 2rem;
-			background-color: var(--surface-panel);
-			background-image: none;
+			border-end-end-radius: 2rem;
 			padding: 1rem;
 
 			& > a {
@@ -62,7 +61,7 @@ h1 {
 					transform var(--transition-bezier);
 				margin-inline-start: 1rem;
 				box-shadow: none;
-				border: 2px solid #101414;
+				border: 1px solid var(--aero-border);
 				border-radius: 999px;
 				background-color: var(--surface-item);
 				padding: 0.25rem 0.75rem;
