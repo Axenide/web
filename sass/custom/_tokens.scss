@@ -52,12 +52,12 @@ html[data-theme="dark"] {
   --aero-bright-end:  color-mix(in oklch, var(--mono), black 66%);
   --aero-dark:        color-mix(in oklch, var(--mono), black 82%);
   --aero-dark-end:    color-mix(in oklch, var(--mono), black 76%);
-  --aero-surface: linear-gradient(
-    to bottom,
+  --aero-surface: radial-gradient(
+    120% 100% at 50% -50%,
     var(--aero-bright) 0,
-    var(--aero-bright-end) 50%,
-    var(--aero-dark) 50%,
-    var(--aero-dark-end) 100%
+    var(--aero-bright-end) 98.5%,
+    var(--aero-dark) 100.5%,
+    var(--aero-dark-end) 150%
   );
   --aero-shadow:
     inset 0 1px 0 oklch(from var(--mono) L C H / 0.14),
@@ -69,24 +69,24 @@ html[data-theme="dark"] {
   --aero-accent-bright-end:  oklch(from var(--accent-color) calc(L + (1 - L) * 0.08) C H);
   --aero-accent-dark:        oklch(from var(--accent-color) calc(L * 0.78) C H);
   --aero-accent-dark-end:    oklch(from var(--accent-color) calc(L * 0.92) C H);
-  --aero-accent-surface: linear-gradient(
-    to bottom,
+  --aero-accent-surface: radial-gradient(
+    120% 100% at 50% -50%,
     var(--aero-accent-bright) 0,
-    var(--aero-accent-bright-end) 50%,
-    var(--aero-accent-dark) 50%,
-    var(--aero-accent-dark-end) 100%
+    var(--aero-accent-bright-end) 98.5%,
+    var(--aero-accent-dark) 100.5%,
+    var(--aero-accent-dark-end) 150%
   );
   --aero-sidebar: linear-gradient(
     to bottom,
     oklch(from var(--mono) L C H / 0.07),
     oklch(from var(--mono) L C H / 0.015)
   );
-  --aero-avatar: linear-gradient(
-    to bottom,
+  --aero-avatar: radial-gradient(
+    120% 100% at 50% -50%,
     oklch(from var(--mono) calc(L * 0.3) C H / 0.45),
-    oklch(from var(--mono) calc(L * 0.24) C H / 0.38) 50%,
-    oklch(from var(--mono) calc(L * 0.07) C H / 0.68) 50%,
-    oklch(from var(--mono) calc(L * 0.09) C H / 0.6)
+    oklch(from var(--mono) calc(L * 0.24) C H / 1) 98.5%,
+    oklch(from var(--mono) calc(L * 0.07) C H / 0.68) 100.5%,
+    oklch(from var(--mono) calc(L * 0.09) C H / 0.6) 150%
   );
 
   /* === GLASS === */
@@ -222,12 +222,12 @@ html[data-theme="light"] {
   --aero-bright-end:  color-mix(in oklch, var(--mono-light), white 95%);
   --aero-dark:        color-mix(in oklch, var(--mono-light), white 85%);
   --aero-dark-end:    color-mix(in oklch, var(--mono-light), white 89%);
-  --aero-surface: linear-gradient(
-    to bottom,
+  --aero-surface: radial-gradient(
+    120% 100% at 50% -50%,
     var(--aero-bright) 0,
-    var(--aero-bright-end) 50%,
-    var(--aero-dark) 50%,
-    var(--aero-dark-end) 100%
+    var(--aero-bright-end) 98.5%,
+    var(--aero-dark) 100.5%,
+    var(--aero-dark-end) 150%
   );
   --aero-shadow:
     inset 0 1px 0 oklch(1 0 0 / 0.8),
@@ -237,11 +237,11 @@ html[data-theme="light"] {
     oklch(1 0 0 / 0.55),
     oklch(1 0 0 / 0.2)
   );
-  --aero-avatar: linear-gradient(
-    to bottom,
+  --aero-avatar: radial-gradient(
+    120% 100% at 50% -50%,
     oklch(1 0 0 / 0.45),
-    oklch(1 0 0 / 0.38) 50%,
-    oklch(1 0 0 / 0.26) 50%,
-    oklch(1 0 0 / 0.2)
+    oklch(1 0 0 / 1) 98.5%,
+    oklch(1 0 0 / 0.26) 100.5%,
+    oklch(1 0 0 / 0.2) 150%
   );
 }

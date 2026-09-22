@@ -519,7 +519,6 @@ section h3:target {
     /* Layout & Spacing */
     position: relative; /* Required for z-index stacking */
     z-index: 1;
-    backdrop-filter: blur(8px);
 
     /* Smooth scaling transition */
     transition:
