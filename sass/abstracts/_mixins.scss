@@ -115,8 +115,13 @@
 // Default sheen is the theme-adaptive token; pass $tint to derive a tinted
 // sheen and a matching border from any color, and $strength to scale its
 // alpha. Set $border: false for sheen-only surfaces.
-@mixin aero-sheen($tint: null, $border: true, $strength: 1) {
+@mixin aero-sheen($tint: null, $border: true, $strength: 1, $blur: true) {
 	--sheen-border: var(--aero-border);
+
+	@if $blur {
+		-webkit-backdrop-filter: var(--blur);
+		backdrop-filter: var(--blur);
+	}
 
 	@if $tint {
 		--sheen-tint: #{$tint};
@@ -143,8 +148,13 @@
 // live in custom properties: dart-sass chokes on it in regular declarations.
 // $accent: true renders the sidebar-current variant: bright, saturated and
 // opaque, with every stop derived from $tint instead of $dark.
-@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false) {
+@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false, $blur: true) {
 	--gloss-border: var(--aero-border);
+
+	@if $blur {
+		-webkit-backdrop-filter: var(--blur);
+		backdrop-filter: var(--blur);
+	}
 
 	@if $accent {
 		--gloss-border: oklch(from #{$tint} calc(L * 0.6) C H);
@@ -178,8 +188,8 @@
 	background-image: radial-gradient(
 			120% 100% at 50% -50%,
 			var(--gloss-bright) 0,
-			var(--gloss-bright-end) 98.5%,
-			var(--gloss-dark-end) 100.5%,
+			var(--gloss-bright-end) 96%,
+			var(--gloss-dark-end) 102%,
 			var(--gloss-dark) 150%
 		),
 		linear-gradient(to bottom, var(--gloss-ring-top), var(--gloss-ring-bottom));

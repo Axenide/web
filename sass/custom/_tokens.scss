@@ -256,3 +256,50 @@ html[data-theme="light"] {
     oklch(1 0 0 / 0.2) 150%
   );
 }
+
+// Semantic palette is theme-independent: one set of colors from config for
+// both modes. This block must sit after the theme blocks (and after the base
+// theme's data-theme emissions) so its specificity tie resolves in its favor.
+:root,
+html[data-theme="light"],
+html[data-theme="dark"] {
+  --red-fg:    var(--semantic-red);
+  --green-fg:  var(--semantic-green);
+  --yellow-fg: var(--semantic-yellow);
+  --blue-fg:   var(--semantic-blue);
+  --cyan-fg:   var(--semantic-cyan);
+  --purple-fg: var(--semantic-purple);
+
+  --red-bg-1:    oklch(from var(--semantic-red)    L C H / 0.10);
+  --red-bg-2:    oklch(from var(--semantic-red)    L C H / 0.20);
+  --green-bg-1:  oklch(from var(--semantic-green)  L C H / 0.10);
+  --green-bg-2:  oklch(from var(--semantic-green)  L C H / 0.20);
+  --yellow-bg-1: oklch(from var(--semantic-yellow) L C H / 0.10);
+  --yellow-bg-2: oklch(from var(--semantic-yellow) L C H / 0.20);
+  --blue-bg-1:   oklch(from var(--semantic-blue)   L C H / 0.10);
+  --blue-bg-2:   oklch(from var(--semantic-blue)   L C H / 0.20);
+  --cyan-bg-1:   oklch(from var(--semantic-cyan)   L C H / 0.10);
+  --cyan-bg-2:   oklch(from var(--semantic-cyan)   L C H / 0.20);
+  --purple-bg-1: oklch(from var(--semantic-purple) L C H / 0.10);
+  --purple-bg-2: oklch(from var(--semantic-purple) L C H / 0.20);
+
+  --red-fg-muted-1:    oklch(from var(--semantic-red)    calc(L + (1-L) * 0.85) C H / 0.5);
+  --red-fg-muted-2:    oklch(from var(--semantic-red)    calc(L + (1-L) * 0.85) C H / 0.6);
+  --green-fg-muted-1:  oklch(from var(--semantic-green)  calc(L + (1-L) * 0.85) C H / 0.5);
+  --green-fg-muted-2:  oklch(from var(--semantic-green)  calc(L + (1-L) * 0.85) C H / 0.6);
+  --yellow-fg-muted-1: oklch(from var(--semantic-yellow) calc(L + (1-L) * 0.85) C H / 0.5);
+  --yellow-fg-muted-2: oklch(from var(--semantic-yellow) calc(L + (1-L) * 0.85) C H / 0.6);
+  --blue-fg-muted-1:   oklch(from var(--semantic-blue)   calc(L + (1-L) * 0.85) C H / 0.5);
+  --blue-fg-muted-2:   oklch(from var(--semantic-blue)   calc(L + (1-L) * 0.85) C H / 0.6);
+  --cyan-fg-muted-1:   oklch(from var(--semantic-cyan)   calc(L + (1-L) * 0.85) C H / 0.5);
+  --cyan-fg-muted-2:   oklch(from var(--semantic-cyan)   calc(L + (1-L) * 0.85) C H / 0.6);
+  --purple-fg-muted-1: oklch(from var(--semantic-purple) calc(L + (1-L) * 0.85) C H / 0.5);
+  --purple-fg-muted-2: oklch(from var(--semantic-purple) calc(L + (1-L) * 0.85) C H / 0.6);
+
+  --red-h:    2.70968;  --red-s:    68.28194%; --red-l:    55.4902%;
+  --green-h:  63.49515; --green-s:  44.58874%; --green-l:  45.29412%;
+  --yellow-h: 32.33533; --yellow-s: 72.29437%; --yellow-l:  54.70588%;
+  --blue-h:   175.78947;--blue-s:   22.70916%; --blue-l:   49.21569%;
+  --cyan-h:   116.47059;--cyan-s:   22.86996%; --cyan-l:   56.27451%;
+  --purple-h: 337.69231;--purple-s: 39%;       --purple-l: 60.78431%;
+}

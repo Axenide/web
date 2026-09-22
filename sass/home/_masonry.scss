@@ -22,7 +22,10 @@
 			border-radius: 0.75rem;
 			box-shadow: var(--aero-card-shadow);
 			background-color: transparent;
-			@include aero-sheen($border: false);
+			// Blur stays on the ::before layer: transformed children (hovered
+			// images) must stay out of the backdrop sampling or Chrome paints
+			// ghost rectangles.
+			@include aero-sheen($border: false, $blur: false);
 			padding: 1rem;
 
 			// Blur on a ::before layer: transformed children (hovered images) must
@@ -56,7 +59,7 @@
 	border: 1px solid var(--border-medium);
 	border-radius: 0.75rem;
 	background-color: transparent;
-	@include aero-sheen($border: false);
+	@include aero-sheen($border: false, $blur: false);
 	box-shadow: var(--aero-card-shadow);
 
 	&::before {

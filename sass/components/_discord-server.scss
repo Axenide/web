@@ -30,10 +30,8 @@
   width: min(400px, 100%);
   overflow: hidden;
   text-align: left;
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  background-color: transparent;
   @include aero-sheen;
+  box-shadow: var(--aero-card-shadow);
   
   // Stabilization for hover effects
   backface-visibility: hidden;

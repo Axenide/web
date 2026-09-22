@@ -191,7 +191,7 @@ Mi curiosidad por las computadoras me llevó a esto, combinando creatividad y te
 
 <article>
 
-{{<github_grid color="#40c463"/>}}
+{{<github_grid/>}}
 
 Sinceramente disfruto programar y resolver problemas. Es como un rompecabezas que puedo resolver todos los días, y es muy satisfactorio ver mis ideas cobrar vida a través del código. :)
 

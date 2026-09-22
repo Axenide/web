@@ -191,7 +191,7 @@ My curiosity about computers led me into this field, where I get to merge creati
 
 <article>
 
-{{<github_grid color="#40c463"/>}}
+{{<github_grid/>}}
 
 I honestly enjoy coding and problem-solving. It’s like a puzzle that I get to solve every day, and I love the satisfaction of seeing my ideas come to life through code. :)
 

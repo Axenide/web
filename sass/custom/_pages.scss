@@ -460,24 +460,25 @@ section h3:target {
   }
 }
 
-/* Adaptive colors using theme accent color or custom --github-color */
+/* Levels use the semantic green (or a custom --github-color); the inactive
+   level is a neutral gray. */
 .github-day.level-0 {
-  background-color: var(--bg-color-secondary, rgba(128, 128, 128, 0.1));
+  background-color: var(--bg-muted-neutral-1);
 }
 .github-day.level-1 {
-  background-color: var(--github-color, var(--accent-color));
+  background-color: var(--github-color, var(--green-fg));
   opacity: 0.4;
 }
 .github-day.level-2 {
-  background-color: var(--github-color, var(--accent-color));
+  background-color: var(--github-color, var(--green-fg));
   opacity: 0.6;
 }
 .github-day.level-3 {
-  background-color: var(--github-color, var(--accent-color));
+  background-color: var(--github-color, var(--green-fg));
   opacity: 0.8;
 }
 .github-day.level-4 {
-  background-color: var(--github-color, var(--accent-color));
+  background-color: var(--github-color, var(--green-fg));
   opacity: 1;
 }
 

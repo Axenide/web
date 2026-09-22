@@ -30,11 +30,24 @@
   article {
     display: flex;
     position: relative;
+    isolation: isolate;
     justify-content: space-between;
-    box-shadow: var(--edge-highlight), var(--shadow);
     border-radius: 1.25rem;
-    background-color: var(--bg-muted-1);
+    @include aero-sheen($blur: false);
+    background-color: transparent;
+    box-shadow: var(--aero-card-shadow);
     overflow: hidden;
+
+    // Masonry pattern: blur in a ::before layer, behind the content.
+    &::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      border-radius: inherit;
+      -webkit-backdrop-filter: var(--blur);
+      backdrop-filter: var(--blur);
+      content: "";
+    }
 
     &.draft {
       opacity: var(--dim-opacity);
@@ -48,8 +61,16 @@
     }
 
     &.has-banner {
+      // The blurnail is the frost itself; a backdrop layer over the banner
+      // background leaks past the rounded corners (Chrome clip bug).
+      &::before {
+        display: none;
+      }
+
       &.has-accent-color {
-        background-image: var(--bg-overlay), var(--blurnail);
+        // Sheen on top of the dim wash and the blurred banner: background
+        // layers stack first-painted-on-top, so the sheen stays visible.
+        background-image: var(--aero-sidebar), var(--bg-overlay), var(--blurnail);
         background-position: center;
         background-size: cover;
       }
@@ -61,8 +82,6 @@
         margin: 0;
         margin-inline-start: -1rem;
         border-radius: 0;
-        border-start-end-radius: 1.25rem;
-        border-end-end-radius: 1.25rem;
         background-color: transparent;
         width: 9rem;
         overflow: hidden;
@@ -130,10 +149,9 @@
     &.has-accent-color {
       @include variables-accent(("light", "common"));
 
-      @media (prefers-color-scheme: dark) {
-        & {
-          @include variables-accent("dark");
-        }
+      // The site toggles via data-theme, not prefers-color-scheme.
+      html[data-theme="dark"] & {
+        @include variables-accent("dark");
       }
     }
 
@@ -217,9 +235,7 @@
         align-items: flex-start;
         margin-inline-start: 0;
         margin-block-end: -1rem;
-        border-start-start-radius: 1.25rem;
-        border-start-end-radius: 1.25rem;
-        border-end-end-radius: 0;
+        border-radius: 0;
         width: 100%;
         height: 9rem;
 

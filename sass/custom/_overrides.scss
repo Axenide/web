@@ -35,7 +35,6 @@ button,
 details,
 summary,
 .card,
-.article-list article,
 #tag-chips a,
 code:not(pre code),
 samp,
@@ -83,8 +82,7 @@ a {
 a:hover,
 button:hover,
 summary:hover,
-#tag-chips a:hover,
-.article-list article:hover {
+#tag-chips a:hover {
   background-color: var(--surface-item-hover);
   color: var(--fg-color);
   box-shadow: none !important;
@@ -356,8 +354,7 @@ body.has-banner {
   margin-block-start: 0.5rem;
 }
 
-#main-content article:not(ul.masonry article),
-#main-content .article-list article,
+#main-content article:not(ul.masonry article):not(.article-list article),
 #main-content .card,
 #main-content .icon-grid a,
 #main-content .media-grid,

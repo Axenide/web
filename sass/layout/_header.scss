@@ -162,13 +162,11 @@
 
 .buttons .dropdown {
   display: flex;
-  -webkit-backdrop-filter: var(--blur);
   position: absolute;
   flex-direction: column;
   gap: 0.25rem;
   transform-origin: top right;
   z-index: 1;
-  backdrop-filter: var(--blur);
   animation: expand-up-right var(--transition-bezier);
   inset-block-start: calc(100% + 0.75rem);
   inset-inline-end: -0.25rem;

@@ -68,18 +68,28 @@
 
 #main-content #server-widget-home.server-widget-card {
 	isolation: isolate;
-	// The card carries the full surface: tinted glass, sheen and border. The
-	// link overlay inside is a pure hit area, so hover effects (zoom + the
-	// lighter glass swap) live here and stay free of Chrome ghost/blend bugs.
-	@include aero-sheen($tint: #d10026, $strength: 2.5);
+	// Glossy surface, tinted dark red in both themes: the link overlay is a
+	// pure hit area. No backdrop-filter from the mixin: the surface is opaque
+	// and the avatar transforms on hover (Chrome ghost rectangles).
+	--gloss-bright-k: 0.26;
+	--gloss-bright-end-k: 0.175;
+	--gloss-dark-end-k: 0.07;
+	--gloss-ring-top-k: 0.42;
+	--gloss-ring-bottom-k: 0.6;
+	@include aero-gloss($dark: oklch(0.18 0.08 25), $tint: #d10026, $blur: false);
 	border-radius: 0.75rem;
-	background-color: var(--glass-bg-1);
 	overflow: visible;
 
-	// Hover = zoom + the sheen tint animating to a lighter shade.
+	// Fixed light text on the red surface.
+	color: oklch(1 0 0);
+	--accent-color: oklch(1 0 0);
+	--fg-color: oklch(1 0 0);
+	--fg-muted-1: oklch(1 0 0 / 0.75);
+	--fg-muted-2: oklch(1 0 0 / 0.6);
+
 	&:hover {
 		transform: scale(1.02);
-		--sheen-tint: oklch(from #d10026 calc(L + (1 - L) * 0.45) C H);
+		filter: brightness(1.1);
 	}
 
 	.title {
