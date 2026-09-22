@@ -299,7 +299,6 @@ body.has-banner {
   background-color: var(--surface-solid);
 }
 
-#main-content #guild-widget,
 #main-content .discord-server,
 #main-content .window {
   border: 1px solid var(--border-medium);
@@ -348,7 +347,6 @@ body.has-banner {
 }
 
 #main-content .card,
-#main-content .github-grid-container,
 #main-content .icon-grid a {
   background-image: none;
   background-color: var(--surface-solid);
@@ -358,15 +356,13 @@ body.has-banner {
   margin-block-start: 0.5rem;
 }
 
-#main-content article,
+#main-content article:not(ul.masonry article),
 #main-content .article-list article,
 #main-content .card,
 #main-content .icon-grid a,
 #main-content .media-grid,
-#main-content .github-grid-container,
 #main-content .window,
 #main-content .discord-server,
-#main-content #guild-widget,
 #main-content #server-widget-home,
 #main-content [class$="-card"] {
   -webkit-backdrop-filter: none;
@@ -441,10 +437,6 @@ body.has-banner {
   overflow: visible;
 }
 
-#guild-widget {
-  overflow: visible;
-}
-
 #guild-banner {
   overflow: hidden;
 }
@@ -462,7 +454,7 @@ body.has-banner {
   margin-block: 0;
 }
 
-#main-content :is(.card, .icon-grid a, .media-grid, .github-grid-container, .window, .discord-server, #guild-widget, [class$="-card"]):not(.scroll-indicator):not(.hero-container):not(.hero-wrapper):not(#server-widget-home) {
+#main-content :is(.card, .icon-grid a, .media-grid, .window, .discord-server, #server-widget-home, [class$="-card"]):not(.scroll-indicator):not(.hero-container):not(.hero-wrapper):not(#server-widget-home) {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   background-color: var(--surface-panel);

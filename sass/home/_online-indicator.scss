@@ -3,11 +3,16 @@
 
 #online-indicator {
 	@include chip;
+	@include aero-sheen;
 	display: inline-block;
+	border-radius: 0.75rem;
+	background-color: transparent;
+	box-shadow: none;
 	color: var(--fg-muted-2);
 	font-weight: var(--font-weight-semi-bold);
 
 	&.online {
+		@include aero-sheen($tint: var(--green-fg));
 		background-color: var(--green-bg-1);
 		color: var(--green-fg);
 
@@ -17,6 +22,7 @@
 	}
 
 	&.idle {
+		@include aero-sheen($tint: var(--yellow-fg));
 		background-color: var(--yellow-bg-1);
 		color: var(--yellow-fg);
 
@@ -26,6 +32,7 @@
 	}
 
 	&.dnd {
+		@include aero-sheen($tint: var(--red-fg));
 		background-color: var(--red-bg-1);
 		color: var(--red-fg);
 

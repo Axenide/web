@@ -1,13 +1,14 @@
+@use "../abstracts/mixins" as *;
+
 .fancy-list.snug-nook {
 	--accent-color: var(--orange-fg);
 	--bg-muted-1: var(--orange-bg-1);
 	--bg-muted-2: var(--orange-bg-2);
 	position: relative;
-	transition: all var(--transition), transform var(--transition-bezier);
-
-	&:hover {
-		background-color: var(--bg-muted-2);
-	}
+	transition:
+		all var(--transition),
+		transform var(--transition-bezier),
+		--sheen-tint var(--transition);
 
 	&:active {
 		transform: var(--active);
@@ -16,6 +17,7 @@
 	div {
 		display: flex;
 		position: absolute;
+		z-index: 2;
 		gap: 0.5rem;
 		inset-block-start: 1rem;
 		inset-inline-end: 1rem;
@@ -23,11 +25,25 @@
 		font-size: 1.25rem;
 	}
 
+	// Content rides above the link overlay so it stays visible on hover;
+	// pointer-events keeps the whole card clickable.
+	.title,
+	p {
+		position: relative;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	// Pure hit area. The explicit transparent background outranks the global
+	// a:hover surface so hovering paints nothing on the overlay itself.
 	a {
 		position: absolute;
-		z-index: 1;
+		z-index: 0;
 		inset: 0;
+		border: 0;
 		border-radius: inherit;
+		background-color: transparent;
+		box-shadow: none;
 	}
 
 	p:last-of-type {
@@ -37,6 +53,7 @@
 
 	img {
 		position: absolute;
+		z-index: 2;
 		transform: rotate(10deg);
 		margin: 0;
 		inset-block-end: -0.5rem;
@@ -51,50 +68,22 @@
 
 #main-content #server-widget-home.server-widget-card {
 	isolation: isolate;
-	border: 1px solid var(--aero-border);
+	// The card carries the full surface: tinted glass, sheen and border. The
+	// link overlay inside is a pure hit area, so hover effects (zoom + the
+	// lighter glass swap) live here and stay free of Chrome ghost/blend bugs.
+	@include aero-sheen($tint: #d10026, $strength: 2.5);
 	border-radius: 0.75rem;
+	background-color: var(--glass-bg-1);
 	overflow: visible;
 
-	&::before {
-		position: absolute;
-		z-index: -1;
-		inset: 0;
-		border-radius: inherit;
-		-webkit-backdrop-filter: var(--blur);
-		backdrop-filter: var(--blur);
-		content: "";
-	}
-
-	// Brightness veil on hover instead of a flat background swap.
-	&::after {
-		position: absolute;
-		z-index: -1;
-		inset: 0;
-		border-radius: inherit;
-		background: oklch(1 0 0 / 0.07);
-		opacity: 0;
-		transition: opacity var(--transition);
-		pointer-events: none;
-		content: "";
-	}
-
+	// Hover = zoom + the sheen tint animating to a lighter shade.
 	&:hover {
-		background-color: transparent;
 		transform: scale(1.02);
-
-		&::after {
-			opacity: 1;
-		}
+		--sheen-tint: oklch(from #d10026 calc(L + (1 - L) * 0.45) C H);
 	}
 
 	.title {
 		text-shadow: none;
-	}
-
-	> a {
-		border: 0;
-		background: transparent;
-		box-shadow: none;
 	}
 
 	#home-guild-icon.server-icon-rotate {
@@ -119,20 +108,4 @@
 		background-color: transparent;
 		box-shadow: none;
 	}
-}
-
-#main-content #server-widget-home.server-widget-card {
-	background-image: linear-gradient(
-		to bottom,
-		oklch(from var(--accent-color) L C H / 0.16),
-		oklch(from var(--accent-color) L C H / 0.05)
-	);
-}
-
-html[data-theme="light"] #main-content #server-widget-home.server-widget-card {
-	background-image: linear-gradient(
-		to bottom,
-		oklch(from var(--accent-color) L C H / 0.32),
-		oklch(from var(--accent-color) L C H / 0.12)
-	);
 }

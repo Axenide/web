@@ -110,3 +110,82 @@
 		);
 	background-size: 1rem 1rem, auto;
 }
+
+// Subtle vertical sheen (the --aero-sidebar gradient) with the aero border.
+// Default sheen is the theme-adaptive token; pass $tint to derive a tinted
+// sheen and a matching border from any color, and $strength to scale its
+// alpha. Set $border: false for sheen-only surfaces.
+@mixin aero-sheen($tint: null, $border: true, $strength: 1) {
+	--sheen-border: var(--aero-border);
+
+	@if $tint {
+		--sheen-tint: #{$tint};
+		--sheen-border: oklch(from #{$tint} calc(L * 0.6) C H);
+		background-image: linear-gradient(
+			to bottom,
+			oklch(from var(--sheen-tint) L C H / #{0.07 * $strength}),
+			oklch(from var(--sheen-tint) L C H / #{0.015 * $strength})
+		);
+	} @else {
+		background-image: var(--aero-sidebar);
+	}
+
+	@if $border {
+		border: 1px solid var(--sheen-border);
+	}
+}
+
+// Vista-style 50/50 gloss surface. $dark is the base color (bottom half and
+// gradient far field); bright, bright-end and dark-end are computed from its
+// lightness with fixed deltas (scaled by $contrast), so it adapts to any base
+// in dark and light themes. Tint it by passing a tinted base color; $tint
+// only adapts the border to a state color. The relative-color calc() must
+// live in custom properties: dart-sass chokes on it in regular declarations.
+// $accent: true renders the sidebar-current variant: bright, saturated and
+// opaque, with every stop derived from $tint instead of $dark.
+@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false) {
+	--gloss-border: var(--aero-border);
+
+	@if $accent {
+		--gloss-border: oklch(from #{$tint} calc(L * 0.6) C H);
+		--gloss-dark: oklch(from #{$tint} calc(L * 0.78) C H);
+		--gloss-bright: oklch(from #{$tint} calc(L + (1 - L) * #{0.3 * $contrast}) C H);
+		--gloss-bright-end: oklch(from #{$tint} calc(L + (1 - L) * #{0.08 * $contrast}) C H);
+		--gloss-dark-end: oklch(from #{$tint} calc(L * #{0.92 * $contrast}) C H);
+		--gloss-ring-top: oklch(from #{$tint} calc(L + (1 - L) * #{0.45 * $contrast}) C H);
+		--gloss-ring-bottom: oklch(from #{$tint} calc(L * #{0.45 * $contrast}) C H);
+	} @else {
+		@if $tint {
+			--gloss-border: oklch(from #{$tint} calc(L * 0.6) C H);
+		}
+
+		--gloss-dark: #{$dark};
+		--gloss-bright: oklch(from #{$dark} calc(L + (1 - L) * var(--gloss-bright-k) * #{$contrast}) C H);
+		--gloss-bright-end: oklch(from #{$dark} calc(L + (1 - L) * var(--gloss-bright-end-k) * #{$contrast}) C H);
+		--gloss-dark-end: oklch(from #{$dark} calc(L + (1 - L) * var(--gloss-dark-end-k) * #{$contrast}) C H);
+		--gloss-ring-top: oklch(from #{$dark} calc(L + (1 - L) * var(--gloss-ring-top-k) * #{$contrast}) C H);
+		--gloss-ring-bottom: oklch(from #{$dark} calc(L * var(--gloss-ring-bottom-k) * #{$contrast}) C H);
+	}
+
+	// Double border: outer solid ring + inner gradient ring (light to dark),
+	// painted by the bottom background layer that shows through the border area.
+	// Double border: the transparent border area shows the inner gradient ring
+	// (light to dark) painted by the bottom background layer; the solid outer
+	// ring is an outline, which follows border-radius without touching layout
+	// or the box-shadows of the call sites.
+	border: 1px solid transparent;
+	background-color: var(--gloss-dark);
+	background-image: radial-gradient(
+			120% 100% at 50% -50%,
+			var(--gloss-bright) 0,
+			var(--gloss-bright-end) 98.5%,
+			var(--gloss-dark-end) 100.5%,
+			var(--gloss-dark) 150%
+		),
+		linear-gradient(to bottom, var(--gloss-ring-top), var(--gloss-ring-bottom));
+	background-origin: padding-box, border-box;
+	background-clip: padding-box, border-box;
+	outline: 1px solid var(--gloss-border);
+	outline-offset: 0;
+	text-shadow: 0 1px 0 var(--gloss-bright);
+}

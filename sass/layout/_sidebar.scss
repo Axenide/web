@@ -53,7 +53,7 @@
     backdrop-filter: var(--blur);
     border-inline-end: rpx(1) solid var(--border-medium);
     background-color: transparent;
-    background-image: var(--aero-sidebar);
+    @include aero-sheen($border: false);
     content: "";
 
     @media only screen and (max-width: 960px) {
@@ -197,16 +197,13 @@
     transition:
       all var(--transition),
       transform var(--transition-bezier);
-    border: 1px solid var(--aero-border);
     border-radius: 0.75rem;
     padding: 0.25rem;
     overflow: hidden;
-    background-color: var(--aero-dark);
-    background-image: var(--aero-surface);
+    @include aero-gloss;
     box-shadow: var(--aero-shadow);
     color: var(--nav-fg);
     text-decoration: none;
-    text-shadow: var(--aero-text-shadow);
     text-overflow: ellipsis;
     white-space: nowrap;
 
@@ -220,6 +217,7 @@
     }
 
     &[aria-current="page"] {
+      --gloss-border: var(--aero-accent-border);
       border-color: var(--aero-accent-border);
       background-color: var(--aero-accent-dark);
       background-image: var(--aero-accent-surface);
@@ -408,10 +406,9 @@
   .card {
     -webkit-backdrop-filter: var(--blur);
     backdrop-filter: var(--blur);
-    border: 1px solid var(--aero-border);
     border-radius: 0.75rem;
     background-color: transparent;
-    background-image: var(--aero-sidebar);
+    @include aero-sheen;
   }
 
   .while-writing {

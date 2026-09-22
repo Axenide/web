@@ -54,11 +54,9 @@
     flex-wrap: nowrap;
     gap: 0.25rem;
     margin: 0;
-    border: 1px solid var(--aero-border);
     box-shadow: var(--aero-shadow);
     border-radius: 1.125rem;
-    background-color: var(--aero-dark);
-    background-image: var(--aero-surface);
+    @include aero-gloss;
     padding: 0.25rem;
     list-style: none;
 
@@ -174,11 +172,10 @@
   animation: expand-up-right var(--transition-bezier);
   inset-block-start: calc(100% + 0.75rem);
   inset-inline-end: -0.25rem;
-  border: 1px solid var(--aero-border);
   box-shadow: var(--aero-shadow);
   border-radius: 0.75rem;
   background-color: transparent;
-  background-image: var(--aero-sidebar);
+  @include aero-sheen;
   padding: 0.25rem;
   width: max-content;
   min-width: 8rem;
@@ -214,12 +211,10 @@
   gap: 0.25rem;
   transition: var(--transition);
   margin-block: 0;
-  border: 1px solid var(--aero-border);
   box-shadow: var(--aero-shadow);
   // border-radius: var(--rounded-corner);
   border-radius: 1.125rem;
-  background-color: var(--aero-dark);
-  background-image: var(--aero-surface);
+  @include aero-gloss;
   padding: 0.25rem;
   height: fit-content;
   overflow: hidden;

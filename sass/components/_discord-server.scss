@@ -30,7 +30,10 @@
   width: min(400px, 100%);
   overflow: hidden;
   text-align: left;
-  @include fancy-card;
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  background-color: transparent;
+  @include aero-sheen;
   
   // Stabilization for hover effects
   backface-visibility: hidden;
@@ -90,47 +93,31 @@
     a {
       z-index: 10;
       padding: 0.5rem 1rem;
-      border-radius: var(--rounded-corner, 8px);
+      border-radius: 0.5rem;
       text-decoration: none;
       font-weight: 500;
       font-size: 0.875rem;
       transition: all 0.3s ease;
-      background-color: var(--bg-muted-1, #333);
-      color: var(--fg-muted-1, #ccc);
-      box-shadow: var(--edge-highlight);
+      @include aero-gloss;
+      color: var(--fg-muted-2);
       position: relative;
 
       &:hover {
-        background-color: var(--bg-muted-2, #444);
+        border-color: var(--border-strong);
+        filter: brightness(1.12);
         transform: translateY(-1px);
       }
     }
 
     .suggested {
       margin-inline-start: auto;
-      background: linear-gradient(135deg, #DB4740 0%, #D10026 100%);
+      @include aero-gloss($tint: #d10026, $accent: true);
       color: white !important;
       box-shadow: var(--edge-highlight), 0 0 15px rgba(219, 71, 64, 0.3);
-      border: none;
-      
-      &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: #DB4740;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: -1;
-      }
 
       &:hover {
         transform: translateY(-2px);
         box-shadow: var(--edge-highlight), 0 0 20px rgba(209, 0, 38, 0.5);
-        
-        &::before {
-          opacity: 1;
-        }
       }
     }
   }
@@ -235,11 +222,10 @@
   list-style: none !important;
 
   li {
-    border: 1px solid var(--bg-muted-1, rgba(255, 255, 255, 0.1));
+    @include aero-sheen;
     border-radius: 9999px;
     padding: 0.2rem 0.75rem;
     font-size: 0.875rem;
-    background: rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     gap: 0.25rem;

@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 .fancy-list.online {
 	.title {
 		margin-block-end: 0.75rem;
@@ -29,15 +31,12 @@
 				align-items: center;
 				transition: all var(--transition),
 					transform var(--transition-bezier);
-				border: 1px solid var(--aero-border);
-				border-radius: 0.5rem;
+					border-radius: 0.5rem;
 				box-shadow: var(--aero-shadow);
-				background-color: var(--aero-dark);
-				background-image: var(--aero-surface);
+				@include aero-gloss;
 				padding: 0.5rem;
 				color: var(--fg-muted-2);
 				text-decoration: none;
-				text-shadow: var(--aero-text-shadow);
 
 				.icon {
 					filter: drop-shadow(0 1px 0 var(--aero-bright));

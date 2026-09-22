@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 .fancy-list ul {
 	display: flex;
 	flex-direction: column;
@@ -16,13 +18,12 @@
 }
 
 #main-content .fancy-list:not(.snug-nook):not(.online):not(.games) ul li,
-#main-content .fancy-list:not(.snug-nook):not(.online):not(.games) ul a {
-	border: 1px solid var(--aero-border);
+#main-content .fancy-list:not(.snug-nook):not(.online) ul a {
+	@include aero-sheen;
 	border-radius: 0.75rem;
 	background-color: transparent;
-	background-image: var(--aero-sidebar);
 }
 
-#main-content .fancy-list:not(.online):not(.games) ul a:hover {
+#main-content .fancy-list:not(.online) ul a:hover {
 	border-color: var(--border-strong);
 }
