@@ -76,7 +76,7 @@
 	--gloss-dark-end-k: 0.07;
 	--gloss-ring-top-k: 0.42;
 	--gloss-ring-bottom-k: 0.6;
-	@include aero-gloss($dark: oklch(0.18 0.08 25), $tint: #d10026, $blur: false);
+	@include aero-gloss($dark: oklch(0.18 0.08 25), $tint: #d10026);
 	border-radius: 0.75rem;
 	overflow: visible;
 

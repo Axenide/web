@@ -115,7 +115,7 @@
 // Default sheen is the theme-adaptive token; pass $tint to derive a tinted
 // sheen and a matching border from any color, and $strength to scale its
 // alpha. Set $border: false for sheen-only surfaces.
-@mixin aero-sheen($tint: null, $border: true, $strength: 1, $blur: true) {
+@mixin aero-sheen($tint: null, $border: true, $strength: 1, $blur: false) {
 	--sheen-border: var(--aero-border);
 
 	@if $blur {
@@ -148,7 +148,7 @@
 // live in custom properties: dart-sass chokes on it in regular declarations.
 // $accent: true renders the sidebar-current variant: bright, saturated and
 // opaque, with every stop derived from $tint instead of $dark.
-@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false, $blur: true) {
+@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false, $blur: false) {
 	--gloss-border: var(--aero-border);
 
 	@if $blur {

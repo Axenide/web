@@ -1,14 +1,10 @@
 body {
-  background:
-    radial-gradient(circle at center, var(--background-dot-color) 1px, transparent 1.2px) 0 0 / 1.5rem 1.5rem,
-    var(--bg-color);
+  background: var(--bg-color);
   letter-spacing: -0.015em;
 }
 
 html[data-theme="light"] body {
-  background:
-    radial-gradient(circle at center, oklch(1 0 0 / 0.75) 1px, transparent 1.2px) 0 0 / 1.5rem 1.5rem,
-    color-mix(in oklch, var(--mono-light), white 70%);
+  background: color-mix(in oklch, var(--mono-light), white 82%);
 }
 
 #site-header::after {

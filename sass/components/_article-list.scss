@@ -33,7 +33,7 @@
     isolation: isolate;
     justify-content: space-between;
     border-radius: 1.25rem;
-    @include aero-sheen($blur: false);
+    @include aero-sheen;
     background-color: transparent;
     box-shadow: var(--aero-card-shadow);
     overflow: hidden;
