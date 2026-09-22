@@ -10,6 +10,13 @@ body {
   background-color: var(--surface-solid);
 }
 
+#site-sidebar::before {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  background-color: transparent;
+  background-image: var(--aero-sidebar);
+}
+
 #site-header {
   border: 0;
 }
@@ -148,9 +155,19 @@ kbd,
 }
 
 mark {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--aero-border);
+  border-radius: 0.375rem;
   padding-block: 0.125rem;
+  padding-inline: 0.375rem;
   color: var(--red-fg);
-  background-color: var(--surface-solid);
+  background-color: transparent;
+  background-image: linear-gradient(
+    to bottom,
+    oklch(from var(--aero-bright) L C H / 0.5),
+    oklch(from var(--aero-dark) L C H / 0.4)
+  );
   font-size: 0.95rem;
 }
 
@@ -234,13 +251,15 @@ hr {
 
 #site-sidebar-controls,
 #site-header .buttons {
-  border-color: var(--border-medium);
-  background-color: var(--surface-item);
-  box-shadow: none;
+  border: 1px solid var(--aero-border);
+  background-color: var(--aero-dark);
+  background-image: var(--aero-surface);
+  box-shadow: var(--aero-shadow);
 }
 
 #site-sidebar-controls label,
 #site-header .buttons button,
+#site-header .buttons details,
 #site-header .buttons summary,
 #theme-toggle {
   border: 0;
@@ -250,9 +269,24 @@ hr {
 
 #sidebar-nav a,
 #sidebar-meta a {
-  border: 1px solid var(--border-soft);
-  background-color: var(--surface-item);
-  box-shadow: none;
+  border: 1px solid var(--aero-border);
+  border-radius: 0.625rem;
+  background-color: var(--aero-dark);
+  background-image: var(--aero-surface);
+  box-shadow: var(--aero-shadow) !important;
+}
+
+#sidebar-nav a:hover,
+#sidebar-meta a:hover {
+  border-color: var(--border-strong);
+}
+
+.retro-avatar-container {
+  border: 1px solid var(--aero-border);
+  border-radius: 0.625rem;
+  background-color: transparent;
+  background-image: var(--aero-avatar);
+  box-shadow: var(--aero-shadow);
 }
 
 #sidebar-meta .toc a,
@@ -272,8 +306,9 @@ hr {
 }
 
 #sidebar-nav a[aria-current="page"] {
-  border-color: var(--border-strong);
-  background-color: var(--accent-color);
+  border-color: var(--aero-accent-border);
+  background-color: var(--aero-accent-dark);
+  background-image: var(--aero-accent-surface);
   color: var(--contrast-color);
 }
 
@@ -303,7 +338,10 @@ hr {
 
 #site-sidebar-controls input[type="radio"]:checked + label::before,
 #site-sidebar-controls input[type="radio"]:checked + label:hover::before {
-  background-color: var(--accent-color);
+  border: 1px solid var(--aero-accent-border);
+  background-color: var(--aero-accent-dark);
+  background-image: var(--aero-accent-surface);
+  box-shadow: var(--aero-shadow);
 }
 
 #site-footer {
@@ -399,16 +437,22 @@ body.has-banner {
   box-shadow: none;
 }
 
+#go-to-top,
+#go-to-top:hover,
+#go-to-top:focus-visible {
+  background-color: transparent;
+}
+
 #site-sidebar-header:hover,
 #site-sidebar-header:focus-visible {
   border: 0;
-  background-color: var(--surface-item-hover);
+  background-color: transparent;
   box-shadow: none;
 }
 
 #site-sidebar-header {
   border: 0;
-  background-color: var(--surface-solid);
+  background-color: transparent;
   box-shadow: none;
 }
 
@@ -666,10 +710,6 @@ body.has-banner {
 // Light-mode overrides for components imported from the theme whose source
 // files still hardcode dark borders/shadows. Higher specificity required.
 html[data-theme="light"] {
-  .retro-avatar-container {
-    border-color: var(--surface-border);
-  }
-
   #nanolog-list > li > div,
   #nanolog-list > li > div > a {
     border-color: var(--surface-border);

@@ -69,7 +69,7 @@ I create software, videos, music, art and games.
 </div>
 <div id="scroll-target" style="position: absolute; bottom: 110px; left: 50%; width: 1px; height: 1px; z-index: -1;"></div>
 
-<a class="scroll-indicator" href="#about" style="position: absolute; bottom: 120px; left: 50%; margin-left: -120px; display: flex; align-items: flex-end; gap: 76px; pointer-events: auto; cursor: pointer; z-index: 10; text-decoration: none;">
+<a class="scroll-indicator" href="#about" style="position: absolute; bottom: 120px; left: 50%; margin-left: -120px; display: flex; align-items: flex-end; gap: 76px; pointer-events: auto; cursor: pointer; z-index: 1; text-decoration: none;">
 <div style="width: 96px; height: 96px; z-index: 0; flex-shrink: 0;">
 {{<axie_icon />}}
 </div>

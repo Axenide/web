@@ -46,6 +46,49 @@ html[data-theme="dark"] {
   --codeblock-border:     oklch(from var(--mono) L C H / 0.16);
   --shade-color:          oklch(0 0 0 / 0.58);
 
+  /* === AERO (Vista-style 50/50 gloss surfaces) === */
+  --aero-border:      color-mix(in oklch, var(--mono), black 74%);
+  --aero-bright:      color-mix(in oklch, var(--mono), black 58%);
+  --aero-bright-end:  color-mix(in oklch, var(--mono), black 66%);
+  --aero-dark:        color-mix(in oklch, var(--mono), black 82%);
+  --aero-dark-end:    color-mix(in oklch, var(--mono), black 76%);
+  --aero-surface: linear-gradient(
+    to bottom,
+    var(--aero-bright) 0,
+    var(--aero-bright-end) 50%,
+    var(--aero-dark) 50%,
+    var(--aero-dark-end) 100%
+  );
+  --aero-shadow:
+    inset 0 1px 0 oklch(from var(--mono) L C H / 0.14),
+    0 1px 3px rgb(0 0 0 / 0.35);
+
+  /* Accent variant — relative to --accent-color, adapts to both themes */
+  --aero-accent-border:      oklch(from var(--accent-color) calc(L * 0.6) C H);
+  --aero-accent-bright:      oklch(from var(--accent-color) calc(L + (1 - L) * 0.3) C H);
+  --aero-accent-bright-end:  oklch(from var(--accent-color) calc(L + (1 - L) * 0.08) C H);
+  --aero-accent-dark:        oklch(from var(--accent-color) calc(L * 0.78) C H);
+  --aero-accent-dark-end:    oklch(from var(--accent-color) calc(L * 0.92) C H);
+  --aero-accent-surface: linear-gradient(
+    to bottom,
+    var(--aero-accent-bright) 0,
+    var(--aero-accent-bright-end) 50%,
+    var(--aero-accent-dark) 50%,
+    var(--aero-accent-dark-end) 100%
+  );
+  --aero-sidebar: linear-gradient(
+    to bottom,
+    oklch(from var(--mono) L C H / 0.07),
+    oklch(from var(--mono) L C H / 0.015)
+  );
+  --aero-avatar: linear-gradient(
+    to bottom,
+    oklch(from var(--mono) calc(L * 0.3) C H / 0.45),
+    oklch(from var(--mono) calc(L * 0.24) C H / 0.38) 50%,
+    oklch(from var(--mono) calc(L * 0.07) C H / 0.68) 50%,
+    oklch(from var(--mono) calc(L * 0.09) C H / 0.6)
+  );
+
   /* === GLASS === */
   --glass-bg-1: oklch(from var(--mono) calc(L * 0.06) C H / 0.86);
   --glass-bg-2: oklch(from var(--mono) calc(L * 0.08) C H / 0.90);
@@ -171,5 +214,34 @@ html[data-theme="light"] {
   --border-medium:  oklch(from var(--mono-light) L C H / 0.14);
   --border-strong:  oklch(from var(--mono-light) L C H / 0.16);
   --border-glow:    oklch(from var(--mono-light) L C H / 0.22);
-  --border-quote:   oklch(from var(--mono-light) L C H / 0.44);
+  --border-quote:     oklch(from var(--mono-light) L C H / 0.44);
+
+  /* === AERO (Vista-style 50/50 gloss surfaces, light mirror) === */
+  --aero-border:      color-mix(in oklch, var(--mono-light), white 74%);
+  --aero-bright:      color-mix(in oklch, var(--mono-light), white 99%);
+  --aero-bright-end:  color-mix(in oklch, var(--mono-light), white 95%);
+  --aero-dark:        color-mix(in oklch, var(--mono-light), white 85%);
+  --aero-dark-end:    color-mix(in oklch, var(--mono-light), white 89%);
+  --aero-surface: linear-gradient(
+    to bottom,
+    var(--aero-bright) 0,
+    var(--aero-bright-end) 50%,
+    var(--aero-dark) 50%,
+    var(--aero-dark-end) 100%
+  );
+  --aero-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.8),
+    0 1px 3px rgb(0 0 0 / 0.12);
+  --aero-sidebar: linear-gradient(
+    to bottom,
+    oklch(1 0 0 / 0.55),
+    oklch(1 0 0 / 0.2)
+  );
+  --aero-avatar: linear-gradient(
+    to bottom,
+    oklch(1 0 0 / 0.45),
+    oklch(1 0 0 / 0.38) 50%,
+    oklch(1 0 0 / 0.26) 50%,
+    oklch(1 0 0 / 0.2)
+  );
 }
