@@ -143,7 +143,7 @@ I create software, videos, music, art and games.
 
 I'm from Mendoza, Argentina. I’ve always been drawn to technology and science, and I love making things like code, music, animations, videos, and games. ᕙ(͡°‿ ͡°)ᕗ
 
-**I’m {{<age />}} years old.**
+**I’m** {{<age />}} **years old.**
 
 2001, what a year. June 12th, it was a Tuesday. A really cold night in Mendoza...
 

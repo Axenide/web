@@ -143,7 +143,7 @@ Creo software, videos, música, arte y juegos.
 
 Soy de Mendoza, Argentina. Siempre me ha atraído la tecnología y la ciencia, y me encanta crear cosas como código, música, animaciones, videos y videojuegos. ᕙ(͡°‿ ͡°)ᕗ
 
-**Tengo {{<age />}} años.**
+**Tengo** {{<age />}} **años.**
 
 2001, qué año. 12 de junio, fue un martes. Una noche muy fría en Mendoza...
 
