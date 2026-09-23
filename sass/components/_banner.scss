@@ -1,12 +1,5 @@
 @use "../abstracts/functions" as *;
 
-body.has-banner {
-  background-image: var(--bg-overlay), var(--blurnail);
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
 #banner {
   --mask: linear-gradient(black calc(100% - 2rem), transparent);
   -webkit-mask-image: var(--mask);

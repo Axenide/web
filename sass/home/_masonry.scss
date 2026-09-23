@@ -38,7 +38,7 @@
 	border-radius: 0.75rem;
 	box-shadow: var(--aero-card-shadow);
 	background-color: transparent;
-	@include aero-sheen($border: false);
+	@include aero-sheen($border: false, $blur: true);
 }
 
 #main-content #badges,

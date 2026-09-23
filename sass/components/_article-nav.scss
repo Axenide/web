@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 .article-nav {
   display: flex;
   gap: 0.25rem;
@@ -19,6 +21,9 @@
     &:hover {
       box-shadow: var(--edge-highlight), var(--shadow);
       background-color: var(--bg-muted-1);
+      @include aero-sheen($border: false);
+      -webkit-backdrop-filter: var(--blur);
+      backdrop-filter: var(--blur);
 
       .article-title {
         color: var(--accent-color);

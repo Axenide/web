@@ -48,7 +48,7 @@ h1 {
 
 		& > div {
 			box-shadow: none;
-			@include aero-sheen;
+			@include aero-sheen($blur: true);
 			border-radius: var(--rounded-corner);
 			border-start-end-radius: 2rem;
 			border-end-end-radius: 2rem;

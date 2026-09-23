@@ -672,6 +672,9 @@ function openLightbox(index) {
 currentIndex = index;
 updateLightboxImage();
 lightbox.classList.remove('fit');
+// Escape filtered ancestors (e.g. blurred articles): fixed positioning only
+// covers the viewport when the overlay lives directly under body.
+if (lightbox.parentElement !== document.body) document.body.appendChild(lightbox);
 lightbox.classList.add('visible');
 document.body.style.overflow = 'hidden';
 }
