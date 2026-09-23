@@ -1,5 +1,12 @@
 @use "functions" as *;
 
+//animatable sheen tint (gradients don't interpolate; registered custom props do)
+@property --sheen-tint {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(0 0 0 / 0);
+}
+
 @mixin icon($mode: normal) {
 	@if $mode == normal {
 		font-style: normal;

@@ -198,6 +198,55 @@
         #{rpx(-1)}
         0
         rgba(0, 0, 0, var(--color-opacity-1));
+
+      // AERO (Vista-style gloss surfaces, light mirror)
+      --aero-border: color-mix(in oklch, var(--fg-color), white 74%);
+      --aero-bright: color-mix(in oklch, var(--fg-color), white 99%);
+      --aero-bright-end: color-mix(in oklch, var(--fg-color), white 95%);
+      --aero-dark: color-mix(in oklch, var(--fg-color), white 85%);
+      --aero-dark-end: color-mix(in oklch, var(--fg-color), white 89%);
+      --aero-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+      --aero-card-shadow: 0 0.25rem 0.75rem oklch(0 0 0 / 0.18);
+
+      // Gloss stop factors — light bases need bigger factors or the gloss
+      // collapses to flat.
+      --gloss-bright-k: 1;
+      --gloss-bright-end-k: 0.78;
+      --gloss-dark-end-k: 0.3;
+      --gloss-ring-top-k: 1;
+      --gloss-ring-bottom-k: 0.65;
+
+      --aero-sidebar: linear-gradient(
+        to bottom,
+        oklch(1 0 0 / 0.55),
+        oklch(1 0 0 / 0.2)
+      );
+      --aero-avatar: radial-gradient(
+        120% 100% at 50% -50%,
+        oklch(1 0 0 / 0.45),
+        oklch(1 0 0 / 1) 98.5%,
+        oklch(1 0 0 / 0.26) 100.5%,
+        oklch(1 0 0 / 0.2) 150%
+      );
+
+      // SURFACES
+      --surface-solid: oklch(1 0 0);
+      --surface-panel: oklch(1 0 0);
+      --surface-item: color-mix(in oklch, var(--bg-color), var(--fg-color) 6%);
+      --surface-item-hover: color-mix(
+        in oklch,
+        var(--bg-color),
+        var(--fg-color) 10%
+      );
+      --surface-border: color-mix(in oklch, var(--bg-color), var(--fg-color) 8%);
+      --blockquote-bg: oklch(1 0 0 / 0.6);
+      --footer-bg: color-mix(in oklch, var(--bg-color), var(--fg-color) 6%);
+
+      // Codeblocks keep a dark surface in every theme.
+      --codeblock-bg: oklch(0.17 0 0);
+      --codeblock-header-bg: oklch(0.12 0 0);
+      --codeblock-fg: oklch(0.92 0 0);
+      --codeblock-header-fg: oklch(0.78 0 0);
     } @else if $mode == "dark" {
       // COLORS
       --bg-overlay: linear-gradient(
@@ -322,6 +371,55 @@
         #{rpx(1)}
         0
         rgba(255, 255, 255, var(--color-opacity-1));
+
+      // AERO (Vista-style gloss surfaces; derived from fg so the theme is
+      // self-contained — the site palette in sass/custom overrides these)
+      --aero-border: color-mix(in oklch, var(--fg-color), black 74%);
+      --aero-bright: color-mix(in oklch, var(--fg-color), black 58%);
+      --aero-bright-end: color-mix(in oklch, var(--fg-color), black 66%);
+      --aero-dark: color-mix(in oklch, var(--fg-color), black 82%);
+      --aero-dark-end: color-mix(in oklch, var(--fg-color), black 76%);
+      --aero-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+      --aero-card-shadow: 0 0.25rem 0.75rem oklch(0 0 0 / 0.5);
+
+      // Gloss stop factors — headroom toward white from the dark base.
+      --gloss-bright-k: 0.26;
+      --gloss-bright-end-k: 0.175;
+      --gloss-dark-end-k: 0.07;
+      --gloss-ring-top-k: 0.42;
+      --gloss-ring-bottom-k: 0.6;
+
+      --aero-sidebar: linear-gradient(
+        to bottom,
+        oklch(from var(--fg-color) L C H / 0.07),
+        oklch(from var(--fg-color) L C H / 0.015)
+      );
+      --aero-avatar: radial-gradient(
+        120% 100% at 50% -50%,
+        oklch(from var(--fg-color) calc(L * 0.3) C H / 0.45),
+        oklch(from var(--fg-color) calc(L * 0.24) C H / 1) 98.5%,
+        oklch(from var(--fg-color) calc(L * 0.07) C H / 0.68) 100.5%,
+        oklch(from var(--fg-color) calc(L * 0.09) C H / 0.6) 150%
+      );
+
+      // SURFACES
+      --surface-solid: oklch(0 0 0);
+      --surface-panel: oklch(0 0 0);
+      --surface-item: color-mix(in oklch, var(--bg-color), var(--fg-color) 3%);
+      --surface-item-hover: color-mix(
+        in oklch,
+        var(--bg-color),
+        var(--fg-color) 6%
+      );
+      --surface-border: color-mix(in oklch, var(--bg-color), var(--fg-color) 6%);
+      --blockquote-bg: oklch(0 0 0 / 0.18);
+      --footer-bg: color-mix(in oklch, var(--bg-color), var(--fg-color) 3%);
+
+      // Codeblocks keep a dark surface in every theme.
+      --codeblock-bg: color-mix(in oklch, var(--bg-color), var(--fg-color) 3%);
+      --codeblock-header-bg: var(--bg-color);
+      --codeblock-fg: var(--fg-color);
+      --codeblock-header-fg: oklch(from var(--fg-color) calc(L * 0.85) C H);
     } @else if $mode == "common" {
       // WIDTHS
       --content-width: #{rpx(720)};
@@ -400,6 +498,34 @@
       --transition-long: 0.8s;
       --transition-bezier: 0.35s cubic-bezier(0.17, 0.89, 0.32, 1.28);
       --transition-bezier-longer: 0.525s cubic-bezier(0.17, 0.89, 0.32, 1.28);
+
+      // AERO (theme-independent recipes; per-mode anchors live above)
+      --aero-text-shadow: 0 1px 0 var(--aero-bright);
+      --aero-title-shadow: 0 1px 0 oklch(from var(--fg-color) L C H / 0.55);
+      --aero-accent-border: oklch(from var(--accent-color) calc(L * 0.6) C H);
+      --aero-accent-bright: oklch(
+        from var(--accent-color) calc(L + (1 - L) * 0.3) C H
+      );
+      --aero-accent-bright-end: oklch(
+        from var(--accent-color) calc(L + (1 - L) * 0.08) C H
+      );
+      --aero-accent-dark: oklch(from var(--accent-color) calc(L * 0.78) C H);
+      --aero-accent-dark-end: oklch(from var(--accent-color) calc(L * 0.92) C H);
+      --aero-accent-surface: radial-gradient(
+        120% 100% at 50% -50%,
+        var(--aero-accent-bright) 0,
+        var(--aero-accent-bright-end) 98.5%,
+        var(--aero-accent-dark) 100.5%,
+        var(--aero-accent-dark-end) 150%
+      );
+      --aero-accent-text-shadow: 0 1px 0 var(--aero-accent-bright);
+
+      // BORDER HELPERS (alpha steps of the fg anchor)
+      --border-soft: oklch(from var(--fg-color) L C H / 0.12);
+      --border-medium: oklch(from var(--fg-color) L C H / 0.14);
+      --border-strong: oklch(from var(--fg-color) L C H / 0.16);
+      --border-glow: oklch(from var(--fg-color) L C H / 0.22);
+      --border-quote: oklch(from var(--fg-color) L C H / 0.44);
     }
   }
 }
