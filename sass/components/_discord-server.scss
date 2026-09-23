@@ -30,7 +30,7 @@
   width: min(400px, 100%);
   overflow: hidden;
   text-align: left;
-  @include aero-sheen;
+  @include aero-sheen($blur: true);
   box-shadow: var(--aero-card-shadow);
   
   // Stabilization for hover effects
