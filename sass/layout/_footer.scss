@@ -8,6 +8,7 @@
   gap: 1rem;
   margin-block-start: 2rem;
   border-block-start: rpx(1) solid var(--bg-muted-2);
+  @include aero-sheen($border: false);
   padding: 1rem;
   padding-block-end: 2rem;
   width: 100%;
@@ -40,7 +41,10 @@
 
   .link {
     @include chip;
+    @include aero-sheen;
     display: inline-block;
+    box-shadow: none;
+    border-radius: 0.5rem;
     line-height: 1.5rem;
 
     &:hover {

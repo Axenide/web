@@ -653,10 +653,14 @@ else { window.addEventListener('load', ready, { once: true }); setTimeout(ready,
 
 prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevLightboxSlide(); });
 nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextLightboxSlide(); });
+lightboxImg.addEventListener('click', (e) => { e.stopPropagation(); lightbox.classList.toggle('fit'); });
 
 document.addEventListener('keydown', (e) => {
 if (!lightbox.classList.contains('visible')) return;
-if (e.key === 'Escape') closeLightbox();
+if (e.key === 'Escape') {
+if (lightbox.classList.contains('fit')) lightbox.classList.remove('fit');
+else closeLightbox();
+}
 else if (e.key === 'ArrowLeft') { e.preventDefault(); prevLightboxSlide(); }
 else if (e.key === 'ArrowRight') { e.preventDefault(); nextLightboxSlide(); }
 });
@@ -667,12 +671,14 @@ lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLigh
 function openLightbox(index) {
 currentIndex = index;
 updateLightboxImage();
+lightbox.classList.remove('fit');
 lightbox.classList.add('visible');
 document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
 lightbox.classList.remove('visible');
+lightbox.classList.remove('fit');
 document.body.style.overflow = '';
 }
 

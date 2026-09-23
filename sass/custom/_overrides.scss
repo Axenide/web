@@ -180,24 +180,18 @@ hr {
 #main-content > article {
   margin-inline: -1rem;
   padding-inline: 1rem;
-  padding-block-start: 0;
+  padding-block-start: 1rem;
   padding-block-end: 1rem;
   width: unset;
 
   > h1:first-of-type {
-    margin-inline: -1rem;
-    margin-block-start: -1rem;
-    margin-block-end: 0;
-    border-radius: 0.75rem 0.75rem 0 0;
-    padding: 1rem;
+    margin: 0;
+    margin-block-end: 1rem;
+    border-radius: 0;
+    padding: 0;
     width: unset;
-    box-shadow: inset 0 1px 0 var(--border-strong);
-    background-image: linear-gradient(
-      to bottom,
-      var(--surface-item),
-      transparent 50%
-    );
-    background-size: auto 200%;
+    box-shadow: none;
+    background-image: none;
   }
 }
 
@@ -205,14 +199,15 @@ hr {
 // Same specificity as the theme's `#banner + #main-content` rule, which loads
 // earlier, so this wins.
 #banner + #main-content > article > h1:first-of-type {
-  margin-inline: -1rem;
-  border-radius: 0.75rem 0.75rem 0 0;
+  margin: 0;
+  margin-block-end: 1rem;
+  border-radius: 0;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   animation: none;
-  box-shadow: inset 0 1px 0 var(--border-strong);
+  box-shadow: none;
   background-image: none;
-  padding: 1rem;
+  padding: 0;
 }
 
 #theme-toggle {
@@ -382,7 +377,7 @@ body.has-banner {
   border-radius: 0.75rem;
   @include aero-sheen;
   background-color: transparent;
-  box-shadow: var(--aero-card-shadow);
+  box-shadow: var(--aero-card-shadow), inset 0 1px 0 var(--border-strong);
 }
 
 #main-content code:not(pre code),
@@ -432,7 +427,7 @@ body.has-banner {
     filter var(--transition);
 }
 
-#main-content article img:not(.social-icon-img):hover,
+#main-content article img:not(.social-icon-img):not(.lightbox-img):hover,
 #main-content article picture:hover > img,
 #main-content article figure:hover > img,
 #main-content article .media:hover img,
@@ -509,9 +504,9 @@ html[data-theme="light"] {
     border-color: var(--surface-border);
   }
 
-  // Inset highlight on article h1 was tuned for dark; flip the alpha base
-  #main-content > article > h1:first-of-type {
-    box-shadow: inset 0 1px 0 var(--border-glow);
+  // Top light on articles was tuned for dark; flip the alpha base.
+  #main-content article:not(ul.masonry article):not(.article-list article) {
+    box-shadow: var(--aero-card-shadow), inset 0 1px 0 var(--border-glow);
   }
 
   // Codeblocks keep their dark surface in light mode: pin the foreground
