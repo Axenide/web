@@ -90,6 +90,8 @@
 
     a {
       z-index: 10;
+      display: inline-flex;
+      align-items: center;
       padding: 0.5rem 1rem;
       border-radius: 0.5rem;
       text-decoration: none;
@@ -99,6 +101,16 @@
       @include aero-gloss;
       color: var(--fg-muted-2);
       position: relative;
+
+      .icon {
+        margin-inline-start: 0.5rem;
+        background-color: transparent;
+        color: inherit;
+        font-size: 1.25rem;
+        // Same hard shadow as the button text: inherits each button's gloss.
+        filter: drop-shadow(0 1px 0 var(--gloss-bright, var(--aero-bright)));
+        transition: none;
+      }
 
       &:hover {
         border-color: var(--border-strong);

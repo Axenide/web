@@ -708,17 +708,17 @@ init();
 {% set data = load_data(url="https://discord.com/api/invites/" ~ invite_code ~ "?with_counts=true", format="json") %}
 
 {% if lang == "es" %}
-{% set def_about = "Sobre ↓" %}
+{% set def_about = "Sobre" %}
 {% set def_rules = "Reglas" %}
-{% set def_join = "Unirse →" %}
+{% set def_join = "Unirse" %}
 {% set def_online = "En línea" %}
 {% set def_members = "Miembros" %}
 {% set def_about_id = "#sobre" %}
 {% set def_rules_id = "#reglas" %}
 {% else %}
-{% set def_about = "About ↓" %}
+{% set def_about = "About" %}
 {% set def_rules = "Rules" %}
-{% set def_join = "Join →" %}
+{% set def_join = "Join" %}
 {% set def_online = "Online" %}
 {% set def_members = "Members" %}
 {% set def_about_id = "#about" %}
@@ -773,9 +773,9 @@ init();
 {% endif %}
 </ul>
 <div class="buttons start">
-<a href="{{ about_id }}">{{ label_about }}</a>
+<a href="{{ about_id }}">{{ label_about }} {{< icon name="arrow-fat-down" />}}</a>
 <a href="{{ rules_id }}">{{ label_rules }}</a>
-<a id="guild-invite" class="suggested" href="https://discord.com/invite/{{ invite_code }}">{{ label_join }}</a>
+<a id="guild-invite" class="suggested" href="https://discord.com/invite/{{ invite_code }}">{{ label_join }} {{< icon name="arrow-fat-lines-right" />}}</a>
 </div>
 <div id="hover-map">
 <div class="top-left"></div>
