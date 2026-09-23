@@ -221,6 +221,10 @@
       color: var(--contrast-color);
       text-shadow: var(--aero-accent-text-shadow);
 
+      &:hover {
+        filter: brightness(1.5);
+      }
+
       .icon {
         background-color: transparent;
         color: var(--contrast-color);
