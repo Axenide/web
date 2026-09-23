@@ -1,4 +1,5 @@
 @use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
 
 #badges {
 	position: relative;
@@ -207,7 +208,9 @@
 		inset-block-start: 2.5rem;
 		inset-inline-end: 2.5rem;
 		box-shadow: var(--edge-highlight), var(--shadow-glass);
-		border-radius: var(--rounded-corner);
+		border-radius: 0.75rem;
+		background-color: transparent;
+		@include aero-sheen($blur: true);
 		padding: 1rem;
 		width: calc(var(--content-width) / 3);
 

@@ -173,7 +173,7 @@
   box-shadow: var(--aero-shadow);
   border-radius: 0.75rem;
   background-color: transparent;
-  @include aero-sheen;
+  @include aero-sheen($blur: true);
   padding: 0.25rem;
   width: max-content;
   min-width: 8rem;

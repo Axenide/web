@@ -1,10 +1,10 @@
 body {
-  background: var(--bg-color);
+  background: color-mix(in oklch, var(--bg-color), white 12%);
   letter-spacing: -0.015em;
 }
 
 html[data-theme="light"] body {
-  background: color-mix(in oklch, var(--mono-light), white 82%);
+  background: color-mix(in oklch, var(--mono-light), white 76%);
 }
 
 #site-header::after {
@@ -188,7 +188,7 @@ hr {
     margin-inline: -1rem;
     margin-block-start: -1rem;
     margin-block-end: 0;
-    border-radius: var(--rounded-corner) var(--rounded-corner) 0 0;
+    border-radius: 0.75rem 0.75rem 0 0;
     padding: 1rem;
     width: unset;
     box-shadow: inset 0 1px 0 var(--border-strong);
@@ -199,6 +199,20 @@ hr {
     );
     background-size: auto 200%;
   }
+}
+
+// Pages with a hero banner already have a header image: plain title, no band.
+// Same specificity as the theme's `#banner + #main-content` rule, which loads
+// earlier, so this wins.
+#banner + #main-content > article > h1:first-of-type {
+  margin-inline: -1rem;
+  border-radius: 0.75rem 0.75rem 0 0;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  animation: none;
+  box-shadow: inset 0 1px 0 var(--border-strong);
+  background-image: none;
+  padding: 1rem;
 }
 
 #theme-toggle {
@@ -362,6 +376,10 @@ body.has-banner {
   backdrop-filter: none;
   background-color: var(--surface-panel);
   background-image: none;
+}
+
+#main-content article:not(ul.masonry article):not(.article-list article) {
+  border-radius: 0.75rem;
 }
 
 #main-content code:not(pre code),
