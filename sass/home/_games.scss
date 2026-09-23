@@ -1,4 +1,5 @@
 @use "../abstracts/functions" as *;
+@use "../abstracts/mixins" as *;
 
 .fancy-list.games {
   position: relative;
@@ -83,7 +84,8 @@
         transform var(--transition-bezier);
       inset-block-start: 0.5rem;
       inset-inline-end: 0.5rem;
-      border-radius: var(--rounded-corner-small);
+      @include aero-sheen;
+      border-radius: 0.5rem;
       padding: 0.75rem 0.5rem;
       color: var(--fg-muted-1);
       font-weight: var(--font-weight-semi-bold);
@@ -92,8 +94,7 @@
       user-select: none;
 
       &:hover {
-        box-shadow: var(--edge-highlight);
-        background-color: var(--bg-muted-1);
+        background-color: var(--surface-item-hover);
         color: var(--fg-muted-2);
       }
 
