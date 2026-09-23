@@ -33,7 +33,7 @@ links = [
 
 +++
 
-<img src="ambxst-logo.svg" alt="Ambxst Logo" class="transparent drop-shadow no-hover" style="max-width: 400px; width: 100%;" />
+<div style="filter: drop-shadow(0 0.5rem 1rem rgba(255, 85, 101, 0.35)); max-width: 300px; width: 100%; margin-inline: auto; padding-block-start: 1.5rem;"><div class="svg-tint" role="img" aria-label="Ambxst Logo" style="-webkit-mask-image: url(ambxst-logo.svg); mask-image: url(ambxst-logo.svg); aspect-ratio: 60.617062 / 56.50301; background-image: linear-gradient(135deg, #FF9156, #FF5565); width: 100%;"></div></div>
 
 <div align="center">
 

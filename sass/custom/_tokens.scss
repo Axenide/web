@@ -213,9 +213,11 @@ html[data-theme="light"] {
   --surface-border:       color-mix(in oklch, var(--mono-light), white 85%);
   --blockquote-bg:        oklch(1 0 0 / 0.6);
   --footer-bg:            color-mix(in oklch, var(--mono-light), white 90%);
-  --codeblock-bg:         color-mix(in oklch, var(--mono-light), white 92%);
-  --codeblock-header-bg:  var(--bg-color);
-  --codeblock-border:     oklch(from var(--mono-light) L C H / 0.16);
+  // Codeblocks keep their dark surface in both themes: --mono is the dark
+  // input in every theme, so these reproduce the dark values exactly.
+  --codeblock-bg:         color-mix(in oklch, var(--mono), black 95%);
+  --codeblock-header-bg:  color-mix(in oklch, var(--mono), black 98%);
+  --codeblock-border:     oklch(from var(--mono) L C H / 0.16);
   --shade-color:          oklch(0 0 0 / 0.08);
 
   --glass-bg-1: oklch(from var(--mono-light) calc(L + (1-L) * 0.94) C H / 0.86);

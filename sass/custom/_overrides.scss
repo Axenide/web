@@ -32,11 +32,9 @@ details,
 summary,
 .card,
 #tag-chips a,
-code:not(pre code),
 samp,
 q,
 kbd,
-pre,
 table,
 input,
 textarea,
@@ -391,7 +389,6 @@ body.has-banner {
 #main-content pre {
   border: 1px solid var(--codeblock-border);
   background-color: var(--codeblock-bg);
-  background-image: none;
   box-shadow: none;
   font-size: 0.875rem;
 }
@@ -510,5 +507,16 @@ html[data-theme="light"] {
   // Inset highlight on article h1 was tuned for dark; flip the alpha base
   #main-content > article > h1:first-of-type {
     box-shadow: inset 0 1px 0 var(--border-glow);
+  }
+
+  // Codeblocks keep their dark surface in light mode: pin the foreground
+  // bits (body text, header filename) to the dark input too.
+  #main-content pre {
+    color: var(--mono);
+  }
+
+  #main-content .pre-container .header {
+    --header-fg: oklch(from var(--mono) calc(L * 0.85) C H);
+    color: var(--header-fg);
   }
 }

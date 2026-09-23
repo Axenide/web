@@ -148,6 +148,21 @@ a img:not(.no-hover, [src*="#no-hover"]) {
   cursor: pointer;
 }
 
+// Recolorable SVG: the file provides the alpha mask, CSS provides the paint,
+// so it follows --accent-color (and the theme) with no per-file edits.
+// Longhands: var() inside the mask shorthand drops size/repeat in Chrome.
+.svg-tint {
+  background: var(--tint, var(--accent-color));
+  -webkit-mask-image: var(--mask);
+  mask-image: var(--mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
 video:fullscreen {
   box-shadow: none;
   border-radius: 0;

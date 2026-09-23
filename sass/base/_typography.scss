@@ -143,8 +143,16 @@ samp {
 pre {
   margin: 1rem 0;
   box-shadow: var(--edge-highlight), var(--shadow);
-  border-radius: var(--rounded-corner);
+  border-radius: 0.75rem;
   background-color: var(--bg-muted-1);
+  @include aero-sheen($border: false);
+  // Codeblocks stay dark in every theme: the token sidebar gradient turns
+  // into a light wash in light mode, so pin a dark fixed-alpha one here.
+  background-image: linear-gradient(
+    to bottom,
+    oklch(1 0 0 / 0.07),
+    oklch(1 0 0 / 0.015)
+  );
   padding: 0.75rem 1rem;
   overflow-x: auto;
   scrollbar-width: thin;
@@ -160,7 +168,10 @@ q {
 
 code:not(pre code) {
   background-color: var(--red-bg-1);
+  @include aero-sheen($strength: 2);
+  border-radius: 0.5rem;
   padding-block: rpx(3);
+  padding-inline: 0.375rem;
   color: var(--red-fg);
   font-size: var(--font-size-small);
 }

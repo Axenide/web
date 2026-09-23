@@ -100,7 +100,8 @@ input[type="radio"] {
 
 input[type="checkbox"] {
   vertical-align: -0.1875em;
-  border-radius: calc(var(--rounded-corner-small) / 2);
+  @include aero-sheen($border: false);
+  border-radius: 0.25rem;
 
   &::before {
     @include icon(pseudo);
