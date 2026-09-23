@@ -92,6 +92,7 @@
 	--gloss-ring-bottom-k: 0.6;
 	@include aero-gloss($dark: oklch(0.18 0.08 25), $tint: #d10026);
 	border-radius: 0.75rem;
+	box-shadow: var(--aero-card-shadow);
 	overflow: visible;
 
 	// Fixed light text on the red surface.
