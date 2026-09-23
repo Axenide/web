@@ -30,15 +30,30 @@
 }
 
 // Single surface for every masonry-column card: plain articles and
-// fancy-list widgets share it, so it is edited once.
+// fancy-list widgets share it, so it is edited once. The frost rides on its
+// own ::before layer instead of the card: with the blur on the card itself,
+// Chromium paints square ghosts around the composited images inside whenever
+// the scrollbar toggles.
 .masonry > li article,
 #main-content .masonry .fancy-list:not(.snug-nook) {
 	position: relative;
+	isolation: isolate;
 	border: 1px solid var(--border-medium);
 	border-radius: 0.75rem;
 	box-shadow: var(--aero-card-shadow);
 	background-color: transparent;
-	@include aero-sheen($border: false, $blur: true);
+	@include aero-sheen($border: false);
+
+	&::before {
+		position: absolute;
+		z-index: -1;
+		// Reach under the translucent border so the grid stays masked there.
+		inset: -1px;
+		border-radius: inherit;
+		-webkit-backdrop-filter: var(--blur);
+		backdrop-filter: var(--blur);
+		content: "";
+	}
 }
 
 #main-content #badges,
@@ -54,7 +69,8 @@
 	&::before {
 		position: absolute;
 		z-index: -1;
-		inset: 0;
+		// Reach under the translucent border so the grid stays masked there.
+		inset: -1px;
 		border-radius: inherit;
 		-webkit-backdrop-filter: var(--blur);
 		backdrop-filter: var(--blur);
@@ -62,10 +78,9 @@
 	}
 }
 
-#main-content .masonry > * {
-	-webkit-backdrop-filter: none;
-	backdrop-filter: none;
-	background-color: var(--surface-solid);
+// The player card reads like the masonry article cards.
+#main-content #player {
+	border-color: var(--border-medium);
 }
 
 #main-content .masonry .fancy-list:not(.snug-nook) ul {
