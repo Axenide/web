@@ -595,17 +595,15 @@ If you'd like to link to me, you can use one of the following badges:
 
 <div class="carousel-marquee-wrapper {{ class }}" style="{{ style }}">
 <div class="carousel-marquee">
-<ul style="--duration: {{ final_images | length * speed }}s">
+<ul class="carousel-track" style="--duration: {{ final_images | length * speed }}s">
 {% for image in final_images %}
 <li>
-<img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }}" loading="lazy" />
+<img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }}" loading="eager" decoding="async" />
 </li>
 {% endfor %}
-</ul>
-<ul style="--duration: {{ final_images | length * speed }}s" aria-hidden="true">
 {% for image in final_images %}
-<li>
-<img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="Slide {{ loop.index }} (clone)" loading="lazy" />
+<li aria-hidden="true">
+<img src="{{ image }}#transparent" class="no-hover lightbox-trigger" alt="" tabindex="-1" loading="eager" decoding="async" />
 </li>
 {% endfor %}
 </ul>
@@ -637,13 +635,21 @@ const lightboxImg = lightbox.querySelector('.lightbox-img');
 const prevBtn = lightbox.querySelector('.lightbox-prev');
 const nextBtn = lightbox.querySelector('.lightbox-next');
 
-let currentSrcs = triggers.map(t => t.src);
+// Dedupe: the track holds two copies of every image.
+const currentSrcs = [...new Set(triggers.map(t => t.src))];
 let currentIndex = 0;
 
 function init() {
-triggers.forEach((img, index) => {
-img.addEventListener('click', () => openLightbox(index));
+triggers.forEach((img) => {
+img.addEventListener('click', () => openLightbox(currentSrcs.indexOf(img.src)));
 });
+
+// Start the marquee only once images are decoded (or after a timeout), so a
+// late width change never reads as a position jump.
+const marquee = wrapper.querySelector('.carousel-marquee');
+function ready() { marquee.classList.add('is-ready'); }
+if (document.readyState === 'complete') ready();
+else { window.addEventListener('load', ready, { once: true }); setTimeout(ready, 3000); }
 
 prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevLightboxSlide(); });
 nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextLightboxSlide(); });
@@ -1462,10 +1468,10 @@ document.getElementById("home-guild-icon").src = `https://cdn.discordapp.com/ico
 {% set wrapper_style = "width: " ~ width ~ "; height: " ~ height ~ ";" %}
 {% set icon_size = width %}
 {% elif width %}
-{% set wrapper_style = "width: " ~ width ~ "; height: " ~ width ~ ";" %}
+{% set wrapper_style = "width: " ~ width ~ ";" %}
 {% set icon_size = width %}
 {% elif height %}
-{% set wrapper_style = "width: " ~ height ~ "; height: " ~ height ~ ";" %}
+{% set wrapper_style = "height: " ~ height ~ ";" %}
 {% set icon_size = height %}
 {% else %}
 {% set wrapper_style = "width: 16px; height: 16px;" %}

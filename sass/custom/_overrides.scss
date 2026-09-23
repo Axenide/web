@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 body {
   background: color-mix(in oklch, var(--bg-color), white 12%);
   letter-spacing: -0.015em;
@@ -378,6 +380,9 @@ body.has-banner {
 
 #main-content article:not(ul.masonry article):not(.article-list article) {
   border-radius: 0.75rem;
+  @include aero-sheen;
+  background-color: transparent;
+  box-shadow: var(--aero-card-shadow);
 }
 
 #main-content code:not(pre code),
@@ -427,15 +432,15 @@ body.has-banner {
     filter var(--transition);
 }
 
-#main-content article img:hover,
+#main-content article img:not(.social-icon-img):hover,
 #main-content article picture:hover > img,
 #main-content article figure:hover > img,
 #main-content article .media:hover img,
 #main-content .card img:hover,
 #main-content .card picture:hover > img,
 #main-content .card figure:hover > img,
-#main-content .fancy-list img:hover,
-#main-content .masonry img:hover {
+#main-content .fancy-list img:not(.social-icon-img):hover,
+#main-content .masonry img:not(.social-icon-img):hover {
   transform: scale(1.045);
 }
 
