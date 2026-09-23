@@ -37,14 +37,13 @@ h6 {
   transition-duration: var(--transition);
   transition-property: text-shadow, font-weight;
   margin-block: 2rem 1rem;
-  color: var(--accent-color);
+  color: var(--fg-color);
   font-weight: var(--font-weight-bold);
   line-height: 1;
   font-variation-settings: "FLAR" 100;
-  letter-spacing: -0.05em;
-  text-decoration: underline;
-  text-decoration-color: var(--bg-muted-1);
-  text-decoration-thickness: 0.125em;
+  letter-spacing: -0.045em;
+  text-decoration: none;
+  text-shadow: none;
   text-wrap: balance;
   overflow-wrap: break-word;
 
@@ -126,10 +125,11 @@ figcaption {
 
 blockquote {
   margin: 1rem 0;
-  border-inline-start: 0.25rem solid var(--accent-color);
+  border-inline-start: 0.25rem solid var(--border-quote);
   border-start-start-radius: 0.25rem;
   border-end-start-radius: 0.25rem;
-  padding-inline-start: 0.75rem;
+  background-color: var(--blockquote-bg);
+  padding: 0.75rem 1rem;
   color: var(--fg-muted-2);
 }
 
@@ -142,9 +142,10 @@ samp {
 
 pre {
   margin: 1rem 0;
-  box-shadow: var(--edge-highlight), var(--shadow);
+  border: 1px solid var(--codeblock-border);
+  box-shadow: none;
   border-radius: 0.75rem;
-  background-color: var(--bg-muted-1);
+  background-color: var(--codeblock-bg);
   @include aero-sheen($border: false);
   // Codeblocks stay dark in every theme: the token sidebar gradient turns
   // into a light wash in light mode, so pin a dark fixed-alpha one here.
@@ -153,6 +154,8 @@ pre {
     oklch(1 0 0 / 0.07),
     oklch(1 0 0 / 0.015)
   );
+  color: var(--codeblock-fg);
+  font-size: 0.875rem;
   padding: 0.75rem 1rem;
   overflow-x: auto;
   scrollbar-width: thin;
@@ -164,15 +167,16 @@ mark,
 samp,
 q {
   @include chip;
+  padding-block: 0.125rem;
 }
 
 code:not(pre code) {
-  background-color: var(--red-bg-1);
+  background-color: var(--surface-item);
   @include aero-sheen($strength: 2);
   border-radius: 0.5rem;
-  padding-block: rpx(3);
+  padding-block: 0.125rem;
   padding-inline: 0.375rem;
-  color: var(--red-fg);
+  color: var(--fg-color);
   font-size: var(--font-size-small);
 }
 
@@ -206,13 +210,18 @@ ins {
 }
 
 samp {
-  color: var(--fg-muted-2);
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
+  color: var(--fg-color);
   font-size: var(--font-size-small);
 }
 
 q {
-  color: var(--fg-muted-2);
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
+  color: var(--fg-color);
   font-style: italic;
+  font-size: var(--font-size-small);
 }
 
 u {
@@ -260,37 +269,37 @@ kbd {
   display: inline-block;
   transition: var(--transition);
   cursor: pointer;
-  box-shadow:
-    var(--edge-highlight),
-    inset 0 -0.125rem 0 var(--bg-muted-2);
-  border-radius: var(--rounded-corner-small);
-  background-color: var(--bg-muted-1);
-  padding: 0 0.375rem;
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
+  border-radius: var(--rounded-corner);
+  background-color: var(--surface-item);
+  padding: 0.125rem 0.375rem;
+  color: var(--fg-color);
   font-size: var(--font-size-small);
 
   // Small nice thingy, keys can be pressed!
   &:active {
     transform: translateY(0.125rem);
-    box-shadow: inset 0 rpx(1) 0 var(--bg-muted-2);
     background-color: var(--bg-muted-2);
   }
 }
 
 a {
-  color: var(--accent-color);
+  color: var(--fg-color);
   font-weight: var(--font-weight-semi-bold);
-  text-decoration-color: var(--accent-highlight);
+  text-decoration-color: currentcolor;
   text-decoration-thickness: rpx(1);
+  text-underline-offset: 0.2em;
 
   &:hover {
+    background-color: var(--surface-item-hover);
     text-decoration-style: wavy;
   }
 }
 
 hr {
   margin: 2rem auto;
-  border: 0.125rem solid var(--bg-muted-2);
-  border-radius: 9999px;
+  border: 0;
 }
 
 dt {
@@ -331,9 +340,10 @@ details {
   display: flow-root;
   transition: padding-block-end var(--transition);
   margin-block-end: 1rem;
-  box-shadow: var(--edge-highlight), var(--shadow);
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
   border-radius: var(--rounded-corner);
-  background-color: var(--bg-muted-1);
+  background-color: var(--surface-item);
   padding: 0.75rem 1rem;
 
   &::details-content {
@@ -372,9 +382,18 @@ details {
 
   summary {
     transition: var(--transition);
+    border: 2px solid var(--surface-border);
+    border-radius: var(--rounded-corner);
+    background-color: var(--surface-item);
+    box-shadow: none;
     color: var(--fg-muted-1);
     font-weight: var(--font-weight-semi-bold);
     list-style: none;
+
+    &:hover {
+      background-color: var(--surface-item-hover);
+      color: var(--fg-color);
+    }
 
     &::-webkit-details-marker {
       display: none;

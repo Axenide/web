@@ -3,13 +3,17 @@
 .pre-container {
   position: relative;
   margin: 1rem 0 1rem;
-  box-shadow: var(--shadow);
+  border: 1px solid var(--codeblock-border);
+  box-shadow: none;
+  overflow: hidden;
   border-radius: var(--rounded-corner);
+  background-color: var(--codeblock-bg);
+  font-size: 0.875rem;
 
   &::after {
     position: absolute;
     inset: 0;
-    box-shadow: var(--edge-highlight);
+    box-shadow: none;
     border-radius: inherit;
     pointer-events: none;
     content: "";
@@ -20,28 +24,23 @@
     justify-content: space-between;
     align-items: center;
     transition: var(--transition);
+    border-block-end: 1px solid var(--codeblock-border);
+    background-color: var(--codeblock-header-bg);
+    background-image: none;
+    color: var(--fg-muted-2);
     border-radius: var(--rounded-corner) var(--rounded-corner) 0 0;
-    border-block-end: rpx(1) solid transparent;
-    background-image: linear-gradient(
-      to right,
-      transparent 50%,
-      var(--bg-muted-neutral-1) 75%,
-      transparent 100%
-    );
-    background-size: 200%;
     padding: 0.25rem;
 
-    &:not(.z-code) {
-      background-color: var(--bg-muted-1);
-      color: var(--accent-color);
+    html[data-theme="light"] & {
+      color: var(--codeblock-header-fg);
+    }
 
+    &:not(.z-code) {
       button:hover {
         background-color: var(--bg-muted-1);
       }
 
       &.active {
-        border-block-end-color: var(--bg-muted-1);
-
         button {
           background-color: var(--bg-muted-1);
         }
@@ -107,7 +106,6 @@
 
     &.active {
       animation: active-shimmer var(--transition-long);
-      border-block-end-color: var(--bg-muted-neutral-1);
 
       button {
         opacity: 1;
@@ -133,7 +131,8 @@
 
   pre {
     margin: 0;
+    border: 0;
+    border-radius: 0;
     box-shadow: none;
-    border-radius: 0 0 var(--rounded-corner) var(--rounded-corner);
   }
 }

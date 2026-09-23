@@ -1,9 +1,10 @@
 table {
   display: block;
   margin-inline: auto;
-  box-shadow: var(--edge-highlight), var(--shadow);
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
   border-radius: var(--rounded-corner);
-  background-color: var(--bg-muted-1);
+  background-color: var(--surface-solid);
   width: fit-content;
   max-width: 100%;
   overflow: auto;

@@ -66,6 +66,20 @@
 	}
 }
 
+// The snug-nook card rides chromeless on the masonry surface; the home server
+// widget reuses the class but keeps the generic fancy-list chrome.
+#main-content .fancy-list.snug-nook:not(#server-widget-home) {
+	border: 0;
+	background-color: transparent;
+	background-image: none;
+	box-shadow: none;
+
+	&:hover {
+		background-color: transparent;
+		transform: none;
+	}
+}
+
 #main-content #server-widget-home.server-widget-card {
 	isolation: isolate;
 	// Glossy surface, tinted dark red in both themes: the link overlay is a

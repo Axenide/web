@@ -21,7 +21,8 @@
   }
 
   a {
-    color: inherit;
+    padding-block: 0.125rem;
+    color: var(--fg-color);
     font-weight: var(--font-weight-normal);
     font-size: var(--font-size-small);
     text-decoration-color: transparent;

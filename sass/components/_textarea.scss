@@ -1,9 +1,9 @@
 textarea {
   appearance: none;
-  box-shadow: var(--edge-highlight);
-  border: none;
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
   border-radius: var(--rounded-corner);
-  background-color: var(--bg-muted-1);
+  background-color: var(--surface-item);
   padding: 1rem;
   resize: none;
   font-size: inherit;

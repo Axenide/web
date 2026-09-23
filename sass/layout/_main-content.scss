@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 #main-content {
   --padding: 1rem;
   grid-area: main;
@@ -55,4 +57,77 @@
 #→:target ~ #main-content,
 #right:target ~ #main-content {
   animation-name: slide-in-right-longer;
+}
+
+// Standalone articles read as aero cards; masonry and article-list cards
+// carry their own surfaces (home/_masonry, components/_article-list).
+#main-content > article {
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  padding-block: 1rem;
+  width: unset;
+
+  // Unified flat title: no band, no blur, on banner and plain pages alike.
+  > h1:first-of-type {
+    margin: 0;
+    margin-block-end: 1rem;
+    border-radius: 0;
+    padding: 0;
+    width: unset;
+    box-shadow: none;
+    background-image: none;
+  }
+}
+
+#main-content > article + hr {
+  margin-block-start: 0;
+  margin-inline: -1rem;
+}
+
+#main-content article:not(ul.masonry article):not(.article-list article) {
+  border-radius: 0.75rem;
+  @include aero-sheen($blur: true);
+  background-color: transparent;
+  box-shadow: var(--aero-card-shadow), inset 0 1px 0 var(--border-strong);
+
+  html[data-theme="light"] & {
+    box-shadow: var(--aero-card-shadow), inset 0 1px 0 var(--border-glow);
+  }
+}
+
+// Content images ease and zoom on hover; social and lightbox images opt out.
+#main-content article img,
+#main-content .card img,
+#main-content .fancy-list img,
+#main-content .masonry img {
+  transition:
+    transform var(--transition-bezier),
+    filter var(--transition);
+}
+
+#main-content article img:not(.social-icon-img):not(.lightbox-img):hover,
+#main-content article picture:hover > img,
+#main-content article figure:hover > img,
+#main-content article .media:hover img,
+#main-content .card img:hover,
+#main-content .card picture:hover > img,
+#main-content .card figure:hover > img,
+#main-content .fancy-list img:not(.social-icon-img):hover,
+#main-content .masonry img:not(.social-icon-img):hover {
+  transform: scale(1.045);
+}
+
+#main-content .card,
+#main-content .fancy-list,
+#main-content .masonry > * {
+  overflow: visible;
+}
+
+// Generic widget-card catch-all for one-off components; specific widgets own
+// their surfaces (see _snug-nook, _masonry, _window, media-grid).
+#main-content [class$="-card"] {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--surface-panel);
+  background-image: none;
 }

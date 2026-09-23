@@ -7,3 +7,18 @@
     @include icon(pseudo);
   }
 }
+
+// Icons render as flat currentColor masks everywhere; the !important flags are
+// intentional and required to beat the theme's nested icon selectors
+// (e.g. #sidebar-nav a .icon).
+#site-sidebar-header img,
+#site-sidebar-header .icon,
+#site-sidebar .icon,
+#site-header .icon,
+#site-footer .icon,
+#main-content .icon {
+  border: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}

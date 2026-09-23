@@ -54,6 +54,12 @@ h1 {
 			border-end-end-radius: 2rem;
 			padding: 1rem;
 
+			// The aero border washes out on the light surface; use the
+			// stronger surface border there.
+			html[data-theme="light"] & {
+				border-color: var(--surface-border);
+			}
+
 			& > a {
 				float: inline-end;
 				transition:
@@ -68,6 +74,10 @@ h1 {
 				font-size: var(--font-size-small);
 				line-height: 1.5rem;
 				text-decoration: none;
+
+				html[data-theme="light"] & {
+					border-color: var(--surface-border);
+				}
 
 				&:hover {
 					background-color: var(--surface-item-hover);

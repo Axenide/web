@@ -2,7 +2,8 @@
 
 input {
   appearance: none;
-  background-color: var(--bg-muted-1);
+  background-color: var(--surface-item);
+  box-shadow: none;
 }
 
 input:not([type]),
@@ -10,10 +11,10 @@ input[type="text"],
 input[type="search"],
 input[type="password"],
 input[type="submit"] {
-  box-shadow: var(--edge-highlight);
   border: none;
   border-radius: var(--rounded-corner);
   background-color: var(--bg-muted-1);
+  box-shadow: none;
   font-size: inherit;
   line-height: inherit;
   font-family: inherit;
@@ -35,6 +36,7 @@ input[type="password"] {
 input[type="submit"] {
   @include control-core;
 
+  box-shadow: none;
   padding: 0.375rem 0.75rem;
 
   &:enabled:hover {
@@ -44,6 +46,13 @@ input[type="submit"] {
   &:enabled:active {
     transform: var(--active);
   }
+}
+
+select {
+  border: 2px solid var(--surface-border);
+  border-radius: var(--rounded-corner);
+  background-color: var(--surface-item);
+  box-shadow: none;
 }
 
 input[type="radio"],
@@ -115,7 +124,7 @@ input[type="checkbox"] {
 
   &.switch {
     vertical-align: -0.375rem;
-    box-shadow: var(--edge-highlight);
+    box-shadow: none;
     border: none;
     border-radius: 9999px;
     width: 2.5rem;
@@ -168,7 +177,7 @@ input[type="checkbox"] {
 
 input[type="color"] {
   vertical-align: -0.375em;
-  box-shadow: var(--edge-highlight);
+  box-shadow: none;
   border: none;
   border-radius: var(--rounded-corner-small);
   padding: 0.25rem;
@@ -192,7 +201,8 @@ input[type="color"] {
 input[type="range"] {
   appearance: none;
   transition: var(--transition);
-  box-shadow: var(--edge-highlight);
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
   border-radius: 9999px;
   background: var(--bg-muted-1);
   padding: 0.5rem 0.25rem;

@@ -31,7 +31,9 @@ button {
   @include control-core;
 
   display: inline-block;
-  background-color: var(--bg-muted-1);
+  border: 2px solid var(--surface-border);
+  background-color: var(--surface-item);
+  box-shadow: none;
   padding: 0.5rem 1rem;
   line-height: 1.5rem;
   text-decoration: none;
@@ -46,10 +48,20 @@ button {
   }
 
   &.suggested {
-    @include gradient-fill;
+    background-image: none;
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    text-shadow: none;
+
+    .icon {
+      background-color: var(--contrast-color);
+      color: var(--accent-color);
+    }
 
     &:not(:disabled, [aria-disabled="true"]):hover {
       @include gradient-fill(hover);
+
+      box-shadow: none;
     }
   }
 

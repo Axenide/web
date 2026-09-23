@@ -32,11 +32,12 @@ Two compiled stylesheets, loaded in this order (`style.css` first, then `custom.
   - `home/` homepage widgets · `mods/` opt-in variants (all commented out)
   - Section styles (`badges/`, `calendar/`, `coffee/`, `commissions/`, `design/`, `nanolog/`, `swag/`) compile separately and load per-page via front matter `styles`
 - **`sass/custom.scss`** → `custom.css`: the site layer. Entry only — it `@use`s:
-  - `custom/_tokens.scss` — the palette. Dark + light blocks derive everything from a single OKLCH input (`--mono` / `--mono-light`) injected by `templates/partials/mono_color.html`. This is the single source of truth: change values here, not in components.
+  - `custom/_tokens.scss` — the palette. Dark + light blocks derive everything from a single OKLCH input (`--mono` / `--mono-light`) injected by `templates/partials/mono_color.html`. This is the single source of truth: change values here, not in components. Aero/surface/border tokens have fallback defaults in the base theme (`sass/abstracts/_variables.scss`), so `style.scss` is self-contained; the values here always win.
   - `custom/_fonts.scss` — @font-face
   - `custom/_components.scss` — `@use` list of site-specific component styles (retro-avatar, arrow-note, home widgets, fancy-list, ...)
-  - `custom/_overrides.scss` — chrome (header/sidebar/footer) + surface recipes. Deliberate `!important`s live only here (surface recipe, link hover, icon reset) and are documented inline.
   - `custom/_pages.scss` — page-scoped CSS (carousel, lightbox, social icons, hero, github grid, flutter, banner)
+
+Note: `custom/_overrides.scss` was removed (2026-09-23): the whole look lives in the base theme files now (components/layout/base edit their own rules; no selector wars). Do not reintroduce an overrides file — edit the component or its tokens instead.
 
 Rules of thumb:
 - Do **not** re-add `@import` (deprecated); use `@use` with paths relative to the file.

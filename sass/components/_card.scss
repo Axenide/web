@@ -2,4 +2,7 @@
 
 .card {
   @include card;
+  border: 2px solid var(--surface-border);
+  box-shadow: none;
+  background-color: var(--surface-panel);
 }

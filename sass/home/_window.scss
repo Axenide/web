@@ -1,6 +1,11 @@
 @use "../abstracts/functions" as *;
 
 .window {
+	border: 1px solid var(--border-medium);
+	box-shadow: var(--edge-highlight);
+	background-color: var(--surface-panel);
+	background-image: none;
+
 	& > div {
 		display: block;
 		position: relative;

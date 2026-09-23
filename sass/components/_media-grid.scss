@@ -1,4 +1,9 @@
 // Instagram on steroids
+.media-grid {
+	background-color: var(--surface-panel);
+	background-image: none;
+}
+
 .media-grid,
 .media-grid-markdown p {
 	display: grid;

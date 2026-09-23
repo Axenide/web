@@ -6,14 +6,16 @@
   display: flex;
   grid-area: footer;
   gap: 1rem;
-  margin-block-start: 2rem;
-  border-block-start: rpx(1) solid var(--bg-muted-2);
+  box-sizing: border-box;
+  margin-block-start: 4rem;
+  border-block-start: 1px solid var(--border-medium);
+  background-color: var(--footer-bg);
   @include aero-sheen($border: false);
   padding: 1rem;
   padding-block-end: 2rem;
+  padding-inline: max(1rem, calc((100% - var(--content-width)) / 2 + 1rem));
   width: 100%;
   min-width: 0;
-  max-width: calc(var(--content-width) + var(--padding) * 2);
 
   @media only screen and (max-width: 480px) {
     flex-direction: column;
@@ -117,6 +119,9 @@
       transition:
         all var(--transition),
         transform var(--transition-bezier);
+      border: 0;
+      background-color: transparent;
+      box-shadow: none;
       height: fit-content;
       color: var(--fg-muted-1);
 

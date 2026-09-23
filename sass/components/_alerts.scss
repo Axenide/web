@@ -55,6 +55,17 @@
     @media (prefers-color-scheme: dark) {
       @include variables-accent("dark");
     }
+
+    // The site toggles themes via data-theme rather than the OS setting, so
+    // scope the accent variables explicitly too: an OS-dark visitor with the
+    // site in light mode would otherwise inherit the dark alert palette.
+    html[data-theme="light"] & {
+      @include variables-accent(("light", "common"));
+    }
+
+    html[data-theme="dark"] & {
+      @include variables-accent("dark");
+    }
   }
 
   &-note {
@@ -107,50 +118,76 @@
     }
   }
 
+  // The data-theme includes above outspecify these semantic assignments, so
+  // each group re-asserts itself at that specificity to keep its type color.
   &-caution,
   &-red {
-    --accent-h: var(--red-h);
-    --accent-s: var(--red-s);
-    --accent-l: var(--red-l);
-    --accent-color: var(--red-fg);
+    &,
+    html[data-theme="light"] &,
+    html[data-theme="dark"] & {
+      --accent-h: var(--red-h);
+      --accent-s: var(--red-s);
+      --accent-l: var(--red-l);
+      --accent-color: var(--red-fg);
+    }
   }
 
   &-orange {
-    --accent-h: var(--orange-h);
-    --accent-s: var(--orange-s);
-    --accent-l: var(--orange-l);
-    --accent-color: var(--orange-fg);
+    &,
+    html[data-theme="light"] &,
+    html[data-theme="dark"] & {
+      --accent-h: var(--orange-h);
+      --accent-s: var(--orange-s);
+      --accent-l: var(--orange-l);
+      --accent-color: var(--orange-fg);
+    }
   }
 
   &-warning,
   &-yellow {
-    --accent-h: var(--yellow-h);
-    --accent-s: var(--yellow-s);
-    --accent-l: var(--yellow-l);
-    --accent-color: var(--yellow-fg);
+    &,
+    html[data-theme="light"] &,
+    html[data-theme="dark"] & {
+      --accent-h: var(--yellow-h);
+      --accent-s: var(--yellow-s);
+      --accent-l: var(--yellow-l);
+      --accent-color: var(--yellow-fg);
+    }
   }
 
   &-tip,
   &-green {
-    --accent-h: var(--green-h);
-    --accent-s: var(--green-s);
-    --accent-l: var(--green-l);
-    --accent-color: var(--green-fg);
+    &,
+    html[data-theme="light"] &,
+    html[data-theme="dark"] & {
+      --accent-h: var(--green-h);
+      --accent-s: var(--green-s);
+      --accent-l: var(--green-l);
+      --accent-color: var(--green-fg);
+    }
   }
 
   &-note,
   &-blue {
-    --accent-h: var(--blue-h);
-    --accent-s: var(--blue-s);
-    --accent-l: var(--blue-l);
-    --accent-color: var(--blue-fg);
+    &,
+    html[data-theme="light"] &,
+    html[data-theme="dark"] & {
+      --accent-h: var(--blue-h);
+      --accent-s: var(--blue-s);
+      --accent-l: var(--blue-l);
+      --accent-color: var(--blue-fg);
+    }
   }
 
   &-important,
   &-purple {
-    --accent-h: var(--purple-h);
-    --accent-s: var(--purple-s);
-    --accent-l: var(--purple-l);
-    --accent-color: var(--purple-fg);
+    &,
+    html[data-theme="light"] &,
+    html[data-theme="dark"] & {
+      --accent-h: var(--purple-h);
+      --accent-s: var(--purple-s);
+      --accent-l: var(--purple-l);
+      --accent-color: var(--purple-fg);
+    }
   }
 }

@@ -436,6 +436,7 @@ section h3:target {
   gap: 0.5rem;
   margin: 2rem 0 0.5rem 0;
   width: 100%;
+  background-color: transparent;
 }
 
 .github-stats {
@@ -640,7 +641,14 @@ section h3:target {
 #main-content .scroll-indicator {
   border: 0 !important;
   background-color: transparent !important;
+  background-image: none;
   box-shadow: none !important;
+}
+
+#main-content .scroll-indicator,
+#main-content .scroll-indicator * {
+  background-image: none;
+  box-shadow: none;
 }
 
 #main-content .scroll-indicator {
