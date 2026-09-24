@@ -31,12 +31,12 @@
 
 // Single surface for every masonry-column card: plain articles and
 // fancy-list widgets share it, so it is edited once. The whole surface
-// (frost, sheen, translucent border) lives on one ::before layer: a blur on
-// the card itself makes Chromium paint square ghosts around the composited
-// images inside whenever the scrollbar toggles, and a frost that reaches the
-// border is what keeps the grid from peeking through the translucent ring.
-// The axlab server widget stays out: its gloss is opaque and already
-// carries its own double border.
+// (surface, sheen, opaque border) lives on one ::before layer. No
+// backdrop-filter here: combined with continuously-invalidating content
+// (animated gifs, hover-promoted images) it corrupts WebRender/Compositor
+// tiles — flicker in Firefox, square ghosts in Chromium — so the card is an
+// opaque sheen instead. The axlab server widget stays out: its gloss is
+// opaque and already carries its own double border.
 .masonry > li article:not(.axlab),
 #main-content .masonry .fancy-list:not(.axlab) {
 	position: relative;
@@ -49,9 +49,10 @@
 		z-index: -1;
 		inset: 0;
 		border-radius: inherit;
-		border: 1px solid var(--border-medium);
-		-webkit-backdrop-filter: var(--blur);
-		backdrop-filter: var(--blur);
+		/* Opaque border: a translucent one composites against the sheen
+		   gradient and reads brighter at the top than at the bottom. */
+		border: 1px solid var(--aero-border);
+		background-color: var(--aero-card-surface);
 		@include aero-sheen($border: false);
 		content: "";
 	}
@@ -62,41 +63,13 @@
 	isolation: isolate;
 	border: 1px solid var(--aero-border);
 	border-radius: 0.75rem;
-	background-color: transparent;
+	background-color: var(--aero-card-surface);
 	@include aero-sheen($border: false);
 	box-shadow: var(--aero-card-shadow);
-
-	&::before {
-		position: absolute;
-		z-index: -1;
-		inset: 0;
-		border-radius: inherit;
-		-webkit-backdrop-filter: var(--blur);
-		backdrop-filter: var(--blur);
-		content: "";
-	}
 }
 
-// The player card reads like the masonry article cards: translucent border,
-// so frost, sheen and border share the same ::before layer.
-#main-content #player {
-	position: relative;
-	isolation: isolate;
-	border-radius: 0.75rem;
-	box-shadow: var(--aero-card-shadow);
-
-	&::before {
-		position: absolute;
-		z-index: -1;
-		inset: 0;
-		border-radius: inherit;
-		border: 1px solid var(--border-medium);
-		-webkit-backdrop-filter: var(--blur);
-		backdrop-filter: var(--blur);
-		@include aero-sheen($border: false);
-		content: "";
-	}
-}
+// #player needs no card rule of its own: it is a masonry article, so the
+// shared surface above covers it.
 
 #main-content .masonry .fancy-list:not(.axlab) ul {
 	margin-block: 0;
