@@ -47,12 +47,33 @@ h1 {
 		}
 
 		& > div {
+			position: relative;
+			isolation: isolate;
 			box-shadow: none;
-			@include aero-sheen($blur: true);
+			@include aero-sheen;
 			border-radius: var(--rounded-corner);
 			border-start-end-radius: 2rem;
 			border-end-end-radius: 2rem;
 			padding: 1rem;
+
+			// Frost on its own layer, like the masonry cards: a blur on the
+			// card itself ghosts around composited children on scrollbar
+			// changes, and keeps the load animation from masking instantly.
+			&::before {
+				position: absolute;
+				z-index: -1;
+				inset: 0;
+				border-radius: inherit;
+				-webkit-backdrop-filter: var(--blur);
+				backdrop-filter: var(--blur);
+				content: "";
+			}
+
+			blockquote {
+				border-radius: 0.5rem;
+				border-start-start-radius: 0.25rem;
+				border-end-start-radius: 0.25rem;
+			}
 
 			// The aero border washes out on the light surface; use the
 			// stronger surface border there.
