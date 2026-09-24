@@ -146,6 +146,45 @@ li.frutiger-flash {
   }
 }
 
+// Pop bubbles: a small burst from the trigger on the prelude clicks. One-shot
+// elements (JS removes them on animationend), fixed-positioned at viewport
+// coords and purely decorative.
+.frutiger-pop {
+  position: fixed;
+  z-index: 1;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 30% 25%,
+    oklch(1 0 0 / 0.9) 0%,
+    oklch(1 0 0 / 0.1) 35%,
+    oklch(from #6ee0ff L C H / 0.4) 75%,
+    oklch(1 0 0 / 0.6) 100%
+  );
+  box-shadow: inset 0.05rem 0.08rem 0.15rem oklch(1 0 0 / 0.6);
+  will-change: transform, opacity;
+  animation: frutiger-pop-rise 1.2s ease-out forwards;
+}
+
+@keyframes frutiger-pop-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.4);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(var(--dx), calc(var(--rise) * -1), 0) scale(1);
+    opacity: 0;
+  }
+}
+
 // Sidebar nav labels: dark text on the cyan gloss pills (the default
 // --nav-fg derives from --mono and stays light in every theme).
 html[data-theme="frutiger"] #sidebar-nav a {

@@ -47,6 +47,25 @@
       mii.play().catch(() => {});
     }
 
+    // One-shot bubble burst from the trigger, used by the prelude clicks.
+    // Each pop cleans itself up on animationend.
+    function burstBubbles() {
+      const rect = trigger.getBoundingClientRect();
+      for (let i = 0; i < 8; i++) {
+        const pop = document.createElement('div');
+        pop.className = 'frutiger-pop';
+        pop.style.left = rect.left + Math.random() * rect.width + 'px';
+        pop.style.top = rect.top + Math.random() * rect.height + 'px';
+        pop.style.setProperty('--size', Math.round(6 + Math.random() * 14) + 'px');
+        pop.style.setProperty('--dx', (Math.random() * 60 - 30).toFixed(1) + 'px');
+        pop.style.setProperty('--rise', Math.round(40 + Math.random() * 60) + 'px');
+        pop.style.animationDuration = (0.9 + Math.random() * 0.5).toFixed(2) + 's';
+        pop.style.animationDelay = (Math.random() * 0.4).toFixed(2) + 's';
+        pop.addEventListener('animationend', () => pop.remove());
+        document.body.appendChild(pop);
+      }
+    }
+
     // Frutiger only lives while data-theme says so; kill the audio on exit.
     new MutationObserver(() => {
       if (document.documentElement.getAttribute('data-theme') !== FRUTIGER) stopPlayback();
@@ -92,6 +111,7 @@
         : (trigger.closest('article') || trigger.parentElement);
       trigger.disabled = true;
       playSnippet();
+      burstBubbles();
       window.ThemeToggle.flashFrutiger(target, () => {
         trigger.disabled = false;
       });
