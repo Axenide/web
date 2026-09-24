@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<article>
+<article class="chromeless">
 	{# Eliminamos Title y Article Details para usarlos como Landing Pages #}
 	{{ page.content | safe }}
     {%- include "partials/backlinks.html" -%}

@@ -85,7 +85,7 @@
   margin-inline: -1rem;
 }
 
-#main-content article:not(ul.masonry article):not(.article-list article) {
+#main-content article:not(ul.masonry article):not(.article-list article):not(.chromeless) {
   position: relative;
   isolation: isolate;
   border-radius: 0.75rem;
