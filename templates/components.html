@@ -993,9 +993,8 @@ headers=[
 {%- if token != "NO_TOKEN" and user != "NO_USER" and played_games -%}
 {%- if played_games.data.games | length > 8 -%}
 <input class="visually-hidden" id="show-more" type="checkbox" name="show-more" autocomplete="off" />
-<label for="show-more">
-<span class="more">Show More…</span>
-<span class="less">Show Less…</span>
+<label for="show-more" aria-label="Show more">
+{{< icon name="caret-down" />}}
 </label>
 {%- endif -%}
 

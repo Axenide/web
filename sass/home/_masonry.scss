@@ -69,6 +69,8 @@
 // #player needs no card rule of its own: it is a masonry article, so the
 // shared surface above covers it.
 
-#main-content .masonry .fancy-list:not(.axlab) ul {
+// :where keeps .games-extra out without raising specificity: its top margin
+// is the gap between the always-visible games and the expanded ones.
+#main-content .masonry .fancy-list:not(.axlab) ul:where(:not(.games-extra)) {
 	margin-block: 0;
 }

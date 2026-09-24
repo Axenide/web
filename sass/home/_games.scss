@@ -82,40 +82,41 @@
       transition:
         all var(--transition),
         transform var(--transition-bezier);
+      cursor: pointer;
       inset-block-start: 0.5rem;
       inset-inline-end: 0.5rem;
       @include aero-sheen;
       border-radius: 0.5rem;
-      padding: 0.75rem 0.5rem;
-      color: var(--fg-muted-1);
-      font-weight: var(--font-weight-semi-bold);
-      font-size: var(--font-size-small);
-      line-height: 1rem;
+      width: 2rem;
+      height: 2rem;
+      color: var(--accent-color);
       user-select: none;
 
+      .icon {
+        position: absolute;
+        transition:
+          all var(--transition),
+          transform var(--transition-bezier);
+        inset: 0;
+        margin: auto;
+        width: 1rem;
+        height: 1rem;
+        font-size: 1rem;
+      }
+
       &:hover {
-        background-color: var(--surface-item-hover);
-        color: var(--fg-muted-2);
+        box-shadow: none;
+        background-color: var(--bg-muted-1);
       }
 
       &:active {
         transform: var(--active);
       }
-
-      .less {
-        display: none;
-      }
     }
 
     &:checked {
-      & + label {
-        .more {
-          display: none;
-        }
-
-        .less {
-          display: inline;
-        }
+      & + label .icon {
+        transform: rotate(180deg);
       }
 
       & ~ .games-extra {
