@@ -30,31 +30,19 @@
 }
 
 // Single surface for every masonry-column card: plain articles and
-// fancy-list widgets share it, so it is edited once. The whole surface
-// (frost, sheen, translucent border) lives on one ::before layer: a blur on
-// the card itself makes Chromium paint square ghosts around the composited
-// images inside whenever the scrollbar toggles, and a frost that reaches the
-// border is what keeps the grid from peeking through the translucent ring.
-// The axlab server widget stays out: its gloss is opaque and already
-// carries its own double border.
+// fancy-list widgets share it, so it is edited once. The blur rides on the
+// card itself (sheen $blur) instead of a ::before frost layer: backdrop
+// filters on pseudo layers trigger Firefox tile corruption (flicker) around
+// the backdrop root, corrupting scrollable content like the github grid.
 .masonry > li article:not(.axlab),
 #main-content .masonry .fancy-list:not(.axlab) {
 	position: relative;
 	isolation: isolate;
+	border: 1px solid var(--border-medium);
 	border-radius: 0.75rem;
 	box-shadow: var(--aero-card-shadow);
-
-	&::before {
-		position: absolute;
-		z-index: -1;
-		inset: 0;
-		border-radius: inherit;
-		border: 1px solid var(--border-medium);
-		-webkit-backdrop-filter: var(--blur);
-		backdrop-filter: var(--blur);
-		@include aero-sheen($border: false);
-		content: "";
-	}
+	background-color: transparent;
+	@include aero-sheen($border: false, $blur: true);
 }
 
 #main-content #badges {
