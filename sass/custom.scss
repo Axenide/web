@@ -1,8 +1,7 @@
 // Site-level customization, compiled to custom.css and linked after the
-// theme's style.css (config.toml: extra.styles). sass/style.scss no longer
-// imports this file, so the rules below ship exactly once.
+// theme's style.css (config.toml: extra.styles). The palette and fonts ship
+// with style.css (sass/base/_tokens.scss, sass/base/_fonts.scss); only
+// site-specific components and pages live here.
 
-@use "custom/fonts";
 @use "custom/components";
-@use "custom/tokens";
 @use "custom/pages";

@@ -1,8 +1,8 @@
 // Dark palette — default theme and explicit dark mode.
 // All monochrome tokens derive from a single OKLCH input (--mono) injected by
 // templates/partials/mono_color.html. Override via config.extra.mono or per-page.
-// Aero/surface/border tokens have fallback defaults in the base theme
-// (sass/abstracts/_variables.scss); the values here are the site palette.
+// This is the site's only palette: it compiles into style.css (loaded after
+// sass/base/_root.scss so it wins), so there is no separate fallback set.
 :root,
 html[data-theme="dark"] {
   color-scheme: dark;

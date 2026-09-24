@@ -1,21 +1,7 @@
-// Theme toggle styles and manual theme support
-@use "../abstracts/variables" as *;
+// Theme toggle button styles. The manual light/dark theme variable blocks
+// live in sass/base/_root.scss; the site palette (base/_tokens.scss) wins
+// over them.
 
-// Manual light theme override
-html[data-theme="light"] {
-  @include variables(("light", "accent"));
-  @include variables-accent("light");
-  color-scheme: light;
-}
-
-// Manual dark theme override
-html[data-theme="dark"] {
-  @include variables(("dark", "accent"));
-  @include variables-accent("dark");
-  color-scheme: dark;
-}
-
-// Theme toggle button - matches header buttons
 #theme-toggle {
   display: flex;
   align-items: center;

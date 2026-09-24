@@ -58,5 +58,12 @@
 // @use "mods/pill-tags";
 // @use "mods/skeuomorphic"; // UNFINISHED, AND LIKELY WILL NEVER BE
 
-// Site customizations live in sass/custom.scss (compiled separately to
-// custom.css and linked after this stylesheet via config.extra.styles).
+// Site palette + fonts, compiled into this stylesheet last so it always wins
+// over the defaults above. There is no separate fallback palette: style.css
+// alone renders the official look.
+@use "base/fonts";
+@use "base/tokens";
+
+// Site-specific components and pages live in sass/custom.scss (compiled
+// separately to custom.css and linked after this stylesheet via
+// config.extra.styles).

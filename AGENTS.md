@@ -1,6 +1,6 @@
 # Axenide.github.io Development Guide
 
-**Updated:** 2026-09-22
+**Updated:** 2026-09-24
 **Branch:** dev
 
 ## OVERVIEW
@@ -30,18 +30,20 @@ Two compiled stylesheets, loaded in this order (`style.css` first, then `custom.
   - `base/` root tokens, reset, typography · `layout/` header, sidebar, footer, grid
   - `components/` one file per component (`_buttons`, `_input`, `_card`, `_icon`, ...)
   - `home/` homepage widgets · `mods/` opt-in variants (all commented out)
+  - `base/_fonts.scss` — @font-face (Roboto Condensed, Pangolin), `@use`d near the end
+  - `base/_tokens.scss` — the palette, `@use`d LAST so it always wins. Dark + light blocks derive everything from a single OKLCH input (`--mono` / `--mono-light`) injected by `templates/partials/mono_color.html`. This is the single source of truth: change values here, not in components. Because the palette ships inside `style.css`, there is **no separate fallback palette**: `style.css` alone renders the official look.
   - Section styles (`badges/`, `calendar/`, `coffee/`, `commissions/`, `design/`, `nanolog/`, `swag/`) compile separately and load per-page via front matter `styles`
 - **`sass/custom.scss`** → `custom.css`: the site layer. Entry only — it `@use`s:
-  - `custom/_tokens.scss` — the palette. Dark + light blocks derive everything from a single OKLCH input (`--mono` / `--mono-light`) injected by `templates/partials/mono_color.html`. This is the single source of truth: change values here, not in components. Aero/surface/border tokens have fallback defaults in the base theme (`sass/abstracts/_variables.scss`), so `style.scss` is self-contained; the values here always win.
-  - `custom/_fonts.scss` — @font-face
   - `custom/_components.scss` — `@use` list of site-specific component styles (retro-avatar, arrow-note, home widgets, fancy-list, ...)
-  - `custom/_pages.scss` — page-scoped CSS (carousel, lightbox, social icons, hero, github grid, flutter, banner)
+  - `custom/_pages.scss` — page-scoped CSS (carousel, lightbox, social icons, hero, github grid, sans, banner)
 
 Note: `custom/_overrides.scss` was removed (2026-09-23): the whole look lives in the base theme files now (components/layout/base edit their own rules; no selector wars). Do not reintroduce an overrides file — edit the component or its tokens instead.
 
+Note: `custom/_tokens.scss` and `custom/_fonts.scss` moved into `base/` (2026-09-24) so the palette and fonts travel with `style.css` — a missing/failed `custom.css` can no longer expose the old Ametrine default palette. Manual `html[data-theme]` variable blocks live in `base/_root.scss` (they emit only the base-only tokens; `_tokens.scss` overrides the colors).
+
 Rules of thumb:
 - Do **not** re-add `@import` (deprecated); use `@use` with paths relative to the file.
-- Do **not** re-add a universal `border-radius: 0 !important`; squareness comes from `--rounded-corner: 0` in `_tokens.scss`.
+- Do **not** re-add a universal `border-radius: 0 !important`; squareness comes from `--rounded-corner: 0` in `base/_tokens.scss`.
 - Do **not** import `custom.scss` from `style.scss` — that double-compiles every custom rule (it happened; it was removed).
 
 ## WHERE TO LOOK
@@ -51,7 +53,7 @@ Rules of thumb:
 | Add project | `content/projects/` | Same pattern |
 | Add/edit a component (Tera) | `templates/components.html` | Global components: `icon`, `alert`, `image`, `styled_button`, `online`, ... |
 | Restyle a component (CSS) | `sass/components/` (base) or `sass/custom/` (site layer) | Prefer editing the base component if the change is universal |
-| Change palette | `sass/custom/_tokens.scss` + `config.toml` (`mono`, `mono_light`, `[extra.semantic.*]`) | Tokens flow via `templates/partials/mono_color.html` → inline `<html style>` |
+| Change palette | `sass/base/_tokens.scss` + `config.toml` (`mono`, `mono_light`, `[extra.semantic.*]`) | Tokens flow via `templates/partials/mono_color.html` → inline `<html style>` |
 | Add an icon | drop SVG in `icons/phosphor/` | Consumed by the `icon` component (`{{< icon name="..." />}}`); supports `size` and `class` params |
 | Config | `config.toml` | Zola 0.23 does **not** merge theme config; everything the site needs is here |
 
@@ -95,7 +97,7 @@ zola check      # Validate links
 ## DESIGN DECISIONS (for future reference)
 
 ### Border Radius
-**Current state (2026-09-22):** Square corners via tokens only. The old universal `border-radius: 0 !important` nuke was removed; `--rounded-corner: 0` and `--rounded-corner-small: 0` in `sass/custom/_tokens.scss` are the single switch.
+**Current state (2026-09-22):** Square corners via tokens only. The old universal `border-radius: 0 !important` nuke was removed; `--rounded-corner: 0` and `--rounded-corner-small: 0` in `sass/base/_tokens.scss` are the single switch.
 
 **To enable rounded corners:** change those two tokens to `0.75rem` / `0.5rem`. Most elements follow. A few components keep hardcoded pill/circle radii by design (switches, radios, `.big` buttons, range thumbs) — they will become round when the tokens change. Elements forced square in CSS regardless of tokens: tile embeds, retro avatar, game items.
 
