@@ -674,3 +674,21 @@ section h3:target {
     filter: none;
   }
 }
+
+// Ambxst project logo
+.ambxst-logo {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  margin-inline: auto;
+  padding-block-start: 1.5rem;
+  filter: drop-shadow(0 0.25rem 0.25rem rgba(0, 0, 0, 0.45));
+
+  .svg-tint {
+    aspect-ratio: 60.617062 / 56.50301;
+    width: 100%;
+    background-image: linear-gradient(135deg, #FF9156, #FF5565);
+    -webkit-mask-image: url("/ambxst/ambxst-logo.svg");
+    mask-image: url("/ambxst/ambxst-logo.svg");
+  }
+}
