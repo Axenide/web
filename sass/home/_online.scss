@@ -39,9 +39,11 @@
 				color: var(--fg-muted-2);
 				text-decoration: none;
 
-				.icon {
-					filter: drop-shadow(0 1px 0 var(--aero-bright));
-				}
+			.icon {
+				// Match the gloss text-shadow: --gloss-bright is set on the
+				// link itself, so the icon shadow always pairs with the text.
+				filter: drop-shadow(0 1px 0 var(--gloss-bright, var(--aero-bright)));
+			}
 
 				&:hover {
 					border-color: var(--border-strong);
