@@ -3,6 +3,8 @@
   const FLASH_MS = 1500; // keep in sync with FLASH_MS in theme-toggle.js
   const MAX_VOLUME = 0.5;
   const FRUTIGER = 'frutiger';
+  // Keep in sync with the frutiger body background in sass/base/_base.scss.
+  const WALLPAPER = '/images/asadal_stock_66.jpg';
 
   function init() {
     const trigger = document.getElementById('frutiger');
@@ -50,10 +52,23 @@
       if (document.documentElement.getAttribute('data-theme') !== FRUTIGER) stopPlayback();
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
+    // The wallpaper is only fetched once frutiger activates (the CSS rule
+    // does not match otherwise); warm the cache on the first prelude click
+    // so the definitive mode shows it instantly.
+    let wallpaperPreloaded = false;
+
+    function preloadWallpaper() {
+      if (wallpaperPreloaded) return;
+      wallpaperPreloaded = true;
+      new Image().src = WALLPAPER;
+    }
+
     let clicks = 0;
 
     trigger.addEventListener('click', () => {
       clicks += 1;
+
+      if (clicks === 1) preloadWallpaper();
 
       if (clicks >= CLICKS_NEEDED) {
         clicks = 0;
