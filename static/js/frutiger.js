@@ -66,6 +66,10 @@
     let clicks = 0;
 
     trigger.addEventListener('click', () => {
+      // Once frutiger is live the trigger's show is over; extra clicks must
+      // never restart the music.
+      if (document.documentElement.getAttribute('data-theme') === FRUTIGER) return;
+
       clicks += 1;
 
       if (clicks === 1) preloadWallpaper();
