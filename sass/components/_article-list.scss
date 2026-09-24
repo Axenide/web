@@ -34,20 +34,8 @@
     justify-content: space-between;
     border-radius: 1.25rem;
     @include aero-sheen;
-    background-color: transparent;
     box-shadow: var(--aero-card-shadow);
     overflow: hidden;
-
-    // Masonry pattern: blur in a ::before layer, behind the content.
-    &::before {
-      position: absolute;
-      z-index: -1;
-      inset: 0;
-      border-radius: inherit;
-      -webkit-backdrop-filter: var(--blur);
-      backdrop-filter: var(--blur);
-      content: "";
-    }
 
     &.draft {
       opacity: var(--dim-opacity);

@@ -4,7 +4,6 @@
 	@include chip;
 	@include aero-sheen;
 	border-radius: 0.75rem;
-	background-color: transparent;
 	box-shadow: none;
 	animation: clock-blink 1s infinite;
 	color: var(--accent-color);

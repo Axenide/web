@@ -9,8 +9,8 @@
   box-sizing: border-box;
   margin-block-start: 4rem;
   border-block-start: 1px solid var(--border-medium);
-  background-color: var(--footer-bg);
   @include aero-sheen($border: false);
+  background-color: var(--footer-bg);
   padding: 1rem;
   padding-block-end: 2rem;
   padding-inline: max(1rem, calc((100% - var(--content-width)) / 2 + 1rem));

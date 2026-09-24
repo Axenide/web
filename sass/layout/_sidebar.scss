@@ -49,10 +49,7 @@
     transition: var(--transition);
     inset: 0;
     border-radius: inherit;
-    -webkit-backdrop-filter: var(--blur);
-    backdrop-filter: var(--blur);
     border-inline-end: rpx(1) solid var(--border-medium);
-    background-color: transparent;
     @include aero-sheen($border: false);
     content: "";
 
@@ -405,7 +402,6 @@
 
   .card {
     border-radius: 0.75rem;
-    background-color: transparent;
     @include aero-sheen;
   }
 

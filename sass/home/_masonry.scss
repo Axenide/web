@@ -52,7 +52,6 @@
 		/* Opaque border: a translucent one composites against the sheen
 		   gradient and reads brighter at the top than at the bottom. */
 		border: 1px solid var(--aero-border);
-		background-color: var(--aero-card-surface);
 		@include aero-sheen($border: false);
 		content: "";
 	}
@@ -63,7 +62,6 @@
 	isolation: isolate;
 	border: 1px solid var(--aero-border);
 	border-radius: 0.75rem;
-	background-color: var(--aero-card-surface);
 	@include aero-sheen($border: false);
 	box-shadow: var(--aero-card-shadow);
 }

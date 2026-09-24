@@ -128,6 +128,11 @@
 	@if $blur {
 		-webkit-backdrop-filter: var(--blur);
 		backdrop-filter: var(--blur);
+	} @else if $tint == null {
+		/* Opaque by default: translucent sheens rely on the frost, and a
+		   frost next to continuously-invalidating content corrupts
+		   compositor tiles (Firefox flicker, Chromium ghosts). */
+		background-color: var(--aero-card-surface);
 	}
 
 	@if $tint {

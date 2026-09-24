@@ -56,19 +56,6 @@ h1 {
 			border-end-end-radius: 2rem;
 			padding: 1rem;
 
-			// Frost on its own layer, like the masonry cards: a blur on the
-			// card itself ghosts around composited children on scrollbar
-			// changes, and keeps the load animation from masking instantly.
-			&::before {
-				position: absolute;
-				z-index: -1;
-				inset: 0;
-				border-radius: inherit;
-				-webkit-backdrop-filter: var(--blur);
-				backdrop-filter: var(--blur);
-				content: "";
-			}
-
 			blockquote {
 				border-radius: 0.5rem;
 				border-start-start-radius: 0.25rem;
