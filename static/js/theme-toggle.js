@@ -93,8 +93,39 @@
     saveTheme(next);
   }
 
+  let flashTimer = null;
+  let flashTarget = null;
+  const FLASH_MS = 1500;
+
+  // Prelude flash: pulse the trigger's container to the frutiger palette
+  // (colors only) via a CSS animation on the container element. onDone
+  // fires when the flash is over (or immediately if it was skipped), so the
+  // trigger can release its click lock.
+  function flashFrutiger(container, onDone) {
+    if (isFrutigerActive()) {
+      if (onDone) onDone();
+      return;
+    }
+    const target = container || document.documentElement;
+    target.classList.remove('frutiger-flash');
+    void target.offsetWidth;
+    target.classList.add('frutiger-flash');
+    flashTarget = target;
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => {
+      flashTimer = null;
+      if (flashTarget) flashTarget.classList.remove('frutiger-flash');
+      flashTarget = null;
+      if (onDone) onDone();
+    }, FLASH_MS);
+  }
+
   function enterFrutiger() {
     if (isFrutigerActive()) return;
+    clearTimeout(flashTimer);
+    flashTimer = null;
+    if (flashTarget) flashTarget.classList.remove('frutiger-flash');
+    flashTarget = null;
     applyTheme(THEME_FRUTIGER);
     updateButton(THEME_FRUTIGER);
   }
@@ -104,7 +135,7 @@
     saveTheme(getSavedTheme());
   }
 
-  window.ThemeToggle = { enterFrutiger };
+  window.ThemeToggle = { enterFrutiger, flashFrutiger };
 
   function init() {
     const saved = migrateLegacyFrutiger();

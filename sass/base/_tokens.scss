@@ -293,7 +293,7 @@ html[data-theme="frutiger"] {
   --glass-bg-2: oklch(from #6ee0ff L C H / 0.88);
 
   /* Gloss chrome — cyan Vista glass (bright stops stay white) */
-  --aero-card-surface: oklch(from #6ee0ff L C H / 0.55);
+  --aero-card-surface: oklch(from #6ee0ff L C H / 0.85);
   --aero-dark: #22d3ee;
   --aero-dark-end: color-mix(in oklch, #22d3ee, white 30%);
   --aero-border: color-mix(in oklch, #22d3ee, black 28%);

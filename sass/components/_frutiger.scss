@@ -1,8 +1,63 @@
-@use "../abstracts/mixins" as *;
-
 // Frutiger Aero easter egg — per-component overrides for
 // html[data-theme="frutiger"]. Global palette tokens live in
 // sass/base/_tokens.scss; component-scoped color changes go here.
+
+// Prelude flash: instead of flashing the whole page, the trigger's
+// container pulses to the frutiger palette and back. The tokens are
+// registered as <color> so the animation interpolates from whatever the
+// current theme holds; unregistered custom properties would only jump
+// discretely. The palette sits at the 0% keyframe so the flash lands on
+// frutiger instantly, then eases back to the underlying values.
+@property --accent-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+@property --accent-color-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+@property --accent-highlight {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --aero-card-surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+@keyframes frutiger-flash {
+  0% {
+    --accent-color: #95bc24;
+    --accent-color-hover: color-mix(in oklch, #95bc24, white 30%);
+    --accent-highlight: oklch(from #95bc24 L C H / 0.38);
+    --aero-card-surface: oklch(from #6ee0ff L C H / 0.85);
+  }
+}
+
+// Stage 1: the trigger's own list item flashes a cyan chip via a plain
+// background-color animation. Stage 2 pulses the whole card's palette
+// (keyframes above). Both land instantly and ease back.
+@keyframes frutiger-flash-item {
+  0% {
+    background-color: oklch(from #6ee0ff L C H / 0.85);
+  }
+}
+
+li.frutiger-flash {
+  animation: frutiger-flash-item 1.5s ease;
+  border-radius: var(--rounded-corner-small);
+}
+
+.frutiger-flash {
+  animation: frutiger-flash 1.5s ease;
+}
 
 // Sidebar nav labels: dark text on the cyan gloss pills (the default
 // --nav-fg derives from --mono and stays light in every theme).
@@ -27,6 +82,20 @@ html[data-theme="frutiger"] .hero-wrapper .hero-content mark {
   text-shadow: none;
 }
 
+// Section headings sit on the wallpaper: same treatment as the hero copy.
+html[data-theme="frutiger"] .snap-section.content-wrapper h2 {
+  color: white;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+}
+
+// Same for the copy paragraphs that sit directly on the wallpaper (the
+// IndieWeb and Online intros); paragraphs inside cards keep the dark fg.
+html[data-theme="frutiger"] .snap-section.content-wrapper > div > p,
+html[data-theme="frutiger"] .snap-section.content-wrapper > p {
+  color: white;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+}
+
 // Frosted-glass cards over the wallpaper. The surface ::before keeps the
 // translucent sheen; the blur goes on the element itself so its isolated
 // stacking context doesn't clip the backdrop.
@@ -36,22 +105,6 @@ html[data-theme="frutiger"] #badges,
 html[data-theme="frutiger"] #site-sidebar {
   -webkit-backdrop-filter: var(--blur);
   backdrop-filter: var(--blur);
-}
-
-// The whole content-wrapper section becomes one big frosted sheen panel;
-// the cards inside drop their own blur and ride on the panel's blurred
-// backdrop. Specificity is bumped past the blur rules above.
-html[data-theme="frutiger"] .snap-section.content-wrapper {
-  @include aero-sheen($blur: true);
-  background-color: oklch(from #22d3ee L C H / 0.45);
-  border-radius: var(--rounded-corner);
-  padding-inline: 1rem;
-}
-
-html[data-theme="frutiger"] .snap-section.content-wrapper ul.masonry article:not(.axlab),
-html[data-theme="frutiger"] .snap-section.content-wrapper #badges {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
 }
 
 // Hero scroll indicator and badge arrows: white like the pre-frutiger
@@ -66,9 +119,6 @@ html[data-theme="frutiger"] #main-content .scroll-indicator .axie-icon {
 html[data-theme="frutiger"] #main-content .scroll-indicator .arrow-note,
 html[data-theme="frutiger"] #badges .arrow-note {
   color: white !important;
-}
-
-html[data-theme="frutiger"] #main-content .scroll-indicator .arrow-note {
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
 }
 
