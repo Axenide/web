@@ -16,7 +16,10 @@
   font-size: var(--font-size-medium);
   color: var(--fg-muted-1);
 
-  // Hide all icons by default to prevent flash
+  // Hide all icons by default to prevent flash. The globe is NOT in the
+  // initialized group below: it must only ever appear via the explicit
+  // inline style from updateButton, so a stale cached theme-toggle.js (one
+  // that predates the globe) can never light it up alongside the real icon.
   .icon-sun,
   .icon-moon,
   .icon-auto,
@@ -27,8 +30,7 @@
   // Show icons when JS has initialized
   &.initialized .icon-sun,
   &.initialized .icon-moon,
-  &.initialized .icon-auto,
-  &.initialized .icon-globe {
+  &.initialized .icon-auto {
     display: block;
   }
 
