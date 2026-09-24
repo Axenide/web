@@ -2,7 +2,7 @@
 title = "Axenide"
 insert_anchor_links = "left"
 [extra]
-scripts = ["js/home.js", "js/sans.js", "js/frutiger.js"]
+scripts = ["js/home.js", "js/sans.js", "js/frutiger.js", "js/frutiger-bubbles.js"]
 no_header = true
 socials = [
     { name = "YouTube", url = "https://www.youtube.com/@Axenide", icon = "youtube-logo" },

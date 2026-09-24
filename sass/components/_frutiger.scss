@@ -59,6 +59,77 @@ li.frutiger-flash {
   animation: frutiger-flash 1.5s ease;
 }
 
+// Floating bubbles, frutiger-mode only. The back layer drifts between the
+// wallpaper and the content (card blurs frost them), the front layer floats
+// over the content but slips behind the header (z2) and sidebar (z3). Both
+// are pointer-events: none and JS-managed (see js/frutiger-bubbles.js):
+// they are created on activation and removed on exit. Negative delays
+// pre-populate the field mid-flight.
+.frutiger-bubbles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+
+  &.front {
+    z-index: 1;
+  }
+}
+
+.frutiger-bubble {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  will-change: transform;
+  animation: frutiger-bubble-rise var(--rise) linear var(--delay) infinite;
+}
+
+.frutiger-bubble-orb {
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 25%,
+    oklch(1 0 0 / 0.85) 0%,
+    oklch(1 0 0 / 0.15) 30%,
+    oklch(from #6ee0ff L C H / 0.25) 60%,
+    oklch(from #22d3ee L C H / 0.45) 92%,
+    oklch(1 0 0 / 0.5) 100%
+  );
+  box-shadow:
+    inset -0.15rem -0.25rem 0.5rem oklch(from #22d3ee L C H / 0.35),
+    inset 0.1rem 0.15rem 0.3rem oklch(1 0 0 / 0.55);
+  will-change: transform;
+  animation: frutiger-bubble-sway var(--sway) ease-in-out var(--delay) infinite alternate;
+}
+
+@keyframes frutiger-bubble-rise {
+  from {
+    transform: translate3d(0, 105vh, 0);
+  }
+
+  to {
+    transform: translate3d(0, -15vh, 0);
+  }
+}
+
+@keyframes frutiger-bubble-sway {
+  from {
+    transform: translateX(calc(var(--sway-x) * -1));
+  }
+
+  to {
+    transform: translateX(var(--sway-x));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frutiger-bubbles {
+    display: none;
+  }
+}
+
 // Sidebar nav labels: dark text on the cyan gloss pills (the default
 // --nav-fg derives from --mono and stays light in every theme).
 html[data-theme="frutiger"] #sidebar-nav a {
