@@ -277,6 +277,7 @@ const endDir = note.dataset.endDir;
 
 const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
 group.classList.add("arrow-line-boil");
+group.dataset.color = color;
 
 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 path.classList.add("arrow-path");

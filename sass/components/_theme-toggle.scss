@@ -19,14 +19,16 @@
   // Hide all icons by default to prevent flash
   .icon-sun,
   .icon-moon,
-  .icon-auto {
+  .icon-auto,
+  .icon-globe {
     display: none;
   }
 
   // Show icons when JS has initialized
   &.initialized .icon-sun,
   &.initialized .icon-moon,
-  &.initialized .icon-auto {
+  &.initialized .icon-auto,
+  &.initialized .icon-globe {
     display: block;
   }
 

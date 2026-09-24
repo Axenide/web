@@ -19,7 +19,8 @@
 // Manual theme overrides (the site toggles via data-theme, not the OS
 // setting). They carry the base-only tokens per theme; the site palette in
 // base/_tokens.scss overrides the colors afterwards.
-html[data-theme="light"] {
+html[data-theme="light"],
+html[data-theme="frutiger"] {
   @include variables("light");
   @include variables-accent("light");
   color-scheme: light;

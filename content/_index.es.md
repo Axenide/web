@@ -2,7 +2,7 @@
 title = "Axenide"
 insert_anchor_links = "left"
 [extra]
-scripts = ["js/home.js", "js/sans.js"]
+scripts = ["js/home.js", "js/sans.js", "js/frutiger.js"]
 no_header = true
 socials = [
     { name = "YouTube", url = "https://www.youtube.com/@Axenide", icon = "youtube-logo" },
@@ -158,7 +158,7 @@ Fui extraído con éxito, con los ojos bien abiertos, y mi primer pensamiento fu
 - Open Source
 - Astronomía
 - Dibujos animados
-- Frutiger Aero
+- <button id="frutiger">Frutiger Aero</button>
 - Pixel Art
 - <button id="sans">Sans</button> (literalmente yo)
 

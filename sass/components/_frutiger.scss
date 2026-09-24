@@ -1,0 +1,78 @@
+@use "../abstracts/mixins" as *;
+
+// Frutiger Aero easter egg — per-component overrides for
+// html[data-theme="frutiger"]. Global palette tokens live in
+// sass/base/_tokens.scss; component-scoped color changes go here.
+
+// Sidebar nav labels: dark text on the cyan gloss pills (the default
+// --nav-fg derives from --mono and stays light in every theme).
+html[data-theme="frutiger"] #sidebar-nav a {
+  --nav-fg: var(--fg-color);
+}
+
+// Glassy header bar instead of the near-white solid panel.
+html[data-theme="frutiger"] #site-header::after {
+  background-color: oklch(from #6ee0ff L C H / 0.75);
+}
+
+// Hero copy sits directly on the wallpaper: white with a black shadow.
+// Marks are chips with their own surface, so they opt out of the shadow.
+html[data-theme="frutiger"] .hero-wrapper .hero-content p {
+  color: white;
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+}
+
+html[data-theme="frutiger"] .hero-wrapper .hero-content mark {
+  text-shadow: none;
+}
+
+// Frosted-glass cards over the wallpaper. The surface ::before keeps the
+// translucent sheen; the blur goes on the element itself so its isolated
+// stacking context doesn't clip the backdrop.
+html[data-theme="frutiger"] .masonry > li article:not(.axlab),
+html[data-theme="frutiger"] #main-content article:not(ul.masonry article):not(.article-list article):not(.chromeless),
+html[data-theme="frutiger"] #badges,
+html[data-theme="frutiger"] #site-sidebar {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+}
+
+// The whole content-wrapper section becomes one big frosted sheen panel;
+// the cards inside drop their own blur and ride on the panel's blurred
+// backdrop. Specificity is bumped past the blur rules above.
+html[data-theme="frutiger"] .snap-section.content-wrapper {
+  @include aero-sheen($blur: true);
+  background-color: oklch(from #22d3ee L C H / 0.45);
+  border-radius: var(--rounded-corner);
+  padding-inline: 1rem;
+}
+
+html[data-theme="frutiger"] .snap-section.content-wrapper ul.masonry article:not(.axlab),
+html[data-theme="frutiger"] .snap-section.content-wrapper #badges {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+// Hero scroll indicator and badge arrows: white like the pre-frutiger
+// accent, not green. Arrow paths live on the body-level #arrow-layer SVG,
+// tagged with their color by the arrow_note component, so they are matched
+// from there.
+html[data-theme="frutiger"] #main-content .scroll-indicator .axie-icon {
+  color: white !important;
+  filter: url("#arrow-note-axie-boil") drop-shadow(0 1px 2px rgb(0 0 0 / 0.9));
+}
+
+html[data-theme="frutiger"] #main-content .scroll-indicator .arrow-note,
+html[data-theme="frutiger"] #badges .arrow-note {
+  color: white !important;
+}
+
+html[data-theme="frutiger"] #main-content .scroll-indicator .arrow-note {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+}
+
+html[data-theme="frutiger"] #arrow-layer g[data-color="var(--accent-color)"] .arrow-path {
+  stroke: white !important;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.9));
+}

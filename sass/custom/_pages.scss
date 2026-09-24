@@ -577,7 +577,8 @@ section h3:target {
 
 /* Sans Component */
 // Who's sans?
-#sans {
+#sans,
+#frutiger {
   transition: var(--transition, 0.2s ease);
   cursor: pointer;
   box-shadow: none;

@@ -341,7 +341,12 @@
 		(function() {
 			const STORAGE_KEY = 'theme-preference';
 			const THEME_AUTO = 'auto';
-			const saved = localStorage.getItem(STORAGE_KEY) || THEME_AUTO;
+			let saved = localStorage.getItem(STORAGE_KEY) || THEME_AUTO;
+			if (saved === 'frutiger') {
+				saved = localStorage.getItem('theme-frutiger-previous') || THEME_AUTO;
+				localStorage.setItem(STORAGE_KEY, saved);
+				localStorage.removeItem('theme-frutiger-previous');
+			}
 			const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 			const theme = saved === THEME_AUTO ? (systemDark ? 'dark' : 'light') : saved;
 			document.documentElement.setAttribute('data-theme', theme);

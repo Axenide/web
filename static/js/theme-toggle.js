@@ -1,8 +1,10 @@
 (function() {
   const STORAGE_KEY = 'theme-preference';
+  const FRUTIGER_PREV_KEY = 'theme-frutiger-previous';
   const THEME_LIGHT = 'light';
   const THEME_DARK = 'dark';
   const THEME_AUTO = 'auto';
+  const THEME_FRUTIGER = 'frutiger';
 
   function getSystemTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_DARK : THEME_LIGHT;
@@ -17,10 +19,25 @@
     return saved === THEME_AUTO ? getSystemTheme() : saved;
   }
 
+  function isFrutigerActive() {
+    return document.documentElement.getAttribute('data-theme') === THEME_FRUTIGER;
+  }
+
+  // One-time cleanup: frutiger used to be a persisted theme; it is now a
+  // live-only state that dies on reload or navigation.
+  function migrateLegacyFrutiger() {
+    const saved = getSavedTheme();
+    if (saved !== THEME_FRUTIGER) return saved;
+    const prev = localStorage.getItem(FRUTIGER_PREV_KEY) || THEME_AUTO;
+    localStorage.removeItem(FRUTIGER_PREV_KEY);
+    localStorage.setItem(STORAGE_KEY, prev);
+    return prev;
+  }
+
   function applyTheme(theme) {
     const effective = theme === THEME_AUTO ? getSystemTheme() : theme;
     document.documentElement.setAttribute('data-theme', effective);
-    document.documentElement.style.colorScheme = effective;
+    document.documentElement.style.colorScheme = effective === THEME_FRUTIGER ? THEME_LIGHT : effective;
   }
 
   function saveTheme(theme) {
@@ -36,14 +53,19 @@
     const sun = btn.querySelector('.icon-sun');
     const moon = btn.querySelector('.icon-moon');
     const auto = btn.querySelector('.icon-auto');
+    const globe = btn.querySelector('.icon-globe');
 
     // Hide all first
     if (sun) sun.style.display = 'none';
     if (moon) moon.style.display = 'none';
     if (auto) auto.style.display = 'none';
+    if (globe) globe.style.display = 'none';
 
     // Show only the active one
-    if (current === THEME_LIGHT && sun) {
+    if (current === THEME_FRUTIGER && globe) {
+      globe.style.display = 'block';
+      btn.title = 'Salir de Frutiger Aero';
+    } else if (current === THEME_LIGHT && sun) {
       sun.style.display = 'block';
       btn.title = 'Cambiar a oscuro';
     } else if (current === THEME_DARK && moon) {
@@ -59,6 +81,10 @@
   }
 
   function cycleTheme() {
+    if (isFrutigerActive()) {
+      exitFrutiger();
+      return;
+    }
     const current = getSavedTheme();
     let next;
     if (current === THEME_AUTO) next = THEME_LIGHT;
@@ -67,12 +93,30 @@
     saveTheme(next);
   }
 
+  function enterFrutiger() {
+    if (isFrutigerActive()) return;
+    applyTheme(THEME_FRUTIGER);
+    updateButton(THEME_FRUTIGER);
+  }
+
+  function exitFrutiger() {
+    localStorage.removeItem(FRUTIGER_PREV_KEY);
+    saveTheme(getSavedTheme());
+  }
+
+  window.ThemeToggle = { enterFrutiger };
+
   function init() {
-    const saved = getSavedTheme();
+    const saved = migrateLegacyFrutiger();
     applyTheme(saved);
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-      if (getSavedTheme() === THEME_AUTO) applyTheme(THEME_AUTO);
+      if (getSavedTheme() === THEME_AUTO && !isFrutigerActive()) applyTheme(THEME_AUTO);
+    });
+
+    // A bfcache restore skips init, so drop a stale frutiger state on back/forward.
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted && isFrutigerActive()) exitFrutiger();
     });
 
     const btn = document.getElementById('theme-toggle');

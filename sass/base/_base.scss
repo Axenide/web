@@ -48,6 +48,12 @@ html[data-theme="light"] body {
     color-mix(in oklch, var(--fg-color), white 76%);
 }
 
+html[data-theme="frutiger"] body {
+  background:
+    url("/images/asadal_stock_66.jpg") center / cover no-repeat fixed,
+    var(--bg-color);
+}
+
 @media (prefers-reduced-motion) {
   *,
   *::before,
