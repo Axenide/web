@@ -2,7 +2,7 @@
 title = "Axenide"
 insert_anchor_links = "left"
 [extra]
-scripts = ["js/home.js", "js/shy.js"]
+scripts = ["js/home.js", "js/sans.js"]
 no_header = true
 socials = [
     { name = "YouTube", url = "https://www.youtube.com/@Axenide", icon = "youtube-logo" },
@@ -160,7 +160,7 @@ Fui extraído con éxito, con los ojos bien abiertos, y mi primer pensamiento fu
 - Dibujos animados
 - Frutiger Aero
 - Pixel Art
-- <button id="shy">Sans</button> (literalmente yo)
+- <button id="sans">Sans</button> (literalmente yo)
 
 </article>
 
@@ -284,4 +284,4 @@ Para mí son las <time id="clock">00:00</time> <small>(UTC-3)</small> y estoy <s
 </ul>
 </section>
 
-<img id="flutter" width="128" height="110" class="transparent no-hover" src="/home/sans.webp" alt="Sans El Esqueleto">
+<img id="sansundertale" width="128" height="110" class="transparent no-hover" src="/home/sans.webp" alt="Sans El Esqueleto">

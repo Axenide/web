@@ -17,8 +17,8 @@
 	}
 }
 
-#main-content .fancy-list:not(.snug-nook):not(.online):not(.games) ul li,
-#main-content .fancy-list:not(.snug-nook):not(.online) ul a {
+#main-content .fancy-list:not(.axlab):not(.online):not(.games) ul li,
+#main-content .fancy-list:not(.axlab):not(.online) ul a {
 	@include aero-sheen;
 	border-radius: 0.75rem;
 	background-color: transparent;

@@ -139,7 +139,7 @@
 }
 
 // Generic widget-card catch-all for one-off components; specific widgets own
-// their surfaces (see _snug-nook, _masonry, _window, media-grid).
+// their surfaces (see _axlab, _masonry, _window, media-grid).
 #main-content [class$="-card"] {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;

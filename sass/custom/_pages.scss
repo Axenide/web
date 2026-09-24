@@ -575,12 +575,13 @@ section h3:target {
   }
 }
 
-/* Fluttershy Component */
-// Who's shy?
-#shy {
+/* Sans Component */
+// Who's sans?
+#sans {
   transition: var(--transition, 0.2s ease);
   cursor: pointer;
   box-shadow: none;
+  border: none;
   border-radius: 0;
   background-color: transparent;
   padding: 0;
@@ -606,7 +607,7 @@ section h3:target {
 }
 
 // Ah, that's who
-#flutter {
+#sansundertale {
   position: fixed;
   transform: translateY(100%);
   visibility: hidden;

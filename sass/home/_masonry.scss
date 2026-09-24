@@ -35,10 +35,10 @@
 // the card itself makes Chromium paint square ghosts around the composited
 // images inside whenever the scrollbar toggles, and a frost that reaches the
 // border is what keeps the grid from peeking through the translucent ring.
-// The snug-nook server widget stays out: its gloss is opaque and already
+// The axlab server widget stays out: its gloss is opaque and already
 // carries its own double border.
-.masonry > li article:not(.snug-nook),
-#main-content .masonry .fancy-list:not(.snug-nook) {
+.masonry > li article:not(.axlab),
+#main-content .masonry .fancy-list:not(.axlab) {
 	position: relative;
 	isolation: isolate;
 	border-radius: 0.75rem;
@@ -98,6 +98,6 @@
 	}
 }
 
-#main-content .masonry .fancy-list:not(.snug-nook) ul {
+#main-content .masonry .fancy-list:not(.axlab) ul {
 	margin-block: 0;
 }

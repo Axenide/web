@@ -1,7 +1,7 @@
 @use "../abstracts/functions" as *;
 
-// Who's shy?
-#shy {
+// Who's sans?
+#sans {
   transition: var(--transition);
   cursor: pointer;
   box-shadow: none;
@@ -30,7 +30,7 @@
 }
 
 // Ah, that's who
-#flutter {
+#sansundertale {
   position: fixed;
   transform: translateY(100%);
   visibility: hidden;

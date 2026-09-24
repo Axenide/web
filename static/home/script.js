@@ -49,8 +49,8 @@ const statusCafeTimeAgo = document.getElementById("statuscafe-time-ago");
 const discordStatus = document.getElementById("online-indicator");
 const discordStatusText = document.getElementById("online-indicator-text");
 const clock = document.getElementById("clock");
-const flutter = document.getElementById("flutter");
-const shy = document.getElementById("shy");
+const sansundertale = document.getElementById("sansundertale");
+const sans = document.getElementById("sans");
 const squee = new Audio("/home/e.mp3");
 const ntfyInput = document.getElementById("ntfy-input");
 const ntfySend = document.getElementById("ntfy-send");
@@ -109,17 +109,17 @@ async function fetchStatusCafe() {
 	}
 }
 
-// Flutter
-function flutterAnim() {
-	shy.setAttribute("disabled", "true");
+// Sans peek
+function peekAnim() {
+	sans.setAttribute("disabled", "true");
 
 	squee.play();
 
-	flutter.classList.add("active");
+	sansundertale.classList.add("active");
 
-	flutter.addEventListener("animationend", function () {
-		shy.removeAttribute("disabled");
-		flutter.classList.remove("active");
+	sansundertale.addEventListener("animationend", function () {
+		sans.removeAttribute("disabled");
+		sansundertale.classList.remove("active");
 	}, { once: true });
 }
 
@@ -189,6 +189,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetchDiscordStatus();
 	setInterval(fetchDiscordStatus, 10000);
 
-	shy.addEventListener("click", flutterAnim);
+	sans.addEventListener("click", peekAnim);
 	ntfySend.addEventListener("click", sendNotification);
 });
