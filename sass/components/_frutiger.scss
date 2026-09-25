@@ -216,15 +216,12 @@ html[data-theme="frutiger"] #site-header .buttons .dropdown a {
   text-shadow: 0 1px 2px var(--frutiger-title-shadow);
 }
 
-// Windows 7 style Aero glass for the sidebar: full gloss surface (bright
-// top sheen over translucent cyan, double border ring) instead of the flat
-// sheen. The translucent base keeps the element's backdrop blur visible;
-// the derived gloss stops inherit the base alpha. This is the one surface
-// that keeps the frosted treatment: it sits beside the content instead of
-// over it, so the compositor cost is bounded. On mobile the expanded drawer
+// Windows 7 style Aero glass for the sidebar: full gloss surface instead
+// of the flat sheen. Experimental: the surface base is fully transparent,
+// so only the blur and the border ring read. On mobile the expanded drawer
 // keeps its glass-bg (that rule outspecifies this one).
 html[data-theme="frutiger"] #site-sidebar::before {
-  @include aero-gloss($dark: oklch(1 0 0 / 0.2));
+  @include aero-gloss($dark: oklch(1 0 0 / 0));
 }
 
 html[data-theme="frutiger"] #site-sidebar {
@@ -232,11 +229,15 @@ html[data-theme="frutiger"] #site-sidebar {
   backdrop-filter: var(--blur);
 }
 
-// The footer joins the sidebar's untinted glass treatment: white
-// translucent base (the grass-green --footer-bg token is overridden by the
-// gloss surface).
+// Mobile expanded drawer: the glass-bg rule in _sidebar.scss outspecifies
+// the gloss above, so mirror the transparent treatment here.
+html[data-theme="frutiger"] #site-header:has(#expand-sidebar:checked) ~ #site-sidebar::before {
+  background-color: transparent;
+}
+
+// The footer gets the same fully transparent glass treatment.
 html[data-theme="frutiger"] #site-footer {
-  @include aero-gloss($dark: oklch(1 0 0 / 0.2), $blur: true);
+  @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true);
 }
 
 // Hero copy sits directly on the wallpaper: white with a blue shadow.
