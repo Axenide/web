@@ -293,9 +293,9 @@ html[data-theme="frutiger"] {
   --glass-bg-2: oklch(from #6ee0ff L C H / 0.88);
 
   /* Gloss chrome — cyan Vista glass (bright stops stay white). Card
-     surfaces are translucent over a backdrop blur (experimental: blur +
-     transparency pass). */
-  --aero-card-surface: oklch(from #6ee0ff L C H / 0.45);
+     surfaces are opaque on purpose: the wallpaper blur was imperceptible
+     and backdrop-filter costs performance and causes compositor bugs. */
+  --aero-card-surface: #6ee0ff;
 
   /* Card title shadow — dark blue derived from the sky tone. Lives in a
      custom property because grass cannot parse calc() inside relative

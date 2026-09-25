@@ -39,7 +39,7 @@
     --accent-color: #95bc24;
     --accent-color-hover: color-mix(in oklch, #95bc24, white 30%);
     --accent-highlight: oklch(from #95bc24 L C H / 0.38);
-    --aero-card-surface: oklch(from #6ee0ff L C H / 0.45);
+    --aero-card-surface: #6ee0ff;
   }
 }
 
@@ -48,7 +48,7 @@
 // (keyframes above). Both land instantly and ease back.
 @keyframes frutiger-flash-item {
   0% {
-    background-color: oklch(from #6ee0ff L C H / 0.45);
+    background-color: #6ee0ff;
   }
 }
 
@@ -191,6 +191,14 @@ html[data-theme="frutiger"] #sidebar-nav a {
   --nav-fg: var(--fg-color);
 }
 
+// The retro avatar frame: no backdrop blur, opaque card-tone surface (the
+// aero-avatar gloss stays on top).
+html[data-theme="frutiger"] .retro-avatar-container {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--aero-card-surface);
+}
+
 // Sidebar nav pills share the card tone (#6ee0ff) like the other buttons;
 // the current-page pill keeps its accent variant.
 html[data-theme="frutiger"] #sidebar-nav a:not([aria-current="page"]) {
@@ -200,6 +208,12 @@ html[data-theme="frutiger"] #sidebar-nav a:not([aria-current="page"]) {
 // Glassy header bar instead of the near-white solid panel.
 html[data-theme="frutiger"] #site-header::after {
   background-color: oklch(from #6ee0ff L C H / 0.75);
+}
+
+// Header dropdown links (language / feed) go white on the glass.
+html[data-theme="frutiger"] #site-header .buttons .dropdown a {
+  color: white;
+  text-shadow: 0 1px 2px var(--frutiger-title-shadow);
 }
 
 // Windows 7 style Aero glass for the sidebar: full gloss surface (bright
@@ -225,22 +239,26 @@ html[data-theme="frutiger"] #site-footer {
   @include aero-gloss($dark: oklch(1 0 0 / 0.2), $blur: true);
 }
 
-// Hero copy sits directly on the wallpaper: white with a black shadow.
+// Hero copy sits directly on the wallpaper: white with a blue shadow.
 // Marks are chips with their own surface, so they opt out of the shadow.
 html[data-theme="frutiger"] .hero-wrapper .hero-content p {
   color: white;
   font-weight: var(--font-weight-bold);
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+  text-shadow: 0 1px 2px var(--frutiger-title-shadow);
 }
 
 html[data-theme="frutiger"] .hero-wrapper .hero-content mark {
   text-shadow: none;
+  // Opaque card-tone chip, no backdrop blur (like the avatar frame).
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--aero-card-surface);
 }
 
 // Section headings sit on the wallpaper: same treatment as the hero copy.
 html[data-theme="frutiger"] .snap-section.content-wrapper h2 {
   color: white;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+  text-shadow: 0 1px 2px var(--frutiger-title-shadow);
 }
 
 // Same for the copy paragraphs that sit directly on the wallpaper (the
@@ -248,7 +266,7 @@ html[data-theme="frutiger"] .snap-section.content-wrapper h2 {
 html[data-theme="frutiger"] .snap-section.content-wrapper > div > p,
 html[data-theme="frutiger"] .snap-section.content-wrapper > p {
   color: white;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+  text-shadow: 0 1px 2px var(--frutiger-title-shadow);
 }
 
 // Card titles across the home go white with a soft dark-blue shadow
@@ -274,16 +292,6 @@ html[data-theme="frutiger"] #player-go {
   @include aero-gloss($dark: #6ee0ff, $tint: #6ee0ff);
 }
 
-// Frosted cards are back (experimental): the blur goes on the element
-// itself so its isolated stacking context doesn't clip the backdrop. The
-// sidebar and footer manage their own glass.
-html[data-theme="frutiger"] .masonry > li article:not(.axlab),
-html[data-theme="frutiger"] #main-content article:not(ul.masonry article):not(.article-list article):not(.chromeless),
-html[data-theme="frutiger"] #badges {
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-}
-
 // Hero scroll indicator and badge arrows: white like the pre-frutiger
 // accent, not green. Arrow paths live on the body-level #arrow-layer SVG,
 // tagged with their color by the arrow_note component, so they are matched
@@ -296,7 +304,7 @@ html[data-theme="frutiger"] #main-content .scroll-indicator .axie-icon {
 html[data-theme="frutiger"] #main-content .scroll-indicator .arrow-note,
 html[data-theme="frutiger"] #badges .arrow-note {
   color: white !important;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+  text-shadow: 0 1px 2px var(--frutiger-title-shadow);
 }
 
 html[data-theme="frutiger"] #arrow-layer g[data-color="var(--accent-color)"] .arrow-path {
