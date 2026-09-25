@@ -218,10 +218,18 @@ html[data-theme="frutiger"] #site-header .buttons .dropdown a {
 
 // Windows 7 style Aero glass for the sidebar: full gloss surface instead
 // of the flat sheen. Experimental: the surface base is fully transparent,
-// so only the blur and the border ring read. On mobile the expanded drawer
-// keeps its glass-bg (that rule outspecifies this one).
+// so only the blur and the border ring read. Diagonal light streaks
+// (Windows 7 style) are layered over the gloss gradients; the ring layer
+// keeps its border-box clip. On mobile the expanded drawer keeps its
+// glass-bg (that rule outspecifies this one).
 html[data-theme="frutiger"] #site-sidebar::before {
   @include aero-gloss($dark: oklch(1 0 0 / 0));
+  background-image:
+    var(--frutiger-streaks),
+    radial-gradient(120% 100% at 50% -50%, var(--gloss-bright) 0, var(--gloss-bright-end) 96%, var(--gloss-dark-end) 102%, var(--gloss-dark) 150%),
+    linear-gradient(to bottom, var(--gloss-ring-top), var(--gloss-ring-bottom));
+  background-origin: padding-box, padding-box, border-box;
+  background-clip: padding-box, padding-box, border-box;
 }
 
 html[data-theme="frutiger"] #site-sidebar {
@@ -235,9 +243,16 @@ html[data-theme="frutiger"] #site-header:has(#expand-sidebar:checked) ~ #site-si
   background-color: transparent;
 }
 
-// The footer gets the same fully transparent glass treatment.
+// The footer gets the same fully transparent glass treatment, streaks
+// included.
 html[data-theme="frutiger"] #site-footer {
   @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true);
+  background-image:
+    var(--frutiger-streaks),
+    radial-gradient(120% 100% at 50% -50%, var(--gloss-bright) 0, var(--gloss-bright-end) 96%, var(--gloss-dark-end) 102%, var(--gloss-dark) 150%),
+    linear-gradient(to bottom, var(--gloss-ring-top), var(--gloss-ring-bottom));
+  background-origin: padding-box, padding-box, border-box;
+  background-clip: padding-box, padding-box, border-box;
 }
 
 // Hero copy sits directly on the wallpaper: white with a blue shadow.

@@ -301,6 +301,36 @@ html[data-theme="frutiger"] {
      custom property because grass cannot parse calc() inside relative
      colors in regular declarations. */
   --frutiger-title-shadow: oklch(from #85b5f5 calc(L * 0.35) C H / 0.9);
+
+  /* Diagonal light streaks for the Win7-style glass, layered over the
+     gloss gradients as the first background-image layers. Bright beams
+     plus a dark one: on a bright wallpaper the dark band is what reads.
+     Positions and widths are intentionally irregular. */
+  --frutiger-streaks:
+    linear-gradient(
+      115deg,
+      transparent 2%,
+      oklch(1 0 0 / 0.25) 9%,
+      transparent 24%,
+      oklch(1 0 0 / 0.25) 31%,
+      transparent 39%,
+      oklch(1 0 0 / 0.25) 52%,
+      transparent 59%,
+      oklch(1 0 0 / 0.25) 71%,
+      transparent 84%,
+      oklch(1 0 0 / 0.25) 89%,
+      transparent 97%
+    ),
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      oklch(from #85b5f5 calc(L * 0.5) C H / 0.25) 5%,
+      transparent 14%,
+      oklch(from #85b5f5 calc(L * 0.5) C H / 0.25) 30%,
+      transparent 43%,
+      oklch(from #85b5f5 calc(L * 0.5) C H / 0.25) 51%,
+      transparent 68%
+    );
   --aero-dark: #22d3ee;
   --aero-dark-end: color-mix(in oklch, #22d3ee, white 30%);
   --aero-border: color-mix(in oklch, #22d3ee, black 28%);
