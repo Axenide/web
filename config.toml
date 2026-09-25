@@ -44,8 +44,8 @@ mono_light = "#29242a"
 
 # Per-page overrides available via page.extra.mono / page.extra.mono_light / page.extra.semantic.<name>.
 
-date_format = "%d %b %Y"
-date_format_long = "%B %d, %Y, %R (%Z)"
+date_format = "dd MMM y"
+date_format_long = "MMMM dd, y, HH:mm (z)"
 timezone = "UTC"
 date_locale = "en_US"
 source_url = "https://github.com/Axenide/web"
@@ -103,7 +103,7 @@ copyright = "© $YEAR Axenide"
 
 [extra.es]
 date_locale = "es_ES"
-date_format = "%d %b %Y"
+date_format = "dd MMM y"
 
 [slugify]
 paths = "on"

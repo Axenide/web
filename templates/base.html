@@ -18,12 +18,12 @@ This variable will hold all the text strings for the language #}
 
 {# Initialize localized date variables #}
 {%- if lang != config.default_language -%}
-	{%- set date_format_long = config.extra[lang].date_format_long | default(value="%B %d, %Y, %R (%Z)") -%}
-	{%- set date_format = config.extra[lang].date_format | default(value="%B %d, %Y") -%}
+	{%- set date_format_long = config.extra[lang].date_format_long | default(value="MMMM dd, y, HH:mm (z)") -%}
+	{%- set date_format = config.extra[lang].date_format | default(value="MMMM dd, y") -%}
 	{%- set date_locale = config.extra[lang].date_locale | default(value="en_US") -%}
 {%- else -%}
-	{%- set date_format_long = config.extra.date_format_long | default(value="%B %d, %Y, %R (%Z)") -%}
-	{%- set date_format = config.extra.date_format | default(value="%B %d, %Y") -%}
+	{%- set date_format_long = config.extra.date_format_long | default(value="MMMM dd, y, HH:mm (z)") -%}
+	{%- set date_format = config.extra.date_format | default(value="MMMM dd, y") -%}
 	{%- set date_locale = config.extra.date_locale | default(value="en_US") -%}
 {%- endif -%}
 

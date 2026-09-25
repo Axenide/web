@@ -51,7 +51,7 @@
 	{%- for page in section.pages %}
 		<li>
 			<a href="{{ page.permalink | safe }}">
-				{{ page.date | date(format=config.extra.date_format_long | default(value="%B %d, %Y, %R (%Z)"), timezone=config.extra.timezone | default(value="UTC"), locale=config.extra.date_locale | default(value="en_US")) }}
+				{{ page.date | date(format=config.extra.date_format_long | default(value="MMMM dd, y, HH:mm (z)"), timezone=config.extra.timezone | default(value="UTC"), locale=config.extra.date_locale | default(value="en_US")) }}
 			</a>
 			<div>
 				{% if config.extra.source_url %}
