@@ -21,8 +21,12 @@
       <p>
         {%- set zola_link = '<a class="link external" href="https://www.getzola.org" rel="' ~ rel_attributes ~ '">Zola</a>' -%}
         {%- set ametrine_link = '<a class="link external" href="https://codeberg.org/Axenide/Axetrine" rel="' ~ rel_attributes ~ '">Axetrine</a>' -%}
-        {%- set powered_by_raw %}{{< translate key="powered_by" default="Powered by $ZOLA and $AMETRINE" language_strings={language_strings} lang={lang} />}}{% endset %}
-        {{ powered_by_raw | replace(from="$ZOLA", to=zola_link) | replace(from="$AMETRINE", to=ametrine_link) | safe }}
+        {#- Zola 0.23.6 regression: a value from a block capture ({% set x %}...{% endset %})
+            gets re-escaped by the replace filters even with | safe, so the translated
+            string is resolved inline instead (same lookup the translate component does
+            for a non-numeric key). -#}
+        {%- set powered_by_text = language_strings["powered_by"] | default(value="Powered by $ZOLA and $AMETRINE") -%}
+        {{ powered_by_text | replace(from="$ZOLA", to=zola_link) | replace(from="$AMETRINE", to=ametrine_link) | safe }}
       </p>
     {%- endif %}
 
