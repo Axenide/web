@@ -4,38 +4,46 @@
   const MAX_VOLUME = 0.5;
   const FRUTIGER = 'frutiger';
   // Keep in sync with the frutiger body background in sass/base/_base.scss.
-  const WALLPAPER = '/images/asadal_stock_66.avif';
+  const WALLPAPER = '/images/asadal_stock_66.jpg';
+  const TRACKS = ['aquatic', 'lease', 'lotus', 'mii', 'party'];
+  const TRACK_URL = (index) => '/home/aero/' + TRACKS[index] + '.opus';
 
   function init() {
     const trigger = document.getElementById('frutiger');
     if (!trigger) return;
 
-    const mii = new Audio('/home/aero/mii.opus');
-    mii.preload = 'auto';
+    const music = new Audio();
+    music.preload = 'auto';
 
+    let trackIndex = 0;
     let fadeFrame = null;
+
+    function setTrack(index) {
+      trackIndex = index;
+      music.src = TRACK_URL(index);
+    }
 
     function stopPlayback() {
       if (fadeFrame) cancelAnimationFrame(fadeFrame);
       fadeFrame = null;
-      mii.pause();
-      mii.currentTime = 0;
+      music.pause();
+      music.currentTime = 0;
     }
 
     function playSnippet() {
       stopPlayback();
-      mii.volume = MAX_VOLUME;
-      mii.play().catch(() => {});
+      music.volume = MAX_VOLUME;
+      music.play().catch(() => {});
       const start = performance.now();
       const fade = (now) => {
         const t = Math.min((now - start) / FLASH_MS, 1);
-        mii.volume = MAX_VOLUME * (1 - t);
+        music.volume = MAX_VOLUME * (1 - t);
         if (t < 1) {
           fadeFrame = requestAnimationFrame(fade);
         } else {
           fadeFrame = null;
-          mii.pause();
-          mii.currentTime = 0;
+          music.pause();
+          music.currentTime = 0;
         }
       };
       fadeFrame = requestAnimationFrame(fade);
@@ -43,8 +51,24 @@
 
     function playFull() {
       stopPlayback();
-      mii.volume = MAX_VOLUME;
-      mii.play().catch(() => {});
+      music.volume = MAX_VOLUME;
+      music.play().catch(() => {});
+    }
+
+    // Frutiger only lives while data-theme says so; kill the audio on exit.
+    new MutationObserver(() => {
+      if (document.documentElement.getAttribute('data-theme') !== FRUTIGER) stopPlayback();
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // The wallpaper is only fetched once frutiger activates (the CSS rule
+    // does not match otherwise); warm the cache on the first prelude click
+    // so the definitive mode shows it instantly.
+    let wallpaperPreloaded = false;
+
+    function preloadWallpaper() {
+      if (wallpaperPreloaded) return;
+      wallpaperPreloaded = true;
+      new Image().src = WALLPAPER;
     }
 
     // One-shot bubble burst from the trigger, used by the prelude clicks.
@@ -66,32 +90,24 @@
       }
     }
 
-    // Frutiger only lives while data-theme says so; kill the audio on exit.
-    new MutationObserver(() => {
-      if (document.documentElement.getAttribute('data-theme') !== FRUTIGER) stopPlayback();
-    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-    // The wallpaper is only fetched once frutiger activates (the CSS rule
-    // does not match otherwise); warm the cache on the first prelude click
-    // so the definitive mode shows it instantly.
-    let wallpaperPreloaded = false;
-
-    function preloadWallpaper() {
-      if (wallpaperPreloaded) return;
-      wallpaperPreloaded = true;
-      new Image().src = WALLPAPER;
-    }
-
     let clicks = 0;
 
     trigger.addEventListener('click', () => {
-      // Once frutiger is live the trigger's show is over; extra clicks must
-      // never restart the music.
-      if (document.documentElement.getAttribute('data-theme') === FRUTIGER) return;
+      // Once frutiger is live, clicks cycle through the tracks.
+      if (document.documentElement.getAttribute('data-theme') === FRUTIGER) {
+        setTrack((trackIndex + 1) % TRACKS.length);
+        playFull();
+        return;
+      }
 
       clicks += 1;
 
-      if (clicks === 1) preloadWallpaper();
+      // A fresh run picks its track randomly; the prelude and the
+      // definitive playback then stay on it.
+      if (clicks === 1) {
+        preloadWallpaper();
+        setTrack(Math.floor(Math.random() * TRACKS.length));
+      }
 
       if (clicks >= CLICKS_NEEDED) {
         clicks = 0;
