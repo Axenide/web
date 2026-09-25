@@ -12,53 +12,127 @@
     const trigger = document.getElementById('frutiger');
     if (!trigger) return;
 
-    const music = new Audio();
-    music.preload = 'auto';
+    // Web Audio instead of an <audio> element: buffer playback never
+    // registers with the browser's media session, so Android notifications
+    // and MPRIS players (playerctl) never see these tracks.
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const gainNode = audioCtx.createGain();
+    gainNode.connect(audioCtx.destination);
 
-    let trackIndex = 0;
-    let fadeFrame = null;
-
-    function setTrack(index) {
-      trackIndex = index;
-      music.src = TRACK_URL(index);
-    }
+    const trackBuffers = {};
+    const trackPromises = {};
+    let currentSource = null;
+    let playToken = 0;
+    let playStartTime = 0;
+    let pausedOffset = null; // seconds into the buffer while hidden; null = not paused
+    let playingFull = false; // full playback (pausable) vs snippet fade (not)
 
     function stopPlayback() {
-      if (fadeFrame) cancelAnimationFrame(fadeFrame);
-      fadeFrame = null;
-      music.pause();
-      music.currentTime = 0;
+      if (currentSource) {
+        try { currentSource.stop(); } catch (e) {}
+        currentSource = null;
+      }
+      playingFull = false;
+      gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
     }
 
-    function playSnippet() {
-      stopPlayback();
-      music.volume = MAX_VOLUME;
-      music.play().catch(() => {});
-      const start = performance.now();
-      const fade = (now) => {
-        const t = Math.min((now - start) / FLASH_MS, 1);
-        music.volume = MAX_VOLUME * (1 - t);
-        if (t < 1) {
-          fadeFrame = requestAnimationFrame(fade);
-        } else {
-          fadeFrame = null;
-          music.pause();
-          music.currentTime = 0;
+    async function ensureTrack(index) {
+      const name = TRACKS[index];
+      if (trackBuffers[name] === undefined) {
+        // Promise cache: parallel preload and on-demand plays share one
+        // fetch per track.
+        if (trackPromises[name] === undefined) {
+          trackPromises[name] = (async () => {
+            try {
+              const response = await fetch(TRACK_URL(index));
+              trackBuffers[name] = await audioCtx.decodeAudioData(await response.arrayBuffer());
+            } catch (e) {
+              trackBuffers[name] = null;
+            }
+            return trackBuffers[name];
+          })();
         }
-      };
-      fadeFrame = requestAnimationFrame(fade);
+      }
+      return trackPromises[name];
     }
 
-    function playFull() {
+    async function playFromStart(offset = 0) {
+      const token = ++playToken;
       stopPlayback();
-      music.volume = MAX_VOLUME;
-      music.play().catch(() => {});
+      if (audioCtx.state === 'suspended') await audioCtx.resume();
+      const buffer = await ensureTrack(trackIndex);
+      if (!buffer || token !== playToken) return false;
+      const source = audioCtx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(gainNode);
+      gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(MAX_VOLUME, audioCtx.currentTime);
+      source.start(0, Math.min(offset, buffer.duration));
+      playStartTime = audioCtx.currentTime;
+      pausedOffset = null;
+      currentSource = source;
+      return true;
+    }
+
+    async function playSnippet() {
+      if (!(await playFromStart())) return;
+      playingFull = false;
+      const now = audioCtx.currentTime;
+      gainNode.gain.setValueAtTime(MAX_VOLUME, now);
+      gainNode.gain.linearRampToValueAtTime(0, now + FLASH_MS / 1000);
+      const played = currentSource;
+      setTimeout(() => {
+        if (currentSource !== played) return;
+        try { played.stop(); } catch (e) {}
+        currentSource = null;
+        gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      }, FLASH_MS);
+    }
+
+    async function playFull() {
+      if (!(await playFromStart())) return;
+      playingFull = true;
     }
 
     // Frutiger only lives while data-theme says so; kill the audio on exit.
     new MutationObserver(() => {
       if (document.documentElement.getAttribute('data-theme') !== FRUTIGER) stopPlayback();
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // Web Audio keeps playing while the page is backgrounded (Android app
+    // switch included). Full playback pauses and resumes where it left
+    // off; the 1.5s snippets are too short to be worth resuming and just
+    // stop.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        if (playingFull && currentSource) {
+          const elapsed = Math.min(
+            audioCtx.currentTime - playStartTime,
+            currentSource.buffer.duration
+          );
+          pausedOffset = Math.max(elapsed, 0);
+          gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+          try { currentSource.stop(); } catch (e) {}
+          currentSource = null;
+          playingFull = false;
+        } else {
+          stopPlayback();
+        }
+      } else if (pausedOffset !== null) {
+        const offset = pausedOffset;
+        pausedOffset = null;
+        if (document.documentElement.getAttribute('data-theme') === FRUTIGER) playFromStart(offset);
+      }
+    });
+
+    // Preload every track once the page settles (~1.6 MB total), so the
+    // random pick always plays instantly.
+    function preloadTracks() {
+      for (let i = 0; i < TRACKS.length; i++) ensureTrack(i);
+    }
+
+    if (document.readyState === 'complete') preloadTracks();
+    else window.addEventListener('load', preloadTracks, { once: true });
 
     // The wallpaper is only fetched once frutiger activates (the CSS rule
     // does not match otherwise); warm the cache on the first prelude click
@@ -95,7 +169,7 @@
     trigger.addEventListener('click', () => {
       // Once frutiger is live, clicks cycle through the tracks.
       if (document.documentElement.getAttribute('data-theme') === FRUTIGER) {
-        setTrack((trackIndex + 1) % TRACKS.length);
+        trackIndex = (trackIndex + 1) % TRACKS.length;
         playFull();
         return;
       }
@@ -106,7 +180,7 @@
       // definitive playback then stay on it.
       if (clicks === 1) {
         preloadWallpaper();
-        setTrack(Math.floor(Math.random() * TRACKS.length));
+        trackIndex = Math.floor(Math.random() * TRACKS.length);
       }
 
       if (clicks >= CLICKS_NEEDED) {
