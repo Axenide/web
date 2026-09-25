@@ -160,7 +160,12 @@
 // live in custom properties: dart-sass chokes on it in regular declarations.
 // $accent: true renders the sidebar-current variant: bright, saturated and
 // opaque, with every stop derived from $tint instead of $dark.
-@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false, $blur: false) {
+// $reflection: which pseudo-element carries the curved reflection (a
+// monochrome SVG shape masking a gradient built from the gloss vars, so the
+// edge stays crisp while the colors keep following the theme and tints), or
+// none to keep the flat radial reflection on the element itself (call sites
+// that live on a pseudo or layer their own gradients).
+@mixin aero-gloss($dark: var(--aero-dark), $tint: null, $contrast: 1, $accent: false, $blur: false, $reflection: before) {
 	--gloss-border: var(--aero-border);
 
 	@if $blur {
@@ -197,17 +202,39 @@
 	// or the box-shadows of the call sites.
 	border: 1px solid transparent;
 	background-color: var(--gloss-dark);
-	background-image: radial-gradient(
-			120% 100% at 50% -50%,
-			var(--gloss-bright) 0,
-			var(--gloss-bright-end) 96%,
-			var(--gloss-dark-end) 102%,
-			var(--gloss-dark) 150%
-		),
+	background-image:
+		linear-gradient(to bottom, var(--gloss-dark-end) 55%, var(--gloss-dark)),
 		linear-gradient(to bottom, var(--gloss-ring-top), var(--gloss-ring-bottom));
 	background-origin: padding-box, border-box;
 	background-clip: padding-box, border-box;
 	outline: 1px solid var(--gloss-border);
 	outline-offset: 0;
 	text-shadow: 0 1px 0 var(--gloss-bright);
+
+	@if $reflection != none {
+		position: relative;
+		isolation: isolate;
+
+		&::#{$reflection} {
+			position: absolute;
+			inset: -1px;
+			border: 1px solid transparent;
+			border-radius: inherit;
+			z-index: -1;
+			background-image: linear-gradient(
+				to bottom,
+				color-mix(in oklch, var(--gloss-bright), var(--gloss-bright-end)),
+				var(--gloss-bright-end) 78%,
+				var(--gloss-dark-end) 100%
+			);
+			background-clip: padding-box;
+			-webkit-mask-image: url("/aero-gloss.svg");
+			mask-image: url("/aero-gloss.svg");
+			-webkit-mask-size: 100% 100%;
+			mask-size: 100% 100%;
+			-webkit-mask-repeat: no-repeat;
+			mask-repeat: no-repeat;
+			content: "";
+		}
+	}
 }

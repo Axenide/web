@@ -58,18 +58,18 @@
 					position: relative;
 					overflow: hidden;
 
-					&::before {
-						position: absolute;
-						transform: rotate(-10deg);
-						mask-image: var(--icon-star);
-						inset-block: 0;
-						inset-inline-end: -1rem;
-						-webkit-mask-image: var(--icon-star);
-						background-color: var(--bg-muted-1);
-						width: 4rem;
-						height: 4rem;
-						content: "";
-					}
+				&::after {
+					position: absolute;
+					transform: rotate(-10deg);
+					mask-image: var(--icon-star);
+					inset-block: 0;
+					inset-inline-end: -1rem;
+					-webkit-mask-image: var(--icon-star);
+					background-color: var(--bg-muted-1);
+					width: 4rem;
+					height: 4rem;
+					content: "";
+				}
 				}
 			}
 		}

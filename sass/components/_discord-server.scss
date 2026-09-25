@@ -123,11 +123,11 @@
       margin-inline-start: auto;
       @include aero-gloss($tint: #d10026, $accent: true);
       color: white !important;
-      box-shadow: var(--edge-highlight), 0 0 15px rgba(219, 71, 64, 0.3);
+      box-shadow: 0 0 15px rgba(219, 71, 64, 0.3);
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: var(--edge-highlight), 0 0 20px rgba(209, 0, 38, 0.5);
+        box-shadow: 0 0 20px rgba(209, 0, 38, 0.5);
       }
     }
   }

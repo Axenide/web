@@ -130,6 +130,7 @@ h1 {
 		cubic-bezier(0.17, 0.89, 0.32, 1.28) nanolog-button-load;
 
 	@include aero-gloss($tint: var(--accent-color), $accent: true);
+	position: fixed;
 
 	&:hover {
 		filter: brightness(1.5);

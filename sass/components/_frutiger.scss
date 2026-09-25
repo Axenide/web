@@ -223,7 +223,7 @@ html[data-theme="frutiger"] #site-header .buttons .dropdown a {
 // keeps its border-box clip. On mobile the expanded drawer keeps its
 // glass-bg (that rule outspecifies this one).
 html[data-theme="frutiger"] #site-sidebar::before {
-  @include aero-gloss($dark: oklch(1 0 0 / 0));
+  @include aero-gloss($dark: oklch(1 0 0 / 0), $reflection: none);
   background-image:
     var(--frutiger-streaks),
     radial-gradient(120% 100% at 50% -50%, var(--gloss-bright) 0, var(--gloss-bright-end) 96%, var(--gloss-dark-end) 102%, var(--gloss-dark) 150%),
@@ -246,7 +246,7 @@ html[data-theme="frutiger"] #site-header:has(#expand-sidebar:checked) ~ #site-si
 // The footer gets the same fully transparent glass treatment, streaks
 // included.
 html[data-theme="frutiger"] #site-footer {
-  @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true);
+  @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true, $reflection: none);
   background-image:
     var(--frutiger-streaks),
     radial-gradient(120% 100% at 50% -50%, var(--gloss-bright) 0, var(--gloss-bright-end) 96%, var(--gloss-dark-end) 102%, var(--gloss-dark) 150%),
