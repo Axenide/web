@@ -86,6 +86,10 @@
   object-position: center top;
   vertical-align: top;
   width: 100%;
+  // Overscan: the rotated frame samples its texture with transparent edge
+  // texels, which reads as a pixelated fringe around the photo. Scaling the
+  // image past the clipping frame keeps that fringe outside the visible area.
+  scale: 1.02;
 }
 
 .retro-avatar-status {
