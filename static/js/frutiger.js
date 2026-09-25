@@ -10,7 +10,7 @@
     const trigger = document.getElementById('frutiger');
     if (!trigger) return;
 
-    const mii = new Audio('/home/mii.opus');
+    const mii = new Audio('/home/aero/mii.opus');
     mii.preload = 'auto';
 
     let fadeFrame = null;
