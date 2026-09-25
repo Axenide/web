@@ -39,7 +39,7 @@
     --accent-color: #95bc24;
     --accent-color-hover: color-mix(in oklch, #95bc24, white 30%);
     --accent-highlight: oklch(from #95bc24 L C H / 0.38);
-    --aero-card-surface: #6ee0ff;
+    --aero-card-surface: oklch(from #6ee0ff L C H / 0.45);
   }
 }
 
@@ -48,7 +48,7 @@
 // (keyframes above). Both land instantly and ease back.
 @keyframes frutiger-flash-item {
   0% {
-    background-color: #6ee0ff;
+    background-color: oklch(from #6ee0ff L C H / 0.45);
   }
 }
 
@@ -191,6 +191,12 @@ html[data-theme="frutiger"] #sidebar-nav a {
   --nav-fg: var(--fg-color);
 }
 
+// Sidebar nav pills share the card tone (#6ee0ff) like the other buttons;
+// the current-page pill keeps its accent variant.
+html[data-theme="frutiger"] #sidebar-nav a:not([aria-current="page"]) {
+  @include aero-gloss($dark: #6ee0ff, $tint: #6ee0ff);
+}
+
 // Glassy header bar instead of the near-white solid panel.
 html[data-theme="frutiger"] #site-header::after {
   background-color: oklch(from #6ee0ff L C H / 0.75);
@@ -204,12 +210,19 @@ html[data-theme="frutiger"] #site-header::after {
 // over it, so the compositor cost is bounded. On mobile the expanded drawer
 // keeps its glass-bg (that rule outspecifies this one).
 html[data-theme="frutiger"] #site-sidebar::before {
-  @include aero-gloss($dark: oklch(from #6ee0ff L C H / 0.3));
+  @include aero-gloss($dark: oklch(1 0 0 / 0.2));
 }
 
 html[data-theme="frutiger"] #site-sidebar {
   -webkit-backdrop-filter: var(--blur);
   backdrop-filter: var(--blur);
+}
+
+// The footer joins the sidebar's untinted glass treatment: white
+// translucent base (the grass-green --footer-bg token is overridden by the
+// gloss surface).
+html[data-theme="frutiger"] #site-footer {
+  @include aero-gloss($dark: oklch(1 0 0 / 0.2), $blur: true);
 }
 
 // Hero copy sits directly on the wallpaper: white with a black shadow.
@@ -238,11 +251,37 @@ html[data-theme="frutiger"] .snap-section.content-wrapper > p {
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
 }
 
-// The online cards (Socials / Code / Contacts): titles only — white with
-// the soft shadow. Link pills and body copy keep their own colors.
-html[data-theme="frutiger"] .fancy-list.online .title {
+// Card titles across the home go white with a soft dark-blue shadow
+// (derived from the sky tone) that sits well on the cyan surfaces.
+html[data-theme="frutiger"] .fancy-list.online .title,
+html[data-theme="frutiger"] #badges .title,
+html[data-theme="frutiger"] #player-title {
   color: white;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+  text-shadow: 0 1px 2px var(--frutiger-title-shadow);
+}
+
+// The player title marquee clips the shadow at its overflow edge: give the
+// box vertical padding and pull the layout back with a negative margin.
+html[data-theme="frutiger"] #player-title-container.marquee {
+  margin-block: -0.3rem;
+  padding-block: 0.3rem;
+}
+
+// The online list pills share the card tone (#6ee0ff) instead of the chrome
+// cyan, with the border derived from the same tone.
+html[data-theme="frutiger"] .fancy-list.online .online-list a,
+html[data-theme="frutiger"] #player-go {
+  @include aero-gloss($dark: #6ee0ff, $tint: #6ee0ff);
+}
+
+// Frosted cards are back (experimental): the blur goes on the element
+// itself so its isolated stacking context doesn't clip the backdrop. The
+// sidebar and footer manage their own glass.
+html[data-theme="frutiger"] .masonry > li article:not(.axlab),
+html[data-theme="frutiger"] #main-content article:not(ul.masonry article):not(.article-list article):not(.chromeless),
+html[data-theme="frutiger"] #badges {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
 }
 
 // Hero scroll indicator and badge arrows: white like the pre-frutiger

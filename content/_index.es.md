@@ -222,7 +222,7 @@ En pocas palabras, IndieWeb es cualquier cosa en la web que sea artesanal, se si
 
 Acogedor y nostálgico, como en los primeros días de Internet. Desde que me convertí en adulto, sentí una fuerte necesidad de recrear esa sensación de asombro y emoción que tenía cuando exploraba la web por primera vez de niño.
 
-Además, fue divertido mi propio botón de 88x31, ¡también deberías hacer uno! :)
+Además, fue divertido crear mi propio botón de 88x31, ¡también deberías hacer uno! :)
 
 {{<badges note_text="Mi 88x31 acá" section={section} config={config}/>}}
 

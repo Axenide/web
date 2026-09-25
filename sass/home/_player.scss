@@ -134,6 +134,12 @@
 	&-title-container,
 	&-artist-container {
 		line-height: 1;
+		// line-height: 1 paints descenders (g, y, p...) outside the line box,
+		// which the marquee's overflow: hidden then clips. The padding gives
+		// them room inside the clip edge and the negative margin keeps the
+		// layout compact.
+		margin-block: -0.25em;
+		padding-block: 0.25em;
 	}
 
 	&-title,
