@@ -23,19 +23,19 @@ badges = [
 { name = "axenide.gif", url = "https://axeni.de" },
 { name = "linux.gif", url = "https://kernel.org" },
 { name = "archlinux.gif", url = "https://archlinux.org" },
-{ name = "godot.png", url = "https://godotengine.org" },
+{ name = "godot.avif", url = "https://godotengine.org" },
 { name = "neovim.png", url = "https://neovim.io" },
-{ name = "python.png", url = "https://python.org" },
+{ name = "python.avif", url = "https://python.org" },
 { name = "ddg.gif", url = "https://duckduckgo.com" },
 { name = "ffmpeg.png", url = "https://ffmpeg.org" },
 { name = "firefox.gif", url = "https://getfirefox.com" },
 { name = "ublock-origin.webp", url = "https://github.com/gorhill/uBlock" },
-{ name = "frutiger_aero_community.png", url = "https://frutigeraero.org" },
+{ name = "frutiger_aero_community.avif", url = "https://frutigeraero.org" },
 { name = "minecraft.gif", url = "https://minecraft.net" },
 { name = "dark-mode.gif", url = "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme" },
 { name = "mobilefriendly.gif", url = "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design" },
-{ name = "discord.gif", url = "https://discord.com/invite/gHG9WHyNvH" },
-{ name = "tr1xem.gif", url = "https://trix.is-a.dev" },
+{ name = "discord.webp", url = "https://discord.com/invite/gHG9WHyNvH" },
+{ name = "tr1xem.webp", url = "https://trix.is-a.dev" },
 { name = "sankalp.png", url = "https://sankalptharu.com.np" },
 { name = "daudix.gif", url = "https://daudix.one" },
 { name = "righttorepair.gif", url = "https://www.ifixit.com/Right-to-Repair" },
@@ -48,8 +48,8 @@ badges = [
 { name = "yarrr.gif" },
 { name = "stardew-valley.gif", url = "https://www.stardewvalley.net" },
 { name = "88x31.gif", url = "https://88x31.nl" },
-{ name = "98.gif" },
-{ name = "000010.gif" },
+{ name = "98.webp" },
+{ name = "000010.webp" },
 { name = "sourcemissing.gif" },
 ]
 +++
@@ -65,7 +65,7 @@ I create software, videos, music, art and games.
 </p>
 </div>
     
-{{<retro_avatar src="/images/avatar.jpg" alt="Axenide"/>}}
+{{<retro_avatar src="/images/avatar.avif" alt="Axenide"/>}}
 </div>
 <div id="scroll-target" style="position: absolute; bottom: 110px; left: 50%; width: 1px; height: 1px; z-index: -1;"></div>
 
@@ -137,7 +137,7 @@ I create software, videos, music, art and games.
 <li>
 <article>
 
-<img src="/images/space.gif" style="height:128px; width:100%; object-fit:cover; object-position:center;">
+<img src="/images/space.webp" style="height:128px; width:100%; object-fit:cover; object-position:center;">
 
 **⚡ I am a [polymath](https://en.wikipedia.org/wiki/Polymath).**
 
@@ -199,7 +199,7 @@ I honestly enjoy coding and problem-solving. It’s like a puzzle that I get to 
 
 <article>
 
-<img src="/images/computer.gif" style="width:100%;">
+<img src="/images/computer.webp" style="width:100%;">
 
 **🔧 I like tinkering and building custom tools.**
 

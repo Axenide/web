@@ -9,14 +9,14 @@ path = "/es/michinori"
 tags = ["gamedev", "jam"]
 [extra]
 no_header = true
-banner = "1.png"
+banner = "1.webp"
 hide_banner = true
 accent_color = "hsl(0.0, 0%, 30%)"
 [extra.meta]
 favicon = "favicon.svg"
 +++
 
-<img src="./michinori-banner.png" alt="Ambxst Logo" class="transparent drop-shadow no-hover" style="width: 100%;" />
+<img src="./michinori-banner.avif" alt="Ambxst Logo" class="transparent drop-shadow no-hover" style="width: 100%;" />
 
 <div align="center">
 

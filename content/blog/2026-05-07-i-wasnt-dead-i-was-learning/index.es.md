@@ -6,7 +6,7 @@ date = 2026-05-07
 tags = ["general", "update"]
 
 [extra]
-banner = "execution.jpg"
+banner = "execution.webp"
 accent_color = "hsl(240, 50%, 75%)"
 +++
 

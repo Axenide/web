@@ -589,7 +589,7 @@ If you'd like to link to me, you can use one of the following badges:
 </aside>
 {% endcomponent badges %}
 
-{% component carousel(start: integer = 0, end: integer = 0, interval: integer = 3000, prefix: string = "", extension: string = ".png", images = [], speed: integer = 5, class: string = "", style: string = "") %}
+{% component carousel(start: integer = 0, end: integer = 0, interval: integer = 3000, prefix: string = "", extension: string = ".avif", images = [], speed: integer = 5, class: string = "", style: string = "") %}
 {%- set manual_images = images -%}
 {%- set range_images = [prefix ~ i ~ extension for i in range(start=start, end=end + 1)] -%}
 {%- set final_images = [...manual_images, ...range_images] -%}
@@ -1279,7 +1279,7 @@ display: block;
 </div>
 {% endcomponent polaroid %}
 
-{% component retro_avatar(src: string = "/images/avatar.png", alt: string = "Avatar", size: string = "180px", rotation: string = "6deg", border: string = "#D10028") %}
+{% component retro_avatar(src: string = "/images/avatar.avif", alt: string = "Avatar", size: string = "180px", rotation: string = "6deg", border: string = "#D10028") %}
 <div class="retro-avatar-container" style="--avatar-rotation: {{ rotation }};" >
 <span class="retro-avatar-frame" style="--avatar-size: {{ size }}; --avatar-border-color: {{ border }};">
 <img src="{{ src }}" alt="{{ alt }}" class="retro-avatar no-hover" />

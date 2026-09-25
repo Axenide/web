@@ -24,3 +24,4 @@ pnpm-debug.log*
 .idea/
 public
 .sisyphus/
+static/processed_images/

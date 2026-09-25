@@ -9,14 +9,14 @@ path = "/ax-shell"
 tags = ["dev", "wip"]
 [extra]
 no_header = true
-banner = "1.png"
+banner = "1.webp"
 hide_banner = true
 accent_color = "hsl(349.22, 100%, 40.39%)"
 [extra.meta]
 favicon = "favicon.svg"
 +++
 
-<img src="./ax-shell-banner.png" alt="Ambxst Logo" class="transparent drop-shadow no-hover" style="width: 100%;" />
+<img src="./ax-shell-banner.avif" alt="Ambxst Logo" class="transparent drop-shadow no-hover" style="width: 100%;" />
 
 <div align="center">
   

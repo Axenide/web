@@ -4,7 +4,7 @@
   const MAX_VOLUME = 0.5;
   const FRUTIGER = 'frutiger';
   // Keep in sync with the frutiger body background in sass/base/_base.scss.
-  const WALLPAPER = '/images/asadal_stock_66.jpg';
+  const WALLPAPER = '/images/asadal_stock_66.avif';
 
   function init() {
     const trigger = document.getElementById('frutiger');

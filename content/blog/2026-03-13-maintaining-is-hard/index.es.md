@@ -6,7 +6,7 @@ date = 2026-03-13
 tags = ["general", "rant"]
 
 [extra]
-banner = "cortisol.jpg"
+banner = "cortisol.webp"
 accent_color = "hsl(0.0, 0%, 50%)"
 +++
 

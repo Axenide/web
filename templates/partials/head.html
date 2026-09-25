@@ -45,11 +45,11 @@
 		{%- set card = get_url(path=path_prefix ~ section.extra.meta.card, cachebust=true) %}
 	{%- elif page and page.extra and page.extra.banner %}
 		{%- set path_prefix = page.colocated_path | default(value="") -%}
-		{%- set card = resize_image(path=path_prefix ~ page.extra.banner, width=1200, height=628, op="fill") %}
+		{%- set card = resize_image(path=path_prefix ~ page.extra.banner, width=1200, height=628, op="fill", format="jpeg") %}
 		{%- set card = card.url %}
 	{%- elif section is defined and section.extra and section.extra.banner %}
 		{%- set path_prefix = section.colocated_path | default(value="") -%}
-		{%- set card = resize_image(path=path_prefix ~ section.extra.banner, width=1200, height=628, op="fill") %}
+		{%- set card = resize_image(path=path_prefix ~ section.extra.banner, width=1200, height=628, op="fill", format="jpeg") %}
 		{%- set card = card.url %}
 	{%- elif config.extra.meta is defined and config.extra.meta.card %}
 		{%- if config.extra.meta.card != true %}
