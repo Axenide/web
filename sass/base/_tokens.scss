@@ -91,12 +91,11 @@ html[data-theme="dark"] {
   /* Opaque glass tone for surfaces that must not run a backdrop-filter:
      the --glass-bg-1 tone at full alpha. */
   --aero-card-surface: oklch(from var(--mono) calc(L * 0.06) C H);
-  --aero-avatar: radial-gradient(
-    120% 100% at 50% -50%,
+  --aero-avatar-body: oklch(from var(--mono) calc(L * 0.09) C H / 0.6);
+  --aero-avatar-reflection: linear-gradient(
+    to bottom,
     oklch(from var(--mono) calc(L * 0.3) C H / 0.45),
-    oklch(from var(--mono) calc(L * 0.24) C H / 1) 98.5%,
-    oklch(from var(--mono) calc(L * 0.07) C H / 0.68) 100.5%,
-    oklch(from var(--mono) calc(L * 0.09) C H / 0.6) 150%
+    oklch(from var(--mono) calc(L * 0.24) C H)
   );
 
   /* === GLASS === */
@@ -255,12 +254,11 @@ html[data-theme="frutiger"] {
     oklch(1 0 0 / 0.2)
   );
   --aero-card-surface: oklch(from var(--mono-light) calc(L + (1 - L) * 0.94) C H);
-  --aero-avatar: radial-gradient(
-    120% 100% at 50% -50%,
+  --aero-avatar-body: oklch(1 0 0 / 0.2);
+  --aero-avatar-reflection: linear-gradient(
+    to bottom,
     oklch(1 0 0 / 0.45),
-    oklch(1 0 0 / 1) 98.5%,
-    oklch(1 0 0 / 0.26) 100.5%,
-    oklch(1 0 0 / 0.2) 150%
+    oklch(1 0 0)
   );
 }
 

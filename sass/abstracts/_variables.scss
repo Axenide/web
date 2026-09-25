@@ -221,12 +221,11 @@
         oklch(1 0 0 / 0.55),
         oklch(1 0 0 / 0.2)
       );
-      --aero-avatar: radial-gradient(
-        120% 100% at 50% -50%,
+      --aero-avatar-body: oklch(1 0 0 / 0.2);
+      --aero-avatar-reflection: linear-gradient(
+        to bottom,
         oklch(1 0 0 / 0.45),
-        oklch(1 0 0 / 1) 98.5%,
-        oklch(1 0 0 / 0.26) 100.5%,
-        oklch(1 0 0 / 0.2) 150%
+        oklch(1 0 0)
       );
 
       // SURFACES
@@ -394,12 +393,11 @@
         oklch(from var(--fg-color) L C H / 0.07),
         oklch(from var(--fg-color) L C H / 0.015)
       );
-      --aero-avatar: radial-gradient(
-        120% 100% at 50% -50%,
+      --aero-avatar-body: oklch(from var(--fg-color) calc(L * 0.09) C H / 0.6);
+      --aero-avatar-reflection: linear-gradient(
+        to bottom,
         oklch(from var(--fg-color) calc(L * 0.3) C H / 0.45),
-        oklch(from var(--fg-color) calc(L * 0.24) C H / 1) 98.5%,
-        oklch(from var(--fg-color) calc(L * 0.07) C H / 0.68) 100.5%,
-        oklch(from var(--fg-color) calc(L * 0.09) C H / 0.6) 150%
+        oklch(from var(--fg-color) calc(L * 0.24) C H)
       );
 
       // SURFACES

@@ -274,36 +274,23 @@
       & + label {
         position: relative;
         z-index: 1;
-
-        &::before {
-          position: absolute;
-          opacity: 0;
-          z-index: -1;
-          transition: var(--transition);
-          inset: 0;
-          border-radius: inherit;
-          content: "";
-        }
       }
 
       &:checked + label {
+        @include aero-gloss($tint: var(--accent-color), $accent: true);
+        box-shadow: var(--aero-shadow);
         color: var(--contrast-color);
 
         .icon {
+          text-shadow: none;
           filter: drop-shadow(0 1px 0 var(--aero-accent-bright));
         }
 
         &:hover {
-          box-shadow: none;
-          background-color: transparent;
-        }
-
-        &::before {
-          opacity: 1;
-          border: 1px solid var(--aero-accent-border);
-          background-color: var(--aero-accent-dark);
-          background-image: var(--aero-accent-surface);
+          color: var(--contrast-color);
           box-shadow: var(--aero-shadow);
+          background-color: transparent;
+          filter: brightness(1.5);
         }
       }
     }
