@@ -246,7 +246,19 @@ html[data-theme="frutiger"] #site-header:has(#expand-sidebar:checked) ~ #site-si
 // The footer gets the same fully transparent glass treatment, streaks
 // included.
 html[data-theme="frutiger"] #site-footer {
-  @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true, $reflection: none);
+  @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true);
+  background-image:
+    var(--frutiger-streaks),
+    radial-gradient(120% 100% at 50% -50%, var(--gloss-bright) 0, var(--gloss-bright-end) 96%, var(--gloss-dark-end) 102%, var(--gloss-dark) 150%),
+    linear-gradient(to bottom, var(--gloss-ring-top), var(--gloss-ring-bottom));
+  background-origin: padding-box, padding-box, border-box;
+  background-clip: padding-box, padding-box, border-box;
+}
+
+// The search modal gets the sidebar's glass treatment: fully transparent
+// gloss with the Win7 streaks and border ring, over the backdrop blur.
+html[data-theme="frutiger"] #search-modal-content {
+  @include aero-gloss($dark: oklch(1 0 0 / 0), $blur: true);
   background-image:
     var(--frutiger-streaks),
     radial-gradient(120% 100% at 50% -50%, var(--gloss-bright) 0, var(--gloss-bright-end) 96%, var(--gloss-dark-end) 102%, var(--gloss-dark) 150%),

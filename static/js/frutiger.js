@@ -7,6 +7,9 @@
   const WALLPAPER = '/images/asadal_stock_66.jpg';
   const TRACKS = ['aquatic', 'lease', 'lotus', 'mii', 'party'];
   const TRACK_URL = (index) => '/home/aero/' + TRACKS[index] + '.opus';
+  // Every run starts here (mii gives the best prelude experience); the
+  // cycling then walks the list in order.
+  const INITIAL_TRACK = TRACKS.indexOf('mii');
 
   function init() {
     const trigger = document.getElementById('frutiger');
@@ -23,6 +26,7 @@
     const trackPromises = {};
     let currentSource = null;
     let playToken = 0;
+    let trackIndex = INITIAL_TRACK;
     let playStartTime = 0;
     let pausedOffset = null; // seconds into the buffer while hidden; null = not paused
     let playingFull = false; // full playback (pausable) vs snippet fade (not)
@@ -176,11 +180,10 @@
 
       clicks += 1;
 
-      // A fresh run picks its track randomly; the prelude and the
-      // definitive playback then stay on it.
+      // Every fresh run starts from the initial track.
       if (clicks === 1) {
         preloadWallpaper();
-        trackIndex = Math.floor(Math.random() * TRACKS.length);
+        trackIndex = INITIAL_TRACK;
       }
 
       if (clicks >= CLICKS_NEEDED) {
