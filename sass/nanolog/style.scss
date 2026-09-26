@@ -44,6 +44,10 @@ h1 {
 			display: block;
 			margin-block-end: 1rem;
 			line-height: 1;
+
+			&:hover {
+				background-color: transparent;
+			}
 		}
 
 		& > div {

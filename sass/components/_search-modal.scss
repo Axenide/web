@@ -1,3 +1,5 @@
+@use "../abstracts/mixins" as *;
+
 #search-modal {
   display: flex;
   position: fixed;
@@ -27,19 +29,18 @@
     flex-direction: column;
     gap: 1rem;
     transform: var(--hover);
-    -webkit-backdrop-filter: var(--blur);
-    backdrop-filter: var(--blur);
     transition:
       all var(--transition),
       transform var(--transition-bezier-longer);
     margin: -0.5rem;
-    box-shadow: var(--edge-highlight), var(--shadow-glass);
+    box-shadow: var(--shadow-glass);
     border-radius: 2.25rem 2.25rem 1.75rem 1.75rem;
     background-color: var(--glass-bg-1);
     padding: 1rem;
     width: calc(100% - 2rem);
     max-width: calc(var(--content-width) / 1.5);
     overflow: hidden;
+    @include aero-sheen($blur: true);
 
     &:has(#search-results:empty) {
       border-radius: 1.75rem;
@@ -96,13 +97,18 @@
     .item {
       display: inline-flex;
       flex-direction: column;
-      box-shadow: var(--edge-highlight);
-      border-radius: var(--rounded-corner);
-      background-color: var(--bg-muted-1);
+      border-radius: 0.75rem;
+      background-color: var(--aero-card-surface);
       padding: 0.75rem 1rem;
+      @include aero-sheen($tint: var(--fg-color), $strength: 2);
+      --sheen-border: var(--aero-border);
 
       a {
         text-decoration: none;
+
+        &:hover {
+          background-color: transparent;
+        }
 
         &::after {
           content: " →";
